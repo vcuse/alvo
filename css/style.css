@@ -1,0 +1,42 @@
+html {
+    background-color: #f8f8f8;
+    font-family: sans-serif;
+}
+
+.container {
+    width: 100%;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-template-columns: auto auto auto;
+}
+
+.header {
+    font-size: 25px;
+    font-weight: bold;
+    height: 50px;
+    text-align: center;
+    grid-row: 1 / 2;
+}
+
+.workspace {
+    height: 480px;
+}
+
+#leftdiv {
+    width: calc(33vw);
+}
+
+#rightdiv {
+    width: calc(33vw);
+}
+#simulatordiv {
+    width: calc(33vw);
+}
+
+.taskButton {
+    fill: #5C9FA6;
+}
+
+.locationButton {
+    fill: #A08260;
+}

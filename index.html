@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/bootstrap/jquery.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="container">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="rightdiv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+      </div>
+    </div>
+    <div id="simulatordiv">Test</div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <block type="custom_start" id="START" x="38" y="38"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A66E5C" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Grip" colour="#5b67a5">
+      <block type="custom_open"></block>
+      <block type="custom_close"></block>
+    </category>
+    <category name="Move" colour="#968e4f">
+      <block type="custom_move">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+    <category name="Loops" colour="#5ba55b">
+      <block type="controls_repeat"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="blockly/blockly_uncompressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="js/blocks.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
