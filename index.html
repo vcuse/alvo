@@ -5,6 +5,7 @@
   <title>Mobile robot programming.</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="lib/bootstrap/jquery.min.js"></script>
+  <script src="lib/anime/anime.min.js"></script>
 </head>
 <body>
   <!-- HTML Elements -->
@@ -14,7 +15,11 @@
       <div id="animatediv" style="margin-left: 0px">
       </div>
     </div>
-    <div id="simulatordiv">Test</div>
+    <div id="simulatordiv">
+      <img src="media/robot.png" id="sim-robot" style="top:185px; left:185px; z-index: 1">
+      <img src="media/workstation.png" id="sim-station" style="top:100px; left: 85px">
+      <img src="media/workstation.png" id="sim-station" style="top:100px; left: 200px">
+    </div>
   </div>
 
   <!-- Starting configuration -->
@@ -55,5 +60,6 @@
   <script src="blockly/msg/js/en.js"></script>
   <script src="js/blocks.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/simulator.js"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@ html {
     width: 100%;
     display: grid;
     grid-column-gap: 20px;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto 400px;
 }
 
 .header {
@@ -23,15 +23,32 @@ html {
 }
 
 #leftdiv {
-    width: calc(33vw);
+    width: 100%;
 }
 
 #rightdiv {
-    width: calc(33vw);
+    width: 100%;
 }
+
 #simulatordiv {
-    width: calc(33vw);
+    width: 400px;
+    height: 400px;
+    border: 1px black solid;
+    background-color: #FFFFFF;
 }
+
+#sim-robot {
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+#sim-station {
+    position: relative;
+    width: 30px;
+    height: 20px;
+}
+
 
 .taskButton {
     fill: #5C9FA6;
