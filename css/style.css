@@ -31,24 +31,31 @@ html {
 }
 
 #simulatordiv {
+    position: relative;
     width: 400px;
-    height: 400px;
+    height: 450px;
     border: 1px black solid;
     background-color: #FFFFFF;
 }
 
-#sim-robot {
-    position: relative;
+.sim-robot {
+    position: absolute;
     width: 30px;
     height: 30px;
+    z-index: 1;
 }
 
-#sim-station {
-    position: relative;
+.sim-station {
+    position: absolute;
     width: 30px;
     height: 20px;
 }
 
+.sim-item {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
 
 .taskButton {
     fill: #5C9FA6;
