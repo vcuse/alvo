@@ -40,15 +40,15 @@ html {
 
 .sim-robot {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     z-index: 1;
 }
 
 .sim-station {
     position: absolute;
-    width: 30px;
-    height: 20px;
+    width: 60px;
+    height: 30px;
 }
 
 .sim-item {

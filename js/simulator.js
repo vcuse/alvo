@@ -32,7 +32,7 @@ class Robot extends SimElem {
     domElem.classList.add("sim-robot");
     domElem.src = "media/robot.png";
     simDiv.appendChild(domElem);
-    super(30, 30, posX, posY, domElem, simDiv);
+    super(50, 50, posX, posY, domElem, simDiv);
   }
 
   move(targetX, targetY) {
@@ -43,7 +43,7 @@ class Robot extends SimElem {
       targets: toMove,
       posX : targetX,
       posY : function(e, i) {
-        return (i == 0) ? targetY : (targetY - 20);
+        return (i == 0) ? targetY : (targetY - 3);
       },
       easing : 'linear',
       round: 1,
@@ -53,29 +53,107 @@ class Robot extends SimElem {
     })
   }
 
-  pickupFromStation(station) {
+  pickupFromStation(station, side) {
     if (!robot.isAtStation(station)) {
       console.error("Robot is not correctly positioned to pick up item from this station!");
       return;
     }
-    if (!station.item) {  
-      console.error("Robot has nothing to pick up at this station!");
+    if ((side == "left" && !station.leftItem) || (side == "right" && !station.rightItem) || (side != "left" && side != "right" && !station.centerItem)) {  
+      console.error("Robot has nothing to pick up at this side of the current station!");
       return;
     }
-    this.carry = station.item;
-    station.item = null;
+    switch (side) {
+      case "left":
+        var item = station.leftItem;
+        station.leftItem = null;
+        break;
+      case "right":
+        var item = station.rightItem;
+        station.rightItem = null;
+        break;
+      default:
+        var item = station.centerItem;
+        station.centerItem = null;
+        break;
+    }
+    var robotX = this.posX;
+    var robotY = this.posY;
+    this.carry = item;
+    this.domElem.src = "media/robot-carry.png";
+    item.domElem.style.zIndex = "2";
+    anime({
+      targets: item,
+      posX : robotX,
+      posY : robotY - 3,
+      easing : 'linear',
+      round: 1,
+      update: function() {
+        item.render();
+      }
+    })
   }
 
-  placeAtStation(station) {
+  placeAtStation(station, side) {
     if (!robot.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
       return;
     }
-    if (station.item) {  
+    if (!station.isSideAvailable(side)) {  
       console.error("There already is an item at this station!");
       return;
     }
-    station.item = this.carry;
+    var item = this.carry;
+    switch(side) {
+      case "left":
+        station.leftItem = this.carry;
+        anime({
+          targets: item,
+          posX : station.posX - 15,
+          posY : station.posY - 24,
+          easing : 'linear',
+          round: 1,
+          update: function() {
+            item.render();
+          },
+          complete: function() {
+            item.domElem.style.zIndex = "0";
+          }
+        })
+        break;
+      case "right":
+        station.rightItem = this.carry;
+        anime({
+          targets: item,
+          posX : station.posX + 15,
+          posY : station.posY - 24,
+          easing : 'linear',
+          round: 1,
+          update: function() {
+            item.render();
+          },
+          complete: function() {
+            item.domElem.style.zIndex = "0";
+          }
+        })
+        break;
+      default:
+        station.centerItem = this.carry;
+        anime({
+          targets: item,
+          posX : station.posX,
+          posY : station.posY - 24,
+          easing : 'linear',
+          round: 1,
+          update: function() {
+            item.render();
+          },
+          complete: function() {
+            item.domElem.style.zIndex = "0";
+          }
+        })
+        break;
+    }
+    this.domElem.src = "media/robot.png";
     this.carry = null;
   }
 
@@ -89,28 +167,79 @@ class Robot extends SimElem {
 }
 
 class Station extends SimElem {
-  item = null;
+  leftItem = null;
+  rightItem = null;
+  centerItem = null;
 
   constructor(simDiv, posX, posY) {
     var domElem = document.createElement("img");
     domElem.classList.add("sim-station");
     domElem.src = "media/workstation.png";
     simDiv.appendChild(domElem);
-    super(30, 20, posX, posY, domElem, simDiv);
+    super(60, 30, posX, posY, domElem, simDiv);
   }
 
-  addItem() {
-    this.item = new Item(this.simDiv, this.posX, this.posY - 20);
+  isSideAvailable(side) {
+    switch (side) {
+      case "left":
+        if (this.leftItem || this.centerItem) 
+          return false;
+        break;
+      case "right":
+        if (this.rightItem || this.centerItem) 
+          return false;
+        break;
+      default:
+        if (this.leftItem || this.rightItem || this.centerItem)
+          return false;
+        break;
+    }
+    return true;
+  }
+
+  addItem(color, side) {
+    if (!this.isSideAvailable(side)) {
+      console.error("There already is an item at this side of the station!");
+      return;
+    }
+    switch (side) {
+      case "left":
+        this.leftItem = new Item(this.simDiv, this.posX - 15, this.posY - 24, color);
+        break;
+      case "right":
+        this.rightItem = new Item(this.simDiv, this.posX + 15, this.posY - 24, color);
+        break;
+      default:
+        this.centerItem = new Item(this.simDiv, this.posX, this.posY - 24, color);
+    }
   }
 }
 
 class Item extends SimElem {
-  constructor(simDiv, posX, posY) {
+  color = "white";
+
+  constructor(simDiv, posX, posY, color) {
     var domElem = document.createElement("img");
     domElem.classList.add("sim-item");
-    domElem.src = "media/item.png";
+    switch (color) {
+      case "yellow":
+        domElem.src = "media/item-yellow.png";
+        break;
+      case "orange":
+        domElem.src = "media/item-orange.png";
+        break;
+      case "green":
+        domElem.src = "media/item-green.png";
+        break;
+      case "blue":
+        domElem.src = "media/item-blue.png";
+        break;
+      default:
+        domElem.src = "media/item.png";
+    }
     simDiv.appendChild(domElem);
     super(20, 20, posX, posY, domElem);
+    this.color = color;
   }
 }
 
@@ -118,4 +247,8 @@ var robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
 var station1 = new Station(document.getElementById("simulatordiv"), -75, -75);
 var station2 = new Station(document.getElementById("simulatordiv"), 75, -75);
 var station3 = new Station(document.getElementById("simulatordiv"), 0, 75);
-station1.addItem();
+station1.addItem("green", "left");
+station1.addItem("orange", "right");
+station3.addItem("blue", "center");
+
+
