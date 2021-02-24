@@ -93,6 +93,26 @@ class Robot extends SimElem {
     })
   }
 
+  turnCarriedItem(direction) {
+    if (!this.carry) {
+      console.error("Robot is not currently holding an item!");
+      return;
+    }
+    var item = this.carry;
+    if (direction == "right") {
+      item.turned += 90;
+    }
+    else {
+      item.turned -= 90;
+    }
+    anime({
+            targets: item.domElem,
+            rotate: item.turned + 'deg',
+            easing : 'linear',
+            round: 1
+      })
+  }
+
   placeAtStation(station, side) {
     if (!robot.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
@@ -217,6 +237,7 @@ class Station extends SimElem {
 
 class Item extends SimElem {
   color = "white";
+  turned = 0;
 
   constructor(simDiv, posX, posY, color) {
     var domElem = document.createElement("img");
