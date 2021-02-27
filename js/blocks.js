@@ -45,18 +45,22 @@ Blockly.defineBlocksWithJsonArray([
             {
                 "type": "field_dropdown",
                 "name": "SITE",
-                "options": [
+                                "options": [
                 [
-                    "Site...",
+                    "Station...",
                     "NONE"
                 ],
                 [
-                    "Pick-up Site",
-                    "PICKUPSITE"
+                    "Station A",
+                    "STATIONA"
                 ],
                 [
-                    "Drop-off Site",
-                    "DROPOFFSITE"
+                    "Station B",
+                    "STATIONB"
+                ],
+                [
+                    "Station C",
+                    "STATIONC"
                 ]
                 ]                
             },
@@ -82,16 +86,20 @@ Blockly.defineBlocksWithJsonArray([
                 "name": "SITE",
                 "options": [
                 [
-                    "Site...",
+                    "Station...",
                     "NONE"
                 ],
                 [
-                    "Pick-up Site",
-                    "PICKUPSITE"
+                    "Station A",
+                    "STATIONA"
                 ],
                 [
-                    "Drop-off Site",
-                    "DROPOFFSITE"
+                    "Station B",
+                    "STATIONB"
+                ],
+                [
+                    "Station C",
+                    "STATIONC"
                 ]
                 ]
             },
@@ -118,16 +126,20 @@ Blockly.defineBlocksWithJsonArray([
                 "name": "SITE",
                 "options": [
                 [
-                    "Site...",
+                    "Station...",
                     "NONE"
                 ],
                 [
-                    "Pick-up Site",
-                    "PICKUPSITE"
+                    "Station A",
+                    "STATIONA"
                 ],
                 [
-                    "Drop-off Site",
-                    "DROPOFFSITE"
+                    "Station B",
+                    "STATIONB"
+                ],
+                [
+                    "Station C",
+                    "STATIONC"
                 ]
                 ]
             }
@@ -174,6 +186,40 @@ Blockly.defineBlocksWithJsonArray([
         "tooltip": "",
         "helpUrl": "",
     },
+    // Simulator pick
+    {
+        "type": "custom_pickup",
+        "message0": "Pick up item from %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "LOCATION",
+            }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 50,
+        "tooltip": "",
+        "helpUrl": "",
+    },
+    // Simulator place
+    {
+        "type": "custom_place",
+        "message0": "Place item at %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "LOCATION",
+            }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 50,
+        "tooltip": "",
+        "helpUrl": "",
+    },
     // Location
     {
         "type": "custom_location",
@@ -193,10 +239,51 @@ Blockly.defineBlocksWithJsonArray([
     // Dummy location
     {
         "type": "custom_dummylocation",
-        "message0": "<somewhere>",
+        "message0": "<location>",
         "inputsInline": false,
         "output": null,
         "colour": 30,
+        "tooltip": "",
+        "helpUrl": "",
+    },
+    // Turn
+    {
+        "type": "custom_turn",
+        "message0": "Turn item %1 %2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "ANGLE",
+                "options": [
+                [
+                    "90 degrees",
+                    "90"
+                ],
+                [
+                    "180 degrees",
+                    "180"
+                ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                [
+                    "clockwise",
+                    "RIGHT"
+                ],
+                [
+                    "counter-clockwise",
+                    "LEFT"
+                ]
+                ]
+            },
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 50,
         "tooltip": "",
         "helpUrl": "",
     },

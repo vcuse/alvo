@@ -1,9 +1,12 @@
 html {
     background-color: #f8f8f8;
     font-family: sans-serif;
+    width: 100%
 }
 
-.container {
+.maincontainer {
+    background-color: #f8f8f8;
+    padding: 10px;
     width: 100%;
     display: grid;
     grid-column-gap: 20px;
@@ -26,16 +29,27 @@ html {
     width: 100%;
 }
 
+#middlediv {
+    width: 100%;
+}
+
 #rightdiv {
     width: 100%;
+}
+
+.injectionDiv {
+    border: #999 1px solid;
+    border-radius: 3px;
 }
 
 #simulatordiv {
     position: relative;
     width: 400px;
     height: 450px;
-    border: 1px black solid;
+    border: 1px #999 solid;
     background-color: #FFFFFF;
+    margin-bottom: 5px;
+    border-radius: 3px;
 }
 
 .sim-robot {

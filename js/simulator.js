@@ -35,7 +35,7 @@ class Robot extends SimElem {
     super(50, 50, posX, posY, domElem, simDiv);
   }
 
-  move(targetX, targetY) {
+  move(targetX, targetY, callback) {
     var toMove = [this];
     if (this.carry) 
       toMove.push(this.carry);
@@ -49,11 +49,14 @@ class Robot extends SimElem {
       round: 1,
       update: function() {
         toMove.map(i => i.render());
+      },
+      complete: function() {
+        if (callback) callback();
       }
     })
   }
 
-  pickupFromStation(station, side) {
+  pickupFromStation(station, side, callback) {
     if (!robot.isAtStation(station)) {
       console.error("Robot is not correctly positioned to pick up item from this station!");
       return;
@@ -89,11 +92,14 @@ class Robot extends SimElem {
       round: 1,
       update: function() {
         item.render();
+      },
+      complete: function() {
+        if (callback) callback();
       }
     })
   }
 
-  turnCarriedItem(direction) {
+  turnCarriedItem(direction, callback) {
     if (!this.carry) {
       console.error("Robot is not currently holding an item!");
       return;
@@ -109,11 +115,14 @@ class Robot extends SimElem {
             targets: item.domElem,
             rotate: item.turned + 'deg',
             easing : 'linear',
-            round: 1
+            round: 1,
+            complete: function() {
+              if (callback) callback();
+            }
       })
   }
 
-  placeAtStation(station, side) {
+  placeAtStation(station, side, callback) {
     if (!robot.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
       return;
@@ -137,6 +146,7 @@ class Robot extends SimElem {
           },
           complete: function() {
             item.domElem.style.zIndex = "0";
+            if (callback) callback();
           }
         })
         break;
@@ -153,6 +163,7 @@ class Robot extends SimElem {
           },
           complete: function() {
             item.domElem.style.zIndex = "0";
+            if (callback) callback();
           }
         })
         break;
@@ -169,6 +180,7 @@ class Robot extends SimElem {
           },
           complete: function() {
             item.domElem.style.zIndex = "0";
+            if (callback) callback();
           }
         })
         break;
@@ -177,8 +189,8 @@ class Robot extends SimElem {
     this.carry = null;
   }
 
-  moveToStation(station) {
-    this.move(station.posX, station.posY);
+  moveToStation(station, callback) {
+    this.move(station.posX, station.posY, callback);
   }
 
   isAtStation(station) {
@@ -264,12 +276,43 @@ class Item extends SimElem {
   }
 }
 
-var robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
-var station1 = new Station(document.getElementById("simulatordiv"), -75, -75);
-var station2 = new Station(document.getElementById("simulatordiv"), 75, -75);
-var station3 = new Station(document.getElementById("simulatordiv"), 0, 75);
-station1.addItem("green", "left");
-station1.addItem("orange", "right");
-station3.addItem("blue", "center");
+var Simulator = {
+  instance: 0
+};
 
+function initSimulator() {
+  Simulator.instance += 1;
+  Simulator[Simulator.instance] = {
+    idle:true,
+    robot:null,
+    station:[]
+  };
+  Simulator[Simulator.instance].robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
+  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -75);
+  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -75);
+  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 75);
+  Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
+  Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "center");
+}
+
+initSimulator();
+
+document.getElementById('execution-button').onclick = function() {
+  if (Simulator[Simulator.instance].idle) {
+    Simulator[Simulator.instance].idle = false;
+    generated = [];
+    var mainCode = Blockly.JavaScript.workspaceToCode(leftWorkspace);
+    console.log(mainCode);
+    eval(mainCode);
+  }
+  else {
+    console.error("Please reset simulator or wait for previous simulation to finish!");
+  }
+}
+
+document.getElementById('reset-button').onclick = function() {
+  document.getElementById('simulatordiv').innerHTML = '';
+  initSimulator();
+}
 
