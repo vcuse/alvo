@@ -42,14 +42,21 @@ html {
     border-radius: 3px;
 }
 
+#simulatorarea {
+    position: relative;
+    border: 1px #999 solid;
+    background-color: #FFFFFF;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    text-align: center;
+}
+
 #simulatordiv {
     position: relative;
     width: 400px;
     height: 450px;
-    border: 1px #999 solid;
-    background-color: #FFFFFF;
     margin-bottom: 5px;
-    border-radius: 3px;
 }
 
 .sim-robot {

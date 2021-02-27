@@ -4,7 +4,7 @@ Blockly.defineBlocksWithJsonArray([
     // Start
     {
         "type": "custom_start",
-        "message0": "Repeat until stopped",
+        "message0": "When program is started",
         "nextStatement": null,
         "colour": 15,
         "tooltip": "",
@@ -12,7 +12,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "custom_triggerstart",
-        "message0": "If idle and %1 Button is activated",
+        "message0": "When idle and %1 button is activated",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -23,12 +23,12 @@ Blockly.defineBlocksWithJsonArray([
                     "RED"
                 ],
                 [
-                    "Green",
-                    "GREEN"
-                ],
-                [
                     "Blue",
                     "BLUE"
+                ],
+                [
+                    "Yellow",
+                    "YELLOW"
                 ]
                 ]
             }
@@ -412,21 +412,21 @@ var triggersFlyoutCategoryBlocks = function(workspace) {
     block.appendChild(field);
     xmlList.push(block);
   }
-  if (!workspace.getAllBlocks().find(block => block.type == 'custom_triggerstart' && block.getFieldValue('TRIGGER') == 'GREEN')) {
-    var block = Blockly.utils.xml.createElement('block');
-    block.setAttribute('type', 'custom_triggerstart');
-    var field = Blockly.utils.xml.createElement('field');
-    field.setAttribute('name', 'TRIGGER');
-    field.innerHTML = 'GREEN';
-    block.appendChild(field);
-    xmlList.push(block);
-  }
   if (!workspace.getAllBlocks().find(block => block.type == 'custom_triggerstart' && block.getFieldValue('TRIGGER') == 'BLUE')) {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'custom_triggerstart');
     var field = Blockly.utils.xml.createElement('field');
     field.setAttribute('name', 'TRIGGER');
     field.innerHTML = 'BLUE';
+    block.appendChild(field);
+    xmlList.push(block);
+  }
+  if (!workspace.getAllBlocks().find(block => block.type == 'custom_triggerstart' && block.getFieldValue('TRIGGER') == 'YELLOW')) {
+    var block = Blockly.utils.xml.createElement('block');
+    block.setAttribute('type', 'custom_triggerstart');
+    var field = Blockly.utils.xml.createElement('field');
+    field.setAttribute('name', 'TRIGGER');
+    field.innerHTML = 'YELLOW';
     block.appendChild(field);
     xmlList.push(block);
   }
