@@ -249,33 +249,19 @@ Blockly.defineBlocksWithJsonArray([
     // Turn
     {
         "type": "custom_turn",
-        "message0": "Turn item %1 %2",
+        "message0": "Turn item %1",
         "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "ANGLE",
-                "options": [
-                [
-                    "90 degrees",
-                    "90"
-                ],
-                [
-                    "180 degrees",
-                    "180"
-                ]
-                ]
-            },
             {
                 "type": "field_dropdown",
                 "name": "DIRECTION",
                 "options": [
                 [
                     "clockwise",
-                    "RIGHT"
+                    "right"
                 ],
                 [
                     "counter-clockwise",
-                    "LEFT"
+                    "left"
                 ]
                 ]
             },

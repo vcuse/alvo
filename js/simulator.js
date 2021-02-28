@@ -57,7 +57,7 @@ class Robot extends SimElem {
   }
 
   pickupFromStation(station, side, callback) {
-    if (!robot.isAtStation(station)) {
+    if (!this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to pick up item from this station!");
       return;
     }
@@ -123,7 +123,7 @@ class Robot extends SimElem {
   }
 
   placeAtStation(station, side, callback) {
-    if (!robot.isAtStation(station)) {
+    if (!this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
       return;
     }
@@ -286,7 +286,8 @@ function initSimulator() {
     idle:true,
     robot:null,
     station:[],
-    trigger:[]
+    trigger:[],
+    task:[]
   };
   Simulator[Simulator.instance].robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -75);
@@ -303,9 +304,13 @@ document.getElementById('execution-button').onclick = function() {
   if (Simulator[Simulator.instance].idle) {
     Simulator[Simulator.instance].idle = false;
     generated = [];
-    var mainCode = Blockly.JavaScript.workspaceToCode(leftWorkspace);
-    console.log(mainCode);
-    eval(mainCode);
+    var code = '';
+    for (var v in rightWorkspaces) {
+      code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+    }
+    code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
+    console.log(code);
+    eval(code);
   }
   else {
     console.error("Please reset simulator or wait for previous simulation to finish!");
