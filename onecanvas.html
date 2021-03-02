@@ -11,21 +11,8 @@
 </head>
 <body>
   <!-- HTML Elements -->
-  <div class="maincontainer">
-    <div id="leftdiv" class="workspace"><br>
-      <form action="twocanvas.html" method="post">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
-      </form><br>
-      <form action="onecanvas.html" method="post">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-primary">
-      </form>
-      
-
-    </div>
-    <div id="middlediv" class="workspace">
-      <div id="animatediv" style="margin-left: 0px">
-      </div>
-    </div>
+  <div class="maincontainer onecanvas">
+    <div id="leftdiv" class="workspace"></div>
     <div id="rightdiv">
       <div id="simulatorarea">
       <div id="simulatordiv"></div>
@@ -48,9 +35,6 @@
     </category>
     <category name="Tasks" colour="#5C9FA6" custom="TASKS">
     </category>
-  </xml>
-
-  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
     <category name="Arm" colour="#968e4f">
       <block type="custom_pickup">
         <value name="LOCATION">
@@ -90,6 +74,7 @@
   <script src="js/generator.js"></script>
   <script src="blockly/msg/js/en.js"></script>
   <script src="js/blocks.js"></script>
+  <script src="js/index.js"></script>
   <script src="js/simulator.js"></script>
 </body>
 </html>

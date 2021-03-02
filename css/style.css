@@ -10,15 +10,14 @@ html {
     width: 100%;
     display: grid;
     grid-column-gap: 20px;
+}
+
+.twocanvas {
     grid-template-columns: auto auto 400px;
 }
 
-.header {
-    font-size: 25px;
-    font-weight: bold;
-    height: 50px;
-    text-align: center;
-    grid-row: 1 / 2;
+.onecanvas {
+    grid-template-columns: auto 400px;
 }
 
 .workspace {
