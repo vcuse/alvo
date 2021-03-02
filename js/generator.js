@@ -26,9 +26,37 @@ Blockly.JavaScript['custom_start'] = function(block) {
   generated[block.id] = true;
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (nextBlock) {
-    return Blockly.JavaScript.blockToCode(nextBlock);
+    return 'var callback = function() { Simulator[' + Simulator.instance + '].idle = true; }; ' + Blockly.JavaScript.blockToCode(nextBlock);
   }
   return 'Simulator[' + Simulator.instance + '].idle = true';
+};
+
+Blockly.JavaScript['custom_robotmove'] = function(block) {
+  if (generated[block.id]) 
+    return '';
+  generated[block.id] = true;
+  var site = block.getFieldValue('SITE');
+  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+
+  if (site != "NONE") {
+    var moveCode = 'Simulator[' + Simulator.instance + '].robot.moveToStation(Simulator[' + Simulator.instance + '].station["' + site + '"]';
+    if (nextBlock) {
+      moveCode += ', function() { var station = "' + site + '"; ' + Blockly.JavaScript.blockToCode(nextBlock) + '})';
+    }
+    else {
+      moveCode += ', function() { Simulator[' + Simulator.instance + '].idle = true; })';
+    }
+  }
+  else {
+    var moveCode = 'var station = null;';
+    if (nextBlock) {
+      moveCode += Blockly.JavaScript.blockToCode(nextBlock);
+    }
+    else {
+      moveCode += 'Simulator[' + Simulator.instance + '].idle = true;';
+    }
+  }
+  return moveCode;
 };
 
 Blockly.JavaScript['custom_task'] = function(block) {

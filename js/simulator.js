@@ -57,12 +57,16 @@ class Robot extends SimElem {
   }
 
   pickupFromStation(station, side, callback) {
-    if (!this.isAtStation(station)) {
+    if (!station || !this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to pick up item from this station!");
       return;
     }
     if ((side == "left" && !station.leftItem) || (side == "right" && !station.rightItem) || (side != "left" && side != "right" && !station.centerItem)) {  
       console.error("Robot has nothing to pick up at this side of the current station!");
+      return;
+    }
+    if (this.carry) {
+      console.error("Robot is already carrying an item!");
       return;
     }
     switch (side) {
@@ -123,7 +127,7 @@ class Robot extends SimElem {
   }
 
   placeAtStation(station, side, callback) {
-    if (!this.isAtStation(station)) {
+    if (!station || !this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
       return;
     }
@@ -305,8 +309,10 @@ document.getElementById('execution-button').onclick = function() {
     Simulator[Simulator.instance].idle = false;
     generated = [];
     var code = '';
-    for (var v in rightWorkspaces) {
-      code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+    if (rightWorkspaces) {
+      for (var v in rightWorkspaces) {
+        code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+      }
     }
     code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
     console.log(code);

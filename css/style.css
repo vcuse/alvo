@@ -1,4 +1,4 @@
-html {
+body {
     background-color: #f8f8f8;
     font-family: sans-serif;
     width: 100%
@@ -7,8 +7,8 @@ html {
 .maincontainer {
     background-color: #f8f8f8;
     padding: 10px;
-    width: 100%;
     display: grid;
+    grid-template-columns: auto 400px;
     grid-column-gap: 20px;
 }
 

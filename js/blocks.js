@@ -116,6 +116,40 @@ Blockly.defineBlocksWithJsonArray([
         "tooltip": "",
         "helpUrl": "",
     },
+    {
+        "type": "custom_robotmove",
+        "message0": "Move to %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "SITE",
+                "options": [
+                [
+                    "Station...",
+                    "NONE"
+                ],
+                [
+                    "Station A",
+                    "STATIONA"
+                ],
+                [
+                    "Station B",
+                    "STATIONB"
+                ],
+                [
+                    "Station C",
+                    "STATIONC"
+                ]
+                ]
+            }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 185,
+        "tooltip": "",
+        "helpUrl": "",
+    },
     // Move somewhere
     {
         "type": "custom_newtask",
