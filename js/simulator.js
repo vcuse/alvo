@@ -304,51 +304,53 @@ function initSimulator() {
 
 initSimulator();
 
-document.getElementById('execution-button').onclick = function() {
-  if (Simulator[Simulator.instance].idle) {
-    Simulator[Simulator.instance].idle = false;
-    generated = [];
-    var code = '';
-    if (rightWorkspaces) {
-      for (var v in rightWorkspaces) {
-        code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+if (document.getElementById('execution-button')) {
+  document.getElementById('execution-button').onclick = function() {
+    if (Simulator[Simulator.instance].idle) {
+      Simulator[Simulator.instance].idle = false;
+      generated = [];
+      var code = '';
+      if (rightWorkspaces) {
+        for (var v in rightWorkspaces) {
+          code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+        }
       }
+      code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
+      console.log(code);
+      eval(code);
     }
-    code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
-    console.log(code);
-    eval(code);
+    else {
+      console.error("Please reset simulator or wait for previous simulation to finish!");
+    }
   }
-  else {
-    console.error("Please reset simulator or wait for previous simulation to finish!");
-  }
-}
 
-document.getElementById('red-button').onclick = function() {
-  if (Simulator[Simulator.instance].idle) {
-    Simulator[Simulator.instance].idle = false;
-    if (Simulator[Simulator.instance].trigger["RED"])
-      Simulator[Simulator.instance].trigger["RED"]();
+  document.getElementById('red-button').onclick = function() {
+    if (Simulator[Simulator.instance].idle) {
+      Simulator[Simulator.instance].idle = false;
+      if (Simulator[Simulator.instance].trigger["RED"])
+        Simulator[Simulator.instance].trigger["RED"]();
+    }
   }
-}
 
-document.getElementById('blue-button').onclick = function() {
-  if (Simulator[Simulator.instance].idle) {
-    Simulator[Simulator.instance].idle = false;
-    if (Simulator[Simulator.instance].trigger["BLUE"])
-      Simulator[Simulator.instance].trigger["BLUE"]();
+  document.getElementById('blue-button').onclick = function() {
+    if (Simulator[Simulator.instance].idle) {
+      Simulator[Simulator.instance].idle = false;
+      if (Simulator[Simulator.instance].trigger["BLUE"])
+        Simulator[Simulator.instance].trigger["BLUE"]();
+    }
   }
-}
 
-document.getElementById('yellow-button').onclick = function() {
-  if (Simulator[Simulator.instance].idle) {
-    Simulator[Simulator.instance].idle = false;
-    if (Simulator[Simulator.instance].trigger["YELLOW"])
-      Simulator[Simulator.instance].trigger["YELLOW"]();
+  document.getElementById('yellow-button').onclick = function() {
+    if (Simulator[Simulator.instance].idle) {
+      Simulator[Simulator.instance].idle = false;
+      if (Simulator[Simulator.instance].trigger["YELLOW"])
+        Simulator[Simulator.instance].trigger["YELLOW"]();
+    }
   }
-}
 
-document.getElementById('reset-button').onclick = function() {
-  document.getElementById('simulatordiv').innerHTML = '';
-  initSimulator();
+  document.getElementById('reset-button').onclick = function() {
+    document.getElementById('simulatordiv').innerHTML = '';
+    initSimulator();
+  }
 }
 
