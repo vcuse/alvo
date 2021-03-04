@@ -67,6 +67,10 @@ body {
 
 .sim-station {
     position: absolute;
+    color: #666666;
+}
+
+.sim-station-img {
     width: 60px;
     height: 30px;
 }

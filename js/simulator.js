@@ -207,10 +207,14 @@ class Station extends SimElem {
   rightItem = null;
   centerItem = null;
 
-  constructor(simDiv, posX, posY) {
-    var domElem = document.createElement("img");
+  constructor(simDiv, posX, posY, name) {
+    var domElem = document.createElement('span');
+    var imgElem = document.createElement("img");
     domElem.classList.add("sim-station");
-    domElem.src = "media/workstation.png";
+    imgElem.src = "media/workstation.png";
+    imgElem.classList.add("sim-station-img");
+    domElem.appendChild(imgElem);
+    domElem.innerHTML += "<br>" + (name ? name : '');
     simDiv.appendChild(domElem);
     super(60, 30, posX, posY, domElem, simDiv);
   }
@@ -284,6 +288,10 @@ var Simulator = {
   instance: 0
 };
 
+function reportError() {
+
+}
+
 function initSimulator() {
   Simulator.instance += 1;
   Simulator[Simulator.instance] = {
@@ -294,9 +302,9 @@ function initSimulator() {
     task:[]
   };
   Simulator[Simulator.instance].robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
-  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -75);
-  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -75);
-  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 75);
+  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -75, 'Station A');
+  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -75, 'Station B');
+  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 75, 'Station C');
   Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
   Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
   Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "center");
