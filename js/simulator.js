@@ -56,31 +56,35 @@ class Robot extends SimElem {
     })
   }
 
-  pickupFromStation(station, side, callback) {
+  pickupFromStation(station, side, index, callback) {
     if (!station || !this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to pick up item from this station!");
-      return;
-    }
-    if ((side == "left" && !station.leftItem) || (side == "right" && !station.rightItem) || (side != "left" && side != "right" && !station.centerItem)) {  
-      console.error("Robot has nothing to pick up at this side of the current station!");
       return;
     }
     if (this.carry) {
       console.error("Robot is already carrying an item!");
       return;
     }
+    if (!station.isSidePickable(side, index)) {
+      console.error("Robot cannot pick up an item at the given position!");
+      return;
+    }
+
     switch (side) {
       case "left":
-        var item = station.leftItem;
-        station.leftItem = null;
+        var index = station.topItemIndex("left");
+        var item = station.leftItems[index];
+        station.leftItems[index] = null;
         break;
       case "right":
-        var item = station.rightItem;
-        station.rightItem = null;
+        var index = station.topItemIndex("right");
+        var item = station.rightItems[index];
+        station.rightItems[index] = null;
         break;
       default:
-        var item = station.centerItem;
-        station.centerItem = null;
+        var index = station.topItemIndex("center");
+        var item = station.centerItems[index];
+        station.centerItems[index] = null;
         break;
     }
     var robotX = this.posX;
@@ -126,23 +130,23 @@ class Robot extends SimElem {
       })
   }
 
-  placeAtStation(station, side, callback) {
+  placeAtStation(station, side, index, callback) {
     if (!station || !this.isAtStation(station)) {
       console.error("Robot is not correctly positioned to place item at this station!");
       return;
     }
-    if (!station.isSideAvailable(side)) {  
-      console.error("There already is an item at this station!");
+    if (!station.isSidePlaceable(side)) {  
+      console.error("Robot cannot place an item at the given position!");
       return;
     }
     var item = this.carry;
     switch(side) {
       case "left":
-        station.leftItem = this.carry;
+        station.leftItems[station.computeNextIndex("left")] = this.carry;
         anime({
           targets: item,
           posX : station.posX - 15,
-          posY : station.posY - 24,
+          posY : station.posY - 24 - 19*index,
           easing : 'linear',
           round: 1,
           update: function() {
@@ -155,11 +159,11 @@ class Robot extends SimElem {
         })
         break;
       case "right":
-        station.rightItem = this.carry;
+        station.rightItems[station.computeNextIndex("right")] = this.carry;
         anime({
           targets: item,
           posX : station.posX + 15,
-          posY : station.posY - 24,
+          posY : station.posY - 24 - 19*index,
           easing : 'linear',
           round: 1,
           update: function() {
@@ -172,11 +176,11 @@ class Robot extends SimElem {
         })
         break;
       default:
-        station.centerItem = this.carry;
+        station.centerItems[station.computeNextIndex("cennter")] = this.carry;
         anime({
           targets: item,
           posX : station.posX,
-          posY : station.posY - 24,
+          posY : station.posY - 24 - 19*index,
           easing : 'linear',
           round: 1,
           update: function() {
@@ -203,9 +207,9 @@ class Robot extends SimElem {
 }
 
 class Station extends SimElem {
-  leftItem = null;
-  rightItem = null;
-  centerItem = null;
+  leftItems = [];
+  rightItems = [];
+  centerItems = [];
 
   constructor(simDiv, posX, posY, name) {
     var domElem = document.createElement('span');
@@ -219,38 +223,70 @@ class Station extends SimElem {
     super(60, 30, posX, posY, domElem, simDiv);
   }
 
-  isSideAvailable(side) {
+  topItemIndex(side) {
+    var topLeft = this.leftItems.length - 1 - this.leftItems.slice().reverse().findIndex(i => i != null);
+    var topCenter = this.centerItems.length - 1 - this.centerItems.slice().reverse().findIndex(i => i != null);
+    var topRight = this.rightItems.length - 1 - this.rightItems.slice().reverse().findIndex(i => i != null);
+    topLeft = topLeft < this.leftItems.length ? topLeft : -1;
+    topCenter = topCenter < this.centerItems.length ? topCenter : -1;
+    topRight = topRight < this.rightItems.length ? topRight : -1;
+
     switch (side) {
       case "left":
-        if (this.leftItem || this.centerItem) 
-          return false;
-        break;
+        return topLeft;
       case "right":
-        if (this.rightItem || this.centerItem) 
-          return false;
-        break;
+        return topRight;
       default:
-        if (this.leftItem || this.rightItem || this.centerItem)
-          return false;
-        break;
+        return topCenter;
     }
-    return true;
+  }
+
+  isSidePickable(side, opt_index) {
+    var topLeft = this.topItemIndex("left");
+    var topCenter = this.topItemIndex("center");
+    var topRight = this.topItemIndex("right");
+    switch (side) {
+      case "left":
+        return (topLeft != -1 && topLeft > topCenter) && opt_index ? topLeft == opt_index : true;
+      case "right":
+        return (topRight != -1 && topRight > topCenter) && opt_index ? topCenter == opt_index : true;
+      default:
+        return (topCenter != -1 && topCenter > topLeft && topCenter > topLeft) && opt_index ? topCenter == opt_index : true;
+    }
+  }
+
+  isSidePlaceable(side, opt_index) {
+    return !opt_index || computeNextIndex(side) == opt_index;
+  }
+
+  computeNextIndex(side) {
+    switch (side) {
+      case "left":
+        return Math.max(this.topItemIndex("left"), this.topItemIndex("center")) + 1;
+      case "right":
+        return Math.max(this.topItemIndex("center"), this.topItemIndex("right")) + 1;
+      default:
+        return Math.max(this.topItemIndex("left"), Math.max(this.topItemIndex("center"), this.topItemIndex("right"))) + 1;
+    }
   }
 
   addItem(color, side) {
-    if (!this.isSideAvailable(side)) {
-      console.error("There already is an item at this side of the station!");
-      return;
-    }
+    var index = this.computeNextIndex(side);
     switch (side) {
       case "left":
-        this.leftItem = new Item(this.simDiv, this.posX - 15, this.posY - 24, color);
+        while (this.leftItems.length < index)
+          this.leftItems.push(null);
+        this.leftItems.push(new Item(this.simDiv, this.posX - 15, this.posY - 24 - 19*index, color));
         break;
       case "right":
-        this.rightItem = new Item(this.simDiv, this.posX + 15, this.posY - 24, color);
+        while (this.rightItems.length < index)
+          this.rightItems.push(null);
+        this.rightItems.push(new Item(this.simDiv, this.posX + 15, this.posY - 24 - 19*index, color));
         break;
       default:
-        this.centerItem = new Item(this.simDiv, this.posX, this.posY - 24, color);
+        while (this.centerItems.length < index)
+          this.centerItems.push(null);
+        this.centerItems.push(new Item(this.simDiv, this.posX, this.posY - 24 - 19*index, color));
     }
   }
 }
@@ -302,12 +338,14 @@ function initSimulator() {
     task:[]
   };
   Simulator[Simulator.instance].robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
-  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -75, 'Station A');
-  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -75, 'Station B');
-  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 75, 'Station C');
+  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -80, 'Station A');
+  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -80, 'Station B');
+  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 100, 'Station C');
   Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
   Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "center");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "center");
 }
 
 initSimulator();

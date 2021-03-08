@@ -156,11 +156,24 @@ Blockly.JavaScript['custom_turn'] = function(block) {
 Blockly.JavaScript['custom_dummylocation'] = function(block) {
   if (generated[block.id]) 
     return '';
-  return ['"center"', 0];
+  return ['"center", 0', 0];
 };
 
 Blockly.JavaScript['custom_location'] = function(block) {
   if (generated[block.id]) 
     return '';
-  return ['"' + block.getFieldValue('LOCATION') + '"', 0];
+  switch(block.getFieldValue('LOCATION')) {
+    case 'left':
+      return ['"left", 0', 0];
+    case 'center':
+      return ['"center", 0', 0];
+    case 'right':
+      return ['"right", 0', 0];
+    case 'top left':
+      return ['"left", 1', 0];
+    case 'top center':
+      return ['"center", 1', 0];
+    case 'top right':
+      return ['"right", 1', 0];
+  }
 };
