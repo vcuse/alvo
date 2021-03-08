@@ -13,6 +13,7 @@
 goog.provide('Blockly.Input');
 
 goog.require('Blockly.Connection');
+goog.require('Blockly.constants');
 goog.require('Blockly.FieldLabel');
 
 
@@ -243,6 +244,30 @@ Blockly.Input.prototype.setAlign = function(align) {
     this.sourceBlock_.render();
   }
   return this;
+};
+
+/**
+ * Changes the connection's shadow block.
+ * @param {Element} shadow DOM representation of a block or null.
+ * @return {Blockly.Input} The input being modified (to allow chaining).
+ */
+Blockly.Input.prototype.setShadowDom = function(shadow) {
+  if (!this.connection) {
+    throw Error('This input does not have a connection.');
+  }
+  this.connection.setShadowDom(shadow);
+  return this;
+};
+
+/**
+ * Returns the xml representation of the connection's shadow block.
+ * @return {Element} Shadow DOM representation of a block or null.
+ */
+Blockly.Input.prototype.getShadowDom = function() {
+  if (!this.connection) {
+    throw Error('This input does not have a connection.');
+  }
+  return this.connection.getShadowDom();
 };
 
 /**

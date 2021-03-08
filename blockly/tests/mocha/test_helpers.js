@@ -131,10 +131,65 @@ function createEventsFireStubFireImmediately_(clock) {
 }
 
 /**
+ * Adds message to shared cleanup object so that it is cleaned from
+ *    Blockly.Messages global in sharedTestTeardown.
+ * @param {!Object} sharedCleanupObj The shared cleanup object created in
+ *    sharedTestSetup.
+ * @param {string} message The message to add to shared cleanup object.
+ */
+function addMessageToCleanup(sharedCleanupObj, message) {
+  sharedCleanupObj.messagesCleanup_.push(message);
+}
+
+/**
+ * Adds block type to shared cleanup object so that it is cleaned from
+ *    Blockly.Blocks global in sharedTestTeardown.
+ * @param {!Object} sharedCleanupObj The shared cleanup object created in
+ *    sharedTestSetup.
+ * @param {string} blockType The block type to add to shared cleanup object.
+ */
+function addBlockTypeToCleanup(sharedCleanupObj, blockType) {
+  sharedCleanupObj.blockTypesCleanup_.push(blockType);
+}
+
+/**
+ * Wraps Blockly.defineBlocksWithJsonArray using stub in order to keep track of
+ * block types passed in to method on shared cleanup object so they are cleaned
+ * from Blockly.Blocks global in sharedTestTeardown.
+ * @param {!Object} sharedCleanupObj The shared cleanup object created in
+ *    sharedTestSetup.
+ * @private
+ */
+function wrapDefineBlocksWithJsonArrayWithCleanup_(sharedCleanupObj) {
+  var stub = sinon.stub(Blockly, 'defineBlocksWithJsonArray');
+  stub.callsFake(function(jsonArray) {
+    if (jsonArray) {
+      jsonArray.forEach((jsonBlock) => {
+        if (jsonBlock) {
+          addBlockTypeToCleanup(sharedCleanupObj, jsonBlock['type']);
+        }
+      });
+    }
+    // Calls original method.
+    stub.wrappedMethod.call(this, ...arguments);
+  });
+}
+
+/**
  * Shared setup method that sets up fake timer for clock so that pending
  * setTimeout calls can be cleared in test teardown along with other common
  * stubs. Should be called in setup of outermost suite using
  * sharedTestSetup.call(this).
+ * The sinon fake timer defined on this.clock_ should not be reset in tests to
+ * avoid causing issues with cleanup in sharedTestTeardown.
+ *
+ * Stubs created in this setup (unless disabled by options passed):
+ *  - Blockly.Events.fire - this.eventsFireStub - wraps fire event to trigger
+ *      fireNow_ call immediately, rather than on timeout
+ *  - Blockly.defineBlocksWithJsonArray - thin wrapper that adds logic to keep
+ *      track of block types defined so that they can be undefined in
+ *      sharedTestTeardown and calls original method.
+ *
  * @param {Object<string, boolean>} options Options to enable/disable setup
  *    of certain stubs.
  */
@@ -147,6 +202,14 @@ function sharedTestSetup(options = {}) {
     // Stubs event firing unless passed option "fireEventsNow: false"
     this.eventsFireStub = createEventsFireStubFireImmediately_(this.clock);
   }
+  this.sharedCleanup = {
+    blockTypesCleanup_: [],
+    messagesCleanup_: []
+
+  };
+  this.blockTypesCleanup_ = this.sharedCleanup.blockTypesCleanup_;
+  this.messagesCleanup_ = this.sharedCleanup.messagesCleanup_;
+  wrapDefineBlocksWithJsonArrayWithCleanup_(this.sharedCleanup);
 }
 
 /**
@@ -187,6 +250,15 @@ function sharedTestTeardown() {
     // Restore all stubbed methods.
     this.sharedSetupSandbox_.restore();
     sinon.restore();
+
+    var blockTypes = this.sharedCleanup.blockTypesCleanup_;
+    for (let i = 0; i < blockTypes.length; i++) {
+      delete Blockly.Blocks[blockTypes[i]];
+    }
+    var messages = this.sharedCleanup.messagesCleanup_;
+    for (let i = 0; i < messages.length; i++) {
+      delete Blockly.Msg[messages[i]];
+    }
   }
 }
 
@@ -269,16 +341,17 @@ function isXmlProperty_(key) {
 
 /**
  * Asserts that the given event has the expected values.
- * @param {!Blockly.Event.Abstract} event The event to check.
+ * @param {!Blockly.Events.Abstract} event The event to check.
  * @param {string} expectedType Expected type of event fired.
  * @param {string} expectedWorkspaceId Expected workspace id of event fired.
- * @param {string} expectedBlockId Expected block id of event fired.
+ * @param {?string} expectedBlockId Expected block id of event fired.
  * @param {!Object<string, *>} expectedProperties Map of of additional expected
  *    properties to check on fired event.
+ * @param {boolean=} [isUiEvent=false] Whether the event is a UI event.
  * @param {string=} message Optional message to prepend assert messages.
  */
 function assertEventEquals(event, expectedType,
-    expectedWorkspaceId, expectedBlockId, expectedProperties, message) {
+    expectedWorkspaceId, expectedBlockId, expectedProperties, isUiEvent = false, message) {
   var prependMessage = message ? message + ' ' : '';
   prependMessage += 'Event fired ';
   chai.assert.equal(event.type, expectedType,
@@ -303,6 +376,11 @@ function assertEventEquals(event, expectedType,
           prependMessage + key);
     }
   });
+  if (isUiEvent) {
+    chai.assert.isTrue(event.isUiEvent);
+  } else {
+    chai.assert.isFalse(event.isUiEvent);
+  }
 }
 
 /**
@@ -397,7 +475,7 @@ function assertNthCallEventArgEquals(spy, n, instanceType, expectedProperties,
   assertXmlProperties_(eventArg, xmlProperties);
 }
 
-function defineStackBlock() {
+function defineStackBlock(sharedCleanupObj) {
   Blockly.defineBlocksWithJsonArray([{
     "type": "stack_block",
     "message0": "",
@@ -406,7 +484,7 @@ function defineStackBlock() {
   }]);
 }
 
-function defineRowBlock() {
+function defineRowBlock(sharedCleanupObj) {
   Blockly.defineBlocksWithJsonArray([{
     "type": "row_block",
     "message0": "%1",
@@ -420,7 +498,7 @@ function defineRowBlock() {
   }]);
 }
 
-function defineStatementBlock() {
+function defineStatementBlock(sharedCleanupObj) {
   Blockly.defineBlocksWithJsonArray([{
     "type": "statement_block",
     "message0": "%1",
@@ -437,7 +515,7 @@ function defineStatementBlock() {
     "helpUrl": ""
   }]);
 }
-function defineBasicBlockWithField() {
+function defineBasicBlockWithField(sharedCleanupObj) {
   Blockly.defineBlocksWithJsonArray([{
     "type": "test_field_block",
     "message0": "%1",
@@ -457,7 +535,12 @@ function createTestBlock() {
     rendered: false,
     workspace: {
       rendered: false
-    }
+    },
+    'isShadow': function() {
+      return false;
+    },
+    'renameVarById': Blockly.Block.prototype.renameVarById,
+    'updateVarName': Blockly.Block.prototype.updateVarName,
   };
 }
 
@@ -491,6 +574,43 @@ function dispatchPointerEvent(target, type, properties) {
   const event = new PointerEvent(type, eventInitDict);
   target.dispatchEvent(event);
 }
+
+/**
+ * Creates a key down event used for testing.
+ * @param {number} keyCode The keycode for the event. Use Blockly.utils.KeyCodes enum.
+ * @param {string} type The type of the target. This only matters for the
+ *     Blockly.utils.isTargetInput method.
+ * @param {Array<number>} modifiers A list of modifiers. Use Blockly.utils.KeyCodes enum.
+ * @return {{keyCode: *, getModifierState: (function(): boolean),
+ *     preventDefault: preventDefault, target: {type: *}}} The mocked keydown event.
+ */
+function createKeyDownEvent(keyCode, type, modifiers) {
+  var event = {
+    keyCode: keyCode,
+    target: {type: type},
+    getModifierState: function(name) {
+      if (name == 'Shift' && this.shiftKey) {
+        return true;
+      } else if (name == 'Control' && this.ctrlKey) {
+        return true;
+      } else if (name == 'Meta' && this.metaKey) {
+        return true;
+      } else if (name == 'Alt' && this.altKey) {
+        return true;
+      }
+      return false;
+    },
+    preventDefault: function() {}
+  };
+  if (modifiers && modifiers.length > 0) {
+    event.altKey = modifiers.indexOf(Blockly.utils.KeyCodes.ALT) > -1;
+    event.ctrlKey = modifiers.indexOf(Blockly.utils.KeyCodes.CTRL) > -1;
+    event.metaKey = modifiers.indexOf(Blockly.utils.KeyCodes.META) > -1;
+    event.shiftKey = modifiers.indexOf(Blockly.utils.KeyCodes.SHIFT) > -1;
+  }
+  return event;
+}
+
 
 /**
  * Simulates mouse click by triggering relevant mouse events.

@@ -17,12 +17,13 @@ goog.require('Blockly.Events');
 goog.require('Blockly.Events.CommentCreate');
 goog.require('Blockly.Events.CommentDelete');
 goog.require('Blockly.Events.CommentMove');
-goog.require('Blockly.Events.Ui');
+goog.require('Blockly.Events.Selected');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.object');
 goog.require('Blockly.utils.Rect');
+goog.require('Blockly.utils.Svg');
 goog.require('Blockly.WorkspaceComment');
 
 goog.requireType('Blockly.IBoundedElement');
@@ -65,11 +66,11 @@ Blockly.WorkspaceCommentSvg = function(
    * @private
    */
   this.svgGroup_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.G, {'class': 'blocklyComment'}, null);
+      Blockly.utils.Svg.G, {'class': 'blocklyComment'}, null);
   this.svgGroup_.translate_ = '';
 
   this.svgRect_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.RECT, {
+      Blockly.utils.Svg.RECT, {
         'class': 'blocklyCommentRect',
         'x': 0,
         'y': 0,
@@ -144,9 +145,12 @@ Blockly.WorkspaceCommentSvg.prototype.dispose = function() {
 /**
  * Create and initialize the SVG representation of a workspace comment.
  * May be called more than once.
+ *
+ * @param {boolean=} opt_noSelect Text inside text area will be selected if false
+ *
  * @package
  */
-Blockly.WorkspaceCommentSvg.prototype.initSvg = function() {
+Blockly.WorkspaceCommentSvg.prototype.initSvg = function(opt_noSelect) {
   if (!this.workspace.rendered) {
     throw TypeError('Workspace is headless.');
   }
@@ -161,6 +165,10 @@ Blockly.WorkspaceCommentSvg.prototype.initSvg = function() {
   this.updateMovable();
   if (!this.getSvgRoot().parentNode) {
     this.workspace.getBubbleCanvas().appendChild(this.getSvgRoot());
+  }
+
+  if (!opt_noSelect && this.textarea_) {
+    this.textarea_.select();
   }
 };
 
@@ -216,8 +224,7 @@ Blockly.WorkspaceCommentSvg.prototype.select = function() {
       Blockly.Events.enable();
     }
   }
-  var event = new Blockly.Events.Ui(null, 'selected', oldId, this.id);
-  event.workspaceId = this.workspace.id;
+  var event = new Blockly.Events.Selected(oldId, this.id, this.workspace.id);
   Blockly.Events.fire(event);
   Blockly.selected = this;
   this.addSelect();
@@ -231,8 +238,7 @@ Blockly.WorkspaceCommentSvg.prototype.unselect = function() {
   if (Blockly.selected != this) {
     return;
   }
-  var event = new Blockly.Events.Ui(null, 'selected', this.id, null);
-  event.workspaceId = this.workspace.id;
+  var event = new Blockly.Events.Selected(this.id, null, this.workspace.id);
   Blockly.Events.fire(event);
   Blockly.selected = null;
   this.removeSelect();
@@ -580,7 +586,7 @@ Blockly.WorkspaceCommentSvg.fromXml = function(
     var comment = new Blockly.WorkspaceCommentSvg(
         workspace, info.content, info.h, info.w, info.id);
     if (workspace.rendered) {
-      comment.initSvg();
+      comment.initSvg(true);
       comment.render(false);
     }
     // Position the comment correctly, taking into account the width of a

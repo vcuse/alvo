@@ -12,9 +12,13 @@
 
 goog.provide('Blockly.Trashcan');
 
+goog.require('Blockly.constants');
+goog.require('Blockly.Events.TrashcanOpen');
 goog.require('Blockly.Scrollbar');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.Rect');
+goog.require('Blockly.utils.Svg');
+goog.require('Blockly.utils.toolbox');
 goog.require('Blockly.Xml');
 
 goog.requireType('Blockly.IDeleteArea');
@@ -66,16 +70,16 @@ Blockly.Trashcan = function(workspace) {
   // Create vertical or horizontal flyout.
   if (this.workspace_.horizontalLayout) {
     flyoutWorkspaceOptions.toolboxPosition =
-        this.workspace_.toolboxPosition == Blockly.TOOLBOX_AT_TOP ?
-        Blockly.TOOLBOX_AT_BOTTOM : Blockly.TOOLBOX_AT_TOP;
+        this.workspace_.toolboxPosition == Blockly.utils.toolbox.Position.TOP ?
+        Blockly.utils.toolbox.Position.BOTTOM : Blockly.utils.toolbox.Position.TOP;
     if (!Blockly.HorizontalFlyout) {
       throw Error('Missing require for Blockly.HorizontalFlyout');
     }
     this.flyout = new Blockly.HorizontalFlyout(flyoutWorkspaceOptions);
   } else {
     flyoutWorkspaceOptions.toolboxPosition =
-      this.workspace_.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT ?
-        Blockly.TOOLBOX_AT_LEFT : Blockly.TOOLBOX_AT_RIGHT;
+      this.workspace_.toolboxPosition == Blockly.utils.toolbox.Position.RIGHT ?
+        Blockly.utils.toolbox.Position.LEFT : Blockly.utils.toolbox.Position.RIGHT;
     if (!Blockly.VerticalFlyout) {
       throw Error('Missing require for Blockly.VerticalFlyout');
     }
@@ -260,16 +264,16 @@ Blockly.Trashcan.prototype.createDom = function() {
   </g>
   */
   this.svgGroup_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.G,
+      Blockly.utils.Svg.G,
       {'class': 'blocklyTrash'}, null);
   var clip;
   var rnd = String(Math.random()).substring(2);
   clip = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.CLIPPATH,
+      Blockly.utils.Svg.CLIPPATH,
       {'id': 'blocklyTrashBodyClipPath' + rnd},
       this.svgGroup_);
   Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.RECT,
+      Blockly.utils.Svg.RECT,
       {
         'width': this.WIDTH_,
         'height': this.BODY_HEIGHT_,
@@ -277,7 +281,7 @@ Blockly.Trashcan.prototype.createDom = function() {
       },
       clip);
   var body = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.IMAGE,
+      Blockly.utils.Svg.IMAGE,
       {
         'width': Blockly.SPRITE.width,
         'x': -this.SPRITE_LEFT_,
@@ -290,14 +294,14 @@ Blockly.Trashcan.prototype.createDom = function() {
       this.workspace_.options.pathToMedia + Blockly.SPRITE.url);
 
   clip = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.CLIPPATH,
+      Blockly.utils.Svg.CLIPPATH,
       {'id': 'blocklyTrashLidClipPath' + rnd},
       this.svgGroup_);
   Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.RECT,
+      Blockly.utils.Svg.RECT,
       {'width': this.WIDTH_, 'height': this.LID_HEIGHT_}, clip);
   this.svgLid_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.IMAGE,
+      Blockly.utils.Svg.IMAGE,
       {
         'width': Blockly.SPRITE.width,
         'x': -this.SPRITE_LEFT_,
@@ -309,11 +313,13 @@ Blockly.Trashcan.prototype.createDom = function() {
   this.svgLid_.setAttributeNS(Blockly.utils.dom.XLINK_NS, 'xlink:href',
       this.workspace_.options.pathToMedia + Blockly.SPRITE.url);
 
-  Blockly.bindEventWithChecks_(
-      this.svgGroup_, 'mousedown', this, this.blockMouseDownWhenFull_);
-  Blockly.bindEventWithChecks_(this.svgGroup_, 'mouseup', this, this.click);
   // bindEventWithChecks_ quashes events too aggressively. See:
   // https://groups.google.com/forum/#!topic/blockly/QF4yB9Wx00s
+  // Using bindEventWithChecks_ for blocking mousedown causes issue in mobile.
+  // See #4303
+  Blockly.bindEvent_(
+      this.svgGroup_, 'mousedown', this, this.blockMouseDownWhenOpenable_);
+  Blockly.bindEvent_(this.svgGroup_, 'mouseup', this, this.click);
   // Bind to body instead of this.svgGroup_ so that we don't get lid jitters
   Blockly.bindEvent_(body, 'mouseover', this, this.mouseOver_);
   Blockly.bindEvent_(body, 'mouseout', this, this.mouseOut_);
@@ -331,7 +337,7 @@ Blockly.Trashcan.prototype.createDom = function() {
 Blockly.Trashcan.prototype.init = function(verticalSpacing) {
   if (this.workspace_.options.maxTrashcanContents > 0) {
     Blockly.utils.dom.insertAfter(
-        this.flyout.createDom(Blockly.utils.dom.SvgElementType.SVG),
+        this.flyout.createDom(Blockly.utils.Svg.SVG),
         this.workspace_.getParentSvg());
     this.flyout.init(this.workspace_);
   }
@@ -559,8 +565,8 @@ Blockly.Trashcan.prototype.click = function() {
  * @private
  */
 Blockly.Trashcan.prototype.fireUiEvent_ = function(trashcanOpen) {
-  var uiEvent = new Blockly.Events.Ui(null, 'trashcanOpen', null, trashcanOpen);
-  uiEvent.workspaceId = this.workspace_.id;
+  var uiEvent =
+      new Blockly.Events.TrashcanOpen(trashcanOpen,this.workspace_.id);
   Blockly.Events.fire(uiEvent);
 };
 
@@ -569,12 +575,11 @@ Blockly.Trashcan.prototype.fireUiEvent_ = function(trashcanOpen) {
  * @param {!Event} e A mouse down event.
  * @private
  */
-Blockly.Trashcan.prototype.blockMouseDownWhenFull_ = function(e) {
-  if (this.hasContents_()) {
+Blockly.Trashcan.prototype.blockMouseDownWhenOpenable_ = function(e) {
+  if (!this.contentsIsOpen() && this.hasContents_()) {
     e.stopPropagation();  // Don't start a workspace scroll.
   }
 };
-
 
 /**
  * Indicate that the trashcan can be clicked (by opening it) if it has blocks.
@@ -606,7 +611,8 @@ Blockly.Trashcan.prototype.onDelete_ = function(event) {
   if (this.workspace_.options.maxTrashcanContents <= 0) {
     return;
   }
-  if (event.type == Blockly.Events.BLOCK_DELETE &&
+  // Must check that the tagName exists since oldXml can be a DocumentFragment.
+  if (event.type == Blockly.Events.BLOCK_DELETE && event.oldXml.tagName &&
       event.oldXml.tagName.toLowerCase() != 'shadow') {
     var cleanedXML = this.cleanBlockXML_(event.oldXml);
     if (this.contents_.indexOf(cleanedXML) != -1) {

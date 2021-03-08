@@ -34,10 +34,9 @@ suite('Gesture', function() {
     chai.assert.isTrue(isFieldClickSpy.alwaysReturned(isFieldClick));
 
 
-    assertEventFired(eventsFireStub, Blockly.Events.Ui,
-        {element: 'selected', oldValue: null, newValue: block.id},
-        fieldWorkspace.id, null);
-    assertEventNotFired(eventsFireStub, Blockly.Events.Ui, {element: 'click'});
+    assertEventFired(eventsFireStub, Blockly.Events.Selected,
+        {oldElementId: null, newElementId: block.id}, fieldWorkspace.id);
+    assertEventNotFired(eventsFireStub, Blockly.Events.Click, {});
   }
 
   function getTopFlyoutBlock(flyout) {
@@ -46,14 +45,13 @@ suite('Gesture', function() {
 
   setup(function() {
     sharedTestSetup.call(this);
-    defineBasicBlockWithField();
+    defineBasicBlockWithField(this.sharedCleanup);
     var toolbox = document.getElementById('gesture-test-toolbox');
     this.workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
   });
 
   teardown(function() {
     sharedTestTeardown.call(this);
-    delete Blockly.Block['test_field_block'];
   });
 
   test('Constructor', function() {

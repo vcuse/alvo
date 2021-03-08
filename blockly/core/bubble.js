@@ -18,6 +18,7 @@ goog.require('Blockly.utils');
 goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.math');
+goog.require('Blockly.utils.Svg');
 goog.require('Blockly.utils.userAgent');
 goog.require('Blockly.Workspace');
 
@@ -237,7 +238,7 @@ Blockly.Bubble.prototype.createDom_ = function(content, hasResize) {
   </g>
   */
   this.bubbleGroup_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.G, {}, null);
+      Blockly.utils.Svg.G, {}, null);
   var filter = {
     'filter': 'url(#' +
         this.workspace_.getRenderer().getConstants().embossFilterId + ')'
@@ -248,11 +249,11 @@ Blockly.Bubble.prototype.createDom_ = function(content, hasResize) {
     filter = {};
   }
   var bubbleEmboss = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.G, filter, this.bubbleGroup_);
+      Blockly.utils.Svg.G, filter, this.bubbleGroup_);
   this.bubbleArrow_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.PATH, {}, bubbleEmboss);
+      Blockly.utils.Svg.PATH, {}, bubbleEmboss);
   this.bubbleBack_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.RECT, {
+      Blockly.utils.Svg.RECT, {
         'class': 'blocklyDraggable',
         'x': 0,
         'y': 0,
@@ -262,16 +263,16 @@ Blockly.Bubble.prototype.createDom_ = function(content, hasResize) {
       bubbleEmboss);
   if (hasResize) {
     this.resizeGroup_ = Blockly.utils.dom.createSvgElement(
-        Blockly.utils.dom.SvgElementType.G,
+        Blockly.utils.Svg.G,
         {'class': this.workspace_.RTL ? 'blocklyResizeSW' : 'blocklyResizeSE'},
         this.bubbleGroup_);
     var resizeSize = 2 * Blockly.Bubble.BORDER_WIDTH;
     Blockly.utils.dom.createSvgElement(
-        Blockly.utils.dom.SvgElementType.POLYGON,
+        Blockly.utils.Svg.POLYGON,
         {'points': '0,x x,x x,0'.replace(/x/g, resizeSize.toString())},
         this.resizeGroup_);
     Blockly.utils.dom.createSvgElement(
-        Blockly.utils.dom.SvgElementType.LINE, {
+        Blockly.utils.Svg.LINE, {
           'class': 'blocklyResizeLine',
           'x1': resizeSize / 3,
           'y1': resizeSize - 1,
@@ -280,7 +281,7 @@ Blockly.Bubble.prototype.createDom_ = function(content, hasResize) {
         },
         this.resizeGroup_);
     Blockly.utils.dom.createSvgElement(
-        Blockly.utils.dom.SvgElementType.LINE, {
+        Blockly.utils.Svg.LINE, {
           'class': 'blocklyResizeLine',
           'x1': resizeSize * 2 / 3,
           'y1': resizeSize - 1,
@@ -876,4 +877,58 @@ Blockly.Bubble.prototype.getRelativeToSurfaceXY = function() {
  */
 Blockly.Bubble.prototype.setAutoLayout = function(enable) {
   this.autoLayout_ = enable;
+};
+
+/**
+ * Create the text for a non editable bubble.
+ * @param {string} text The text to display.
+ * @return {!SVGTextElement} The top-level node of the text.
+ * @package
+ */
+Blockly.Bubble.textToDom = function(text) {
+  var paragraph = Blockly.utils.dom.createSvgElement(
+      Blockly.utils.Svg.TEXT,
+      {
+        'class': 'blocklyText blocklyBubbleText blocklyNoPointerEvents',
+        'y': Blockly.Bubble.BORDER_WIDTH
+      },
+      null);
+  var lines = text.split('\n');
+  for (var i = 0; i < lines.length; i++) {
+    var tspanElement = Blockly.utils.dom.createSvgElement(
+        Blockly.utils.Svg.TSPAN,
+        {'dy': '1em', 'x': Blockly.Bubble.BORDER_WIDTH}, paragraph);
+    var textNode = document.createTextNode(lines[i]);
+    tspanElement.appendChild(textNode);
+  }
+  return paragraph;
+};
+
+/**
+ * Creates a bubble that can not be edited.
+ * @param {!SVGTextElement} paragraphElement The text element for the non editable bubble.
+ * @param {!Blockly.BlockSvg} block The block that the bubble is attached to.
+ * @param {!Blockly.utils.Coordinate} iconXY The coordinate of the icon.
+ * @return {!Blockly.Bubble} The non editable bubble.
+ * @package
+ */
+Blockly.Bubble.createNonEditableBubble = function(paragraphElement, block, iconXY) {
+  var bubble = new Blockly.Bubble(
+      /** @type {!Blockly.WorkspaceSvg} */ (block.workspace),
+      paragraphElement, block.pathObject.svgPath,
+      /** @type {!Blockly.utils.Coordinate} */ (iconXY), null, null);
+  // Expose this bubble's block's ID on its top-level SVG group.
+  bubble.setSvgId(block.id);
+  if (block.RTL) {
+    // Right-align the paragraph.
+    // This cannot be done until the bubble is rendered on screen.
+    var maxWidth = paragraphElement.getBBox().width;
+    for (var i = 0, textElement;
+      (textElement = paragraphElement.childNodes[i]); i++) {
+
+      textElement.setAttribute('text-anchor', 'end');
+      textElement.setAttribute('x', maxWidth + Blockly.Bubble.BORDER_WIDTH);
+    }
+  }
+  return bubble;
 };

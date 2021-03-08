@@ -41,9 +41,6 @@ suite('InsertionMarkers', function() {
   });
   teardown(function() {
     sharedTestTeardown.call(this);
-    delete Blockly.Blocks['stack_block'];
-    delete Blockly.Blocks['row_block'];
-    delete Blockly.Blocks['statement_block'];
   });
   suite('Code Generation', function() {
     setup(function() {
@@ -200,8 +197,7 @@ suite('InsertionMarkers', function() {
       this.assertGen(xml, 'stack[a];\n');
     });
   });
-  suite.skip('Serialization', function() {
-    // TODO(#4116): Re-enable after addressing bug
+  suite('Serialization', function() {
     setup(function() {
       this.assertXml = function(xml, expectXml) {
         Blockly.Xml.domToWorkspace(xml, this.workspace);

@@ -13,7 +13,6 @@
 goog.provide('Blockly.inject');
 
 goog.require('Blockly.BlockDragSurfaceSvg');
-goog.require('Blockly.Component');
 goog.require('Blockly.Css');
 goog.require('Blockly.DropDownDiv');
 goog.require('Blockly.Events');
@@ -22,9 +21,9 @@ goog.require('Blockly.Msg');
 goog.require('Blockly.Options');
 goog.require('Blockly.ScrollbarPair');
 goog.require('Blockly.Tooltip');
-goog.require('Blockly.user.keyMap');
 goog.require('Blockly.utils');
 goog.require('Blockly.utils.dom');
+goog.require('Blockly.utils.Svg');
 goog.require('Blockly.utils.userAgent');
 goog.require('Blockly.WorkspaceDragSurfaceSvg');
 goog.require('Blockly.WorkspaceSvg');
@@ -68,7 +67,6 @@ Blockly.inject = function(container, opt_options) {
 
   var workspace = Blockly.createMainWorkspace_(svg, options, blockDragSurface,
       workspaceDragSurface);
-  Blockly.user.keyMap.setKeyMap(options.keyMap);
 
   Blockly.init_(workspace);
 
@@ -96,8 +94,6 @@ Blockly.createDom_ = function(container, options) {
   // out content in RTL mode.  Therefore Blockly forces the use of LTR,
   // then manually positions content in RTL as needed.
   container.setAttribute('dir', 'LTR');
-  // Set the default direction for Components to use.
-  Blockly.Component.defaultRightToLeft = options.RTL;
 
   // Load CSS.
   Blockly.Css.inject(options.hasCss, options.pathToMedia);
@@ -114,7 +110,7 @@ Blockly.createDom_ = function(container, options) {
   </svg>
   */
   var svg = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.SVG, {
+      Blockly.utils.Svg.SVG, {
         'xmlns': Blockly.utils.dom.SVG_NS,
         'xmlns:html': Blockly.utils.dom.HTML_NS,
         'xmlns:xlink': Blockly.utils.dom.XLINK_NS,
@@ -128,7 +124,7 @@ Blockly.createDom_ = function(container, options) {
   </defs>
   */
   var defs = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.DEFS, {}, svg);
+      Blockly.utils.Svg.DEFS, {}, svg);
   // Each filter/pattern needs a unique ID for the case of multiple Blockly
   // instances on a page.  Browser behaviour becomes undefined otherwise.
   // https://neil.fraser.name/news/2015/11/01/
@@ -166,7 +162,7 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface,
 
   if (!wsOptions.hasCategories && wsOptions.languageTree) {
     // Add flyout as an <svg> that is a sibling of the workspace svg.
-    var flyout = mainWorkspace.addFlyout(Blockly.utils.dom.SvgElementType.SVG);
+    var flyout = mainWorkspace.addFlyout(Blockly.utils.Svg.SVG);
     Blockly.utils.dom.insertAfter(flyout, svg);
   }
   if (wsOptions.hasTrashcan) {

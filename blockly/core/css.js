@@ -168,6 +168,7 @@ Blockly.Css.CONTENT = [
     'max-height: 300px;', // @todo: spec for maximum height.
     'overflow: auto;',
     'overflow-x: hidden;',
+    'position: relative;',
   '}',
 
   '.blocklyDropDownArrow {',
@@ -497,8 +498,11 @@ Blockly.Css.CONTENT = [
   '}',
 
   '.blocklyDropDownDiv .blocklyMenu {',
+    'background: inherit;', /* Compatibility with gapi, reset from goog-menu */
+    'border: inherit;', /* Compatibility with gapi, reset from goog-menu */
     'font: normal 13px "Helvetica Neue", Helvetica, sans-serif;',
     'outline: none;',
+    'position: relative;', /* Compatibility with gapi, reset from goog-menu */
     'z-index: 20000;',  /* Arbitrary, but some apps depend on it... */
   '}',
 

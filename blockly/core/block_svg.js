@@ -16,11 +16,12 @@ goog.require('Blockly.ASTNode');
 goog.require('Blockly.Block');
 goog.require('Blockly.blockAnimations');
 goog.require('Blockly.blockRendering.IPathObject');
+goog.require('Blockly.constants');
 goog.require('Blockly.ContextMenu');
 goog.require('Blockly.ContextMenuRegistry');
 goog.require('Blockly.Events');
-goog.require('Blockly.Events.Ui');
 goog.require('Blockly.Events.BlockMove');
+goog.require('Blockly.Events.Selected');
 goog.require('Blockly.Msg');
 goog.require('Blockly.navigation');
 goog.require('Blockly.RenderedConnection');
@@ -33,6 +34,7 @@ goog.require('Blockly.utils.Coordinate');
 goog.require('Blockly.utils.dom');
 goog.require('Blockly.utils.object');
 goog.require('Blockly.utils.Rect');
+goog.require('Blockly.utils.userAgent');
 
 goog.requireType('Blockly.IASTNodeLocationSvg');
 goog.requireType('Blockly.IBoundedElement');
@@ -60,7 +62,7 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
    * @private
    */
   this.svgGroup_ = Blockly.utils.dom.createSvgElement(
-      Blockly.utils.dom.SvgElementType.G, {}, null);
+      Blockly.utils.Svg.G, {}, null);
   this.svgGroup_.translate_ = '';
 
   /**
@@ -116,6 +118,10 @@ Blockly.BlockSvg = function(workspace, prototypeName, opt_id) {
   // Expose this block's ID on its top-level SVG group.
   if (this.svgGroup_.dataset) {
     this.svgGroup_.dataset['id'] = this.id;
+  } else if (Blockly.utils.userAgent.IE) {
+    // SVGElement.dataset is not available on IE11, but data-* properties
+    // can be set with setAttribute().
+    this.svgGroup_.setAttribute('data-id', this.id);
   }
 };
 Blockly.utils.object.inherits(Blockly.BlockSvg, Blockly.Block);
@@ -294,8 +300,7 @@ Blockly.BlockSvg.prototype.select = function() {
       Blockly.Events.enable();
     }
   }
-  var event = new Blockly.Events.Ui(null, 'selected', oldId, this.id);
-  event.workspaceId = this.workspace.id;
+  var event = new Blockly.Events.Selected(oldId, this.id, this.workspace.id);
   Blockly.Events.fire(event);
   Blockly.selected = this;
   this.addSelect();
@@ -308,7 +313,7 @@ Blockly.BlockSvg.prototype.unselect = function() {
   if (Blockly.selected != this) {
     return;
   }
-  var event = new Blockly.Events.Ui(null, 'selected', this.id, null);
+  var event = new Blockly.Events.Selected(this.id, null, this.workspace.id);
   event.workspaceId = this.workspace.id;
   Blockly.Events.fire(event);
   Blockly.selected = null;
@@ -679,10 +684,11 @@ Blockly.BlockSvg.prototype.tab = function(start, forward) {
   var tabCursor = new Blockly.TabNavigateCursor();
   tabCursor.setCurNode(Blockly.ASTNode.createFieldNode(start));
   var currentNode = tabCursor.getCurNode();
-  var action = forward ?
-      Blockly.navigation.ACTION_NEXT : Blockly.navigation.ACTION_PREVIOUS;
+  var actionName = forward ?
+      Blockly.navigation.actionNames.NEXT : Blockly.navigation.actionNames.PREVIOUS;
 
-  tabCursor.onBlocklyAction(action);
+  tabCursor.onBlocklyAction(
+      /** @type {!Blockly.ShortcutRegistry.KeyboardShortcut} */ ({name: actionName}));
 
   var nextNode = tabCursor.getCurNode();
   if (nextNode && nextNode !== currentNode) {
@@ -927,11 +933,15 @@ Blockly.BlockSvg.prototype.dispose = function(healStack, animate) {
 
 /**
  * Encode a block for copying.
- * @return {!Blockly.ICopyable.CopyData} Copy metadata.
+ * @return {?Blockly.ICopyable.CopyData} Copy metadata, or null if the block is
+ *     an insertion marker.
  * @package
  */
 Blockly.BlockSvg.prototype.toCopyData = function() {
-  var xml = Blockly.Xml.blockToDom(this, true);
+  if (this.isInsertionMarker_) {
+    return null;
+  }
+  var xml = /** @type {!Element} */ (Blockly.Xml.blockToDom(this, true));
   // Copy only the selected block and internal blocks.
   Blockly.Xml.deleteNext(xml);
   // Encode start position in XML.
@@ -970,8 +980,13 @@ Blockly.BlockSvg.prototype.applyColour = function() {
 Blockly.BlockSvg.prototype.updateDisabled = function() {
   var children = this.getChildren(false);
   this.applyColour();
+  if (this.isCollapsed()) {
+    return;
+  }
   for (var i = 0, child; (child = children[i]); i++) {
-    child.updateDisabled();
+    if (child.rendered) {
+      child.updateDisabled();
+    }
   }
 };
 
@@ -1123,20 +1138,6 @@ Blockly.BlockSvg.prototype.setMutator = function(mutator) {
     // Adding or removing a mutator icon will cause the block to change shape.
     this.bumpNeighbours();
   }
-};
-
-/**
- * Set whether the block is disabled or not.
- * @param {boolean} disabled True if disabled.
- * @deprecated May 2019
- */
-Blockly.BlockSvg.prototype.setDisabled = function(disabled) {
-  Blockly.utils.deprecation.warn(
-      'BlockSvg.prototype.setDisabled',
-      'May 2019',
-      'May 2020',
-      'BlockSvg.prototype.setEnabled');
-  this.setEnabled(!disabled);
 };
 
 /**
