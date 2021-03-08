@@ -135,7 +135,7 @@ function copyTask() {
   promptAndCheckWithAlert('Copy of ' + currentTask, function (newName) {
     currentSelectedBlock.getField('TASK').setValue(newName);
     //currentRightWorkspace.undo(false);
-    var savedDom = workspaceToDom(currentRightWorkspace);
+    var savedDom = workspaceToDom(currentRightWorkspace, true);
     //currentRightWorkspace.undo(true);
     var oldDivId = currentRightDiv.id;
     currentRightDiv.id = '__' + newName + "div";
