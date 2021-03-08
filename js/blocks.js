@@ -40,7 +40,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "custom_taskheader",
-        "message0": "At %1: %2",
+        "message0": "To %2 at %1:",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -79,7 +79,7 @@ Blockly.defineBlocksWithJsonArray([
     // Move somewhere
     {
         "type": "custom_task",
-        "message0": "At %1: %2",
+        "message0": "%2 at %1",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -546,3 +546,31 @@ var generateLocationFieldDom = function(task) {
   return field;
 };
 
+var workspaceToDom = function(workspace, opt_noId) {
+  var xml = Blockly.utils.xml.createElement('xml');
+  var variablesElement = variablesToDom(
+      workspace.getAllVariableNames());
+  if (variablesElement.hasChildNodes()) {
+    xml.appendChild(variablesElement);
+  }
+  var comments = workspace.getTopComments(true);
+  for (var i = 0, comment; (comment = comments[i]); i++) {
+    xml.appendChild(comment.toXmlWithXY(opt_noId));
+  }
+  var blocks = workspace.getTopBlocks(true);
+  for (var i = 0, block; (block = blocks[i]); i++) {
+    xml.appendChild(Blockly.Xml.blockToDomWithXY(block, opt_noId));
+  }
+  return xml;
+};
+
+var variablesToDom = function(variableList) {
+  var variables = Blockly.utils.xml.createElement('variables');
+  for (var i = 0, variable; (variable = variableList[i]); i++) {
+    var element = Blockly.utils.xml.createElement('variable');
+    element.appendChild(Blockly.utils.xml.createTextNode(variable));
+    element.id = variable;
+    variables.appendChild(element);
+  }
+  return variables;
+};
