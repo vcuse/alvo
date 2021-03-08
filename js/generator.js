@@ -97,9 +97,8 @@ Blockly.JavaScript['custom_taskheader'] = function(block) {
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (nextBlock) {
     code += Blockly.JavaScript.blockToCode(nextBlock);
-    return code + "\n}";
   }
-  return '';
+  return code + "\n}";
 };
 
 Blockly.JavaScript['custom_pickup'] = function(block) {

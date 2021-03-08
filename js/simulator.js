@@ -362,6 +362,9 @@ if (document.getElementById('execution-button')) {
         }
       }
       code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
+      if (!leftWorkspace.getAllBlocks().find(block => block.type == 'custom_start')) {
+        code += '\n\n' + 'Simulator[' + Simulator.instance + '].idle = true;';
+      }
       console.log(code);
       eval(code);
     }
