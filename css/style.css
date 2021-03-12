@@ -8,6 +8,7 @@ body {
     background-color: #f8f8f8;
     padding: 10px;
     display: grid;
+    grid-template-rows: auto auto;
     grid-template-columns: auto 400px;
     grid-column-gap: 20px;
 }
@@ -36,6 +37,23 @@ body {
     width: 100%;
 }
 
+#output {
+    grid-row-start: 2;
+    grid-column: 1 / span 2;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    height: 100px;
+    width: 100%;
+    overflow-y: scroll;
+    display: none;
+}
+
+#simbuttons {
+    grid-row-start: 2;
+    grid-column-start: 3;
+}
+
 .injectionDiv {
     border: #999 1px solid;
     border-radius: 3px;
@@ -54,7 +72,7 @@ body {
 #simulatordiv {
     position: relative;
     width: 400px;
-    height: 450px;
+    height: 430px;
     margin-bottom: 5px;
 }
 
@@ -88,4 +106,9 @@ body {
 
 .locationButton {
     fill: #A08260;
+}
+
+.error {
+    font-weight: bold;
+    color:#CC0000;
 }

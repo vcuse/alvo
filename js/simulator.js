@@ -58,15 +58,15 @@ class Robot extends SimElem {
 
   pickupFromStation(station, side, index, callback) {
     if (!station || !this.isAtStation(station)) {
-      console.error("Robot is not correctly positioned to pick up item from this station!");
+      reportError("Robot is not correctly positioned to pick up item from this station!");
       return;
     }
     if (this.carry) {
-      console.error("Robot is already carrying an item!");
+      reportError("Robot is already carrying an item!");
       return;
     }
     if (!station.isSidePickable(side, index)) {
-      console.error("Robot cannot pick up an item at the given position!");
+      reportError("Robot cannot pick up an item at the given position!");
       return;
     }
 
@@ -109,7 +109,7 @@ class Robot extends SimElem {
 
   turnCarriedItem(direction, callback) {
     if (!this.carry) {
-      console.error("Robot is not currently holding an item!");
+      reportError("Robot is not currently holding an item!");
       return;
     }
     var item = this.carry;
@@ -132,11 +132,15 @@ class Robot extends SimElem {
 
   placeAtStation(station, side, index, callback) {
     if (!station || !this.isAtStation(station)) {
-      console.error("Robot is not correctly positioned to place item at this station!");
+      reportError("Robot is not correctly positioned to place item at this station!");
       return;
     }
     if (!station.isSidePlaceable(side)) {  
-      console.error("Robot cannot place an item at the given position!");
+      reportError("Robot cannot place an item at the given position!");
+      return;
+    }
+    if (!this.carry) {
+      reportError("Robot is not currently carrying an item!");
       return;
     }
     var item = this.carry;
@@ -247,11 +251,11 @@ class Station extends SimElem {
     var topRight = this.topItemIndex("right");
     switch (side) {
       case "left":
-        return (topLeft != -1 && topLeft > topCenter) && opt_index ? topLeft == opt_index : true;
+        return topLeft != -1 && topLeft > topCenter && (opt_index ? topLeft == opt_index : true);
       case "right":
-        return (topRight != -1 && topRight > topCenter) && opt_index ? topCenter == opt_index : true;
+        return topRight != -1 && topRight > topCenter && (opt_index ? topCenter == opt_index : true);
       default:
-        return (topCenter != -1 && topCenter > topLeft && topCenter > topLeft) && opt_index ? topCenter == opt_index : true;
+        return topCenter != -1 && topCenter > topLeft && topCenter > topLeft && (opt_index ? topCenter == opt_index : true);
     }
   }
 
@@ -324,8 +328,20 @@ var Simulator = {
   instance: 0
 };
 
-function reportError() {
-
+var previousError;
+function reportError(error) {
+  var output = document.getElementById('output');
+  output.style.display = 'block';
+  if (previousError) {
+    previousError.style.fontWeight = 'normal';
+    previousError.style.color = '#AAAAAA';
+  }
+  var errorMessage = document.createElement('span');
+  errorMessage.classList.add('error')
+  errorMessage.innerHTML = error + '<br>';
+  output.insertBefore(errorMessage, output.firstChild);
+  previousError = errorMessage;
+  Simulator[Simulator.instance].idle = true;
 }
 
 function initSimulator() {
@@ -344,8 +360,8 @@ function initSimulator() {
   Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
   Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
   Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "center");
+  //Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "left");
 }
 
 initSimulator();
@@ -369,7 +385,7 @@ if (document.getElementById('execution-button')) {
       eval(code);
     }
     else {
-      console.error("Please reset simulator or wait for previous simulation to finish!");
+      reportError("Please reset simulator or wait for previous simulation to finish!");
     }
   }
 
