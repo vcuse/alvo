@@ -214,6 +214,7 @@ class Station extends SimElem {
   leftItems = [];
   rightItems = [];
   centerItems = [];
+  name = '';
 
   constructor(simDiv, posX, posY, name) {
     var domElem = document.createElement('span');
@@ -225,6 +226,7 @@ class Station extends SimElem {
     domElem.innerHTML += "<br>" + (name ? name : '');
     simDiv.appendChild(domElem);
     super(60, 30, posX, posY, domElem, simDiv);
+    this.name = name;
   }
 
   topItemIndex(side) {

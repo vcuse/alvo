@@ -112,3 +112,17 @@ body {
     font-weight: bold;
     color:#CC0000;
 }
+
+.positionGrid {
+    position: relative;
+    background-color: #FFFFFF;
+    width: 70px;
+    height: 70px;
+    opacity: 75%;
+    border: 4px #000000 dashed;
+}
+
+.positionGrid:hover {
+    opacity: 100%;
+    border-color: #CCCC00;
+}

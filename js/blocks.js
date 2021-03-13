@@ -501,12 +501,12 @@ var createLocationButtonHandler = function(
 var flyoutLocationCategory = function(workspace) {
   var xmlList = [];
   var button = document.createElement('button');
-  button.setAttribute('text', 'Create new location...');
+  button.setAttribute('text', 'Define new location...');
   button.setAttribute('web-class', 'locationButton');
   button.setAttribute('callbackKey', 'CREATE_LOCATION');
 
   workspace.registerButtonCallback('CREATE_LOCATION', function(button) {
-    createLocationButtonHandler(button.getTargetWorkspace());
+    defPositionDialog(currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getText());
   });
 
   xmlList.push(button);
