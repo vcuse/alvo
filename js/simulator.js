@@ -255,7 +255,7 @@ class Station extends SimElem {
       case "left":
         return topLeft != -1 && topLeft > topCenter && (opt_index ? topLeft == opt_index : true);
       case "right":
-        return topRight != -1 && topRight > topCenter && (opt_index ? topCenter == opt_index : true);
+        return topRight != -1 && topRight > topCenter && (opt_index ? topRight == opt_index : true);
       default:
         return topCenter != -1 && topCenter > topLeft && topCenter > topLeft && (opt_index ? topCenter == opt_index : true);
     }
