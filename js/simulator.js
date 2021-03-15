@@ -361,9 +361,10 @@ function initSimulator() {
   Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 100, 'Station C');
   Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
   Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
-  //Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
   Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "left");
+  //Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
 }
 
 initSimulator();
