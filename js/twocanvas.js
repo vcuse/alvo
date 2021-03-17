@@ -159,6 +159,7 @@ function copyTask() {
     currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField('TASK').setValue(newName);
     rightWorkspaces[currentTask] = savedRightWorkspace;
     rightWorkspaces[newName] = currentRightWorkspace;
+    definedPositions[newName] = definedPositions[currentTask];
     savedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
     savedRightWorkspace.addChangeListener(onTaskHeaderChanged);
     clearOverlay();

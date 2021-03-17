@@ -20,23 +20,23 @@ function defPositionDialog(station) {
     stationpic.style.left = '-50%';
     stationpic.style.width = '280px';
     stationpic.style.height = '140px';
-    stationpic.style.marginTop = '250px';
+    stationpic.style.marginTop = '260px';
     posStationElem.appendChild(stationpic);
-    var stationtext = document.createElement('span');
+    /* var stationtext = document.createElement('span');
     stationtext.style.position = 'relative';
     stationtext.style.textAlign = 'center';
     stationtext.style.fontSize = '51pt';
     stationtext.style.left = '-50%';
     stationtext.innerHTML = station;
     stationtext.style.lineHeight = '1.1';
-    posStationElem.appendChild(stationtext);
+    posStationElem.appendChild(stationtext); */
     currentRightDiv.insertBefore(posOverlayElem, currentRightDiv.firstChild);
     currentRightDiv.insertBefore(posStationElem, currentRightDiv.firstChild);
 
     var generateGrid = function(count) {
         var gridElem = document.createElement('div');
         gridElem.classList.add('positionGrid')
-        gridElem.style.top = (-280 - 70 * count - 70 * Math.floor(count/3)) + 'px';
+        gridElem.style.top = (-210 - 70 * count - 70 * Math.floor(count/3)) + 'px';
         gridElem.style.left = (-105 + 70 * (count % 3)) + 'px';
         gridElem.onclick = function () { selectPosition(count % 3, Math.floor(count/3)) };
         return gridElem;
@@ -67,18 +67,18 @@ function selectPosition(xPos, yPos) {
           } else {
             // No conflict
             currentRightWorkspace.createVariable(text, '');
-            var station = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getValue();
-            if (!definedPositions[station])
-                definedPositions[station] = [];
+            var task = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("TASK").getValue();
+            if (!definedPositions[task])
+                definedPositions[task] = [];
             switch (xPos) {
                 case 0:
-                  definedPositions[station][text] = '"left",' + yPos;
+                  definedPositions[task][text] = '"left",' + yPos;
                   break;
                 case 1:
-                  definedPositions[station][text] = '"center",' + yPos;
+                  definedPositions[task][text] = '"center",' + yPos;
                   break;
                 case 2:
-                  definedPositions[station][text] = '"right",' + yPos;
+                  definedPositions[task][text] = '"right",' + yPos;
                   break;
             }
           }
