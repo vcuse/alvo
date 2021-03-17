@@ -122,6 +122,21 @@ body {
     border: 4px #000000 dashed;
 }
 
+.exitButton {
+    position: absolute;
+    text-align: center;
+    font-size: 35pt;
+    top:0px;
+    right:15px;
+    line-height: 1.0;
+    color: #666666;
+    cursor: pointer;
+}
+
+.exitButton:hover {
+    color: #000000;
+}
+
 .positionGrid:hover {
     opacity: 100%;
     border-color: #CCCC00;

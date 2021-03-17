@@ -22,14 +22,16 @@ function defPositionDialog(station) {
     stationpic.style.height = '140px';
     stationpic.style.marginTop = '260px';
     posStationElem.appendChild(stationpic);
-    /* var stationtext = document.createElement('span');
-    stationtext.style.position = 'relative';
-    stationtext.style.textAlign = 'center';
-    stationtext.style.fontSize = '51pt';
-    stationtext.style.left = '-50%';
-    stationtext.innerHTML = station;
-    stationtext.style.lineHeight = '1.1';
-    posStationElem.appendChild(stationtext); */
+    var exittext = document.createElement('span');
+    exittext.classList.add('exitButton')
+    exittext.innerHTML = 'x';
+    exittext.onclick = function () {
+      posOverlayElem.remove();
+      posStationElem.remove();
+      posOverlayElem = null;
+      posStationElem = null;
+    }
+    posStationElem.appendChild(exittext); 
     currentRightDiv.insertBefore(posOverlayElem, currentRightDiv.firstChild);
     currentRightDiv.insertBefore(posStationElem, currentRightDiv.firstChild);
 
@@ -81,13 +83,36 @@ function selectPosition(xPos, yPos) {
                   definedPositions[task][text] = '"right",' + yPos;
                   break;
             }
+            posOverlayElem.remove();
+            posStationElem.remove();
+            posOverlayElem = null;
+            posStationElem = null;
           }
         }
       });
   };
-  promptAndCheckWithAlert('');
-  posOverlayElem.remove();
-  posStationElem.remove();
-  posOverlayElem = null;
-  posStationElem = null;
+  var posDefaultName;
+  switch (yPos) {
+    case 0:
+      posDefaultName = 'bottom';
+      break;
+    case 1:
+      posDefaultName = 'middle';
+      break;
+    case 2:
+      posDefaultName = 'top';
+      break;
+  }
+  switch (xPos) {
+    case 0:
+      posDefaultName += ' left';
+      break;
+    case 1:
+      posDefaultName += ' center';
+      break;
+    case 2:
+      posDefaultName += ' right';
+      break;
+  }
+  promptAndCheckWithAlert(posDefaultName);
 }
