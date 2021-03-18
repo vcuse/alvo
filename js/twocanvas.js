@@ -1,7 +1,3 @@
-var currentSelectedBlock = null;
-var currentRightDiv = null;
-var currentRightWorkspace = null
-
 function onTaskSelected(event) {
   if (event.type == Blockly.Events.CHANGE && event.blockId == currentSelectedBlock.id) {
     currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());

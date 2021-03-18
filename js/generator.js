@@ -5,7 +5,7 @@ goog.provide('Blockly.JavaScript.sim');
 goog.require('Blockly.JavaScript');
 
 var generated = [];
-var currentTask;
+var currentTask = 'DEFAULT';
 
 Blockly.JavaScript['custom_triggerstart'] = function(block) {
   if (generated[block.id]) 

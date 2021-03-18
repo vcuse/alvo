@@ -27,6 +27,7 @@ body {
 
 #leftdiv {
     width: 100%;
+    position: relative;
 }
 
 #middlediv {

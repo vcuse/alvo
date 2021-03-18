@@ -1,7 +1,7 @@
 var posOverlayElem;
 var posStationElem;
 
-function defPositionDialog(station) {
+function defPositionDialog() {
   if (!posOverlayElem) {
     posOverlayElem = document.createElement('div');
     posOverlayElem.style.position = 'absolute';
@@ -31,9 +31,16 @@ function defPositionDialog(station) {
       posOverlayElem = null;
       posStationElem = null;
     }
-    posStationElem.appendChild(exittext); 
-    currentRightDiv.insertBefore(posOverlayElem, currentRightDiv.firstChild);
-    currentRightDiv.insertBefore(posStationElem, currentRightDiv.firstChild);
+    posStationElem.appendChild(exittext);
+    if (currentRightDiv) { 
+      currentRightDiv.insertBefore(posOverlayElem, currentRightDiv.firstChild);
+      currentRightDiv.insertBefore(posStationElem, currentRightDiv.firstChild);
+    }
+    else {
+      var leftDiv = document.getElementById('leftdiv');
+      leftDiv.insertBefore(posOverlayElem, leftDiv.firstChild);
+      leftDiv.insertBefore(posStationElem, leftDiv.firstChild);
+    }
 
     var generateGrid = function(count) {
         var gridElem = document.createElement('div');
@@ -53,43 +60,44 @@ function defPositionDialog(station) {
 var definedPositions = [];
 
 function selectPosition(xPos, yPos) {
-    var promptAndCheckWithAlert = function(defaultName) {
-    Blockly.Variables.promptName("Please enter a name for the new location:", defaultName,
-      function(text) {
-        if (text) {
-          var existing =
-              nameUsedWithAnyType(text, currentRightWorkspace);
-          if (existing) {
-            var msg = "A location with name '%1' already exists!".replace(
-              '%1', existing.name);              
-            Blockly.alert(msg,
-                function() {
-                  promptAndCheckWithAlert(text);  // Recurse
-                });
-          } else {
-            // No conflict
-            currentRightWorkspace.createVariable(text, '');
-            var task = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("TASK").getValue();
-            if (!definedPositions[task])
-                definedPositions[task] = [];
-            switch (xPos) {
-                case 0:
-                  definedPositions[task][text] = '"left",' + yPos;
-                  break;
-                case 1:
-                  definedPositions[task][text] = '"center",' + yPos;
-                  break;
-                case 2:
-                  definedPositions[task][text] = '"right",' + yPos;
-                  break;
-            }
-            posOverlayElem.remove();
-            posStationElem.remove();
-            posOverlayElem = null;
-            posStationElem = null;
+  var workspace = currentRightWorkspace || leftWorkspace;
+  var promptAndCheckWithAlert = function(defaultName) {
+  Blockly.Variables.promptName("Please enter a name for the new location:", defaultName,
+    function(text) {
+      if (text) {
+        var existing = nameUsedWithAnyType(text, workspace);
+        if (existing) {
+          var msg = "A location with name '%1' already exists!".replace(
+            '%1', existing.name);              
+          Blockly.alert(msg,
+              function() {
+                promptAndCheckWithAlert(text);  // Recurse
+              });
+        } else {
+          // No conflict
+          workspace.createVariable(text, '');
+          var taskHeader = workspace.getAllBlocks().find(block => block.type == 'custom_taskheader');
+          var task = taskHeader ? taskHeader.getField("TASK").getValue() : 'DEFAULT';
+          if (!definedPositions[task])
+              definedPositions[task] = [];
+          switch (xPos) {
+              case 0:
+                definedPositions[task][text] = '"left",' + yPos;
+                break;
+              case 1:
+                definedPositions[task][text] = '"center",' + yPos;
+                break;
+              case 2:
+                definedPositions[task][text] = '"right",' + yPos;
+                break;
           }
+          posOverlayElem.remove();
+          posStationElem.remove();
+          posOverlayElem = null;
+          posStationElem = null;
         }
-      });
+      }
+    });
   };
   var posDefaultName;
   switch (yPos) {

@@ -506,7 +506,7 @@ var flyoutLocationCategory = function(workspace) {
   button.setAttribute('callbackKey', 'CREATE_LOCATION');
 
   workspace.registerButtonCallback('CREATE_LOCATION', function(button) {
-    defPositionDialog(currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getText());
+    defPositionDialog();
   });
 
   xmlList.push(button);
