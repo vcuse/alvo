@@ -5,7 +5,7 @@ goog.provide('Blockly.JavaScript.sim');
 goog.require('Blockly.JavaScript');
 
 var generated = [];
-var currentstation;
+var currentTask;
 
 Blockly.JavaScript['custom_triggerstart'] = function(block) {
   if (generated[block.id]) 
@@ -93,7 +93,7 @@ Blockly.JavaScript['custom_task'] = function(block) {
 Blockly.JavaScript['custom_taskheader'] = function(block) {
   if (generated[block.id]) 
     return '';
-  currentstation = block.getFieldValue('SITE');
+  currentTask = block.getFieldValue('TASK');
   generated[block.id] = true;
   var code = 'Simulator[' + Simulator.instance + '].task["' + block.getFieldValue('TASK') + '"] = function(station, callback) {\n';
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
@@ -163,5 +163,5 @@ Blockly.JavaScript['custom_dummylocation'] = function(block) {
 Blockly.JavaScript['custom_location'] = function(block) {
   if (generated[block.id]) 
     return '';
-  return [definedPositions[currentstation][block.getFieldValue('LOCATION')], 0];
+  return [definedPositions[currentTask][block.getFieldValue('LOCATION')], 0];
 };
