@@ -38,6 +38,10 @@ body {
     width: 100%;
 }
 
+#animatediv {
+    position: relative;
+}
+
 #output {
     grid-row-start: 2;
     grid-column: 1 / span 2;
@@ -121,6 +125,31 @@ body {
     height: 70px;
     opacity: 75%;
     border: 4px #000000 dashed;
+}
+
+.stackedTop {
+    margin-right: 15px;
+}
+
+#stackedRest {
+    position: absolute;
+    border: 1px #999 solid;
+    background-color: #FFFFFF;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    top:15px;
+    left:15px;
+    width: calc(100% - 15px);
+    height:480px;
+    display: none;
+    opacity: 75%;
+}
+
+#stackedDummyDrawer {
+    width: 107px;
+    background-color: #DDDDDD;
+    height: 100%;
+    margin:0px;
 }
 
 .exitButton {

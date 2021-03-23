@@ -2,6 +2,19 @@ function onTaskSelected(event) {
   if (event.type == Blockly.Events.CHANGE && event.blockId == currentSelectedBlock.id) {
     currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
   }
+  if (event.type == Blockly.Events.BLOCK_DELETE) {
+    var copyCount = 0;
+    var taskName = currentSelectedBlock.getFieldValue("TASK");
+    leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == taskName) copyCount++; });  
+    if (copyCount > 1) {
+      document.getElementById("stackedRest").style.display = 'block';
+      currentRightDiv.classList.add("stackedTop");
+    }
+    else {
+      document.getElementById("stackedRest").style.display = 'none';
+      currentRightDiv.classList.remove("stackedTop");
+    }
+  }
   if (event.type == 'selected') {
     var selectedBlock = leftWorkspace.getBlockById(event.newElementId);
     if (selectedBlock && selectedBlock.type == 'custom_task' && selectedBlock != currentSelectedBlock) {
@@ -168,10 +181,21 @@ function doTaskSelected() {
     currentRightDiv.style.display = 'none';
   }
   var taskName = currentSelectedBlock.getFieldValue("TASK");
+  var copyCount = 0;
+  leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == taskName) copyCount++; });  
+
   if (document.getElementById("__" + taskName + "div")) {
     currentRightDiv = document.getElementById("__" + taskName + "div");
     currentRightDiv.style.display = 'block';
     currentRightWorkspace = rightWorkspaces[taskName]; 
+    if (copyCount > 1) {
+      document.getElementById("stackedRest").style.display = 'block';
+      currentRightDiv.classList.add("stackedTop");
+    }
+    else {
+      document.getElementById("stackedRest").style.display = 'none';
+      currentRightDiv.classList.remove("stackedTop");
+    }
     Blockly.svgResize(currentRightWorkspace);
   }
   else {
@@ -179,6 +203,14 @@ function doTaskSelected() {
     currentRightDiv.id = "__" + taskName + "div";
     currentRightDiv.classList.add('workspace');
     currentRightDiv.style.position = 'relative';
+    if (copyCount > 1) {
+      document.getElementById("stackedRest").style.display = 'block';
+      currentRightDiv.classList.add("stackedTop");
+    }
+    else {
+      document.getElementById("stackedRest").style.display = 'none';
+    }
+
     document.getElementById('animatediv').appendChild(currentRightDiv);
     currentRightWorkspace = Blockly.inject("__" + taskName + "div",
       { media: 'blockly/media/',
