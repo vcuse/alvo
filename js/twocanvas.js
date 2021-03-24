@@ -60,7 +60,7 @@ function onTaskHeaderChanged(event) {
 var confirmed = false;
 
 function onTaskChanged(event) {
-  if (!event.isUiEvent) {
+  if (!event.isUiEvent && event.type != Blockly.Events.BLOCK_CREATE && event.oldCoordinate) {
     var count = 0;
     var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
     leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == currentTask) count++; });
