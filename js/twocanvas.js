@@ -1,33 +1,42 @@
+function highlightTaskBlocks(taskName) {
+  leftWorkspace.getAllBlocks().forEach(block => leftWorkspace.highlightBlock(block.id, false));
+  leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => leftWorkspace.highlightBlock(block.id, true));
+}
+
+function redrawStack() {
+  var copyCount = 0;
+  var taskName = currentSelectedBlock.getFieldValue("TASK");
+  leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => copyCount++);  
+  if (copyCount > 1) {
+    document.getElementById("stackedRest").style.display = 'block';
+    currentRightDiv.classList.add("stackedTop");
+  }
+  else {
+    if (copyCount == 0) {
+      currentSelectedBlock = null;
+      if (currentRightDiv) {
+        $('#animatediv').animate({opacity: '0'}, "normal");
+      }
+    }
+    else {
+      document.getElementById("stackedRest").style.display = 'none';
+      currentRightDiv.classList.remove("stackedTop");
+    }
+  }
+}
+
 function onTaskSelected(event) {
   if (event.type == Blockly.Events.CHANGE && event.blockId == currentSelectedBlock.id) {
     currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
   }
   if (event.type == Blockly.Events.BLOCK_DELETE) {
-    var copyCount = 0;
-    var taskName = currentSelectedBlock.getFieldValue("TASK");
-    leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == taskName) copyCount++; });  
-    if (copyCount > 1) {
-      document.getElementById("stackedRest").style.display = 'block';
-      currentRightDiv.classList.add("stackedTop");
-    }
-    else {
-      if (copyCount == 0) {
-        currentSelectedBlock = null;
-        if (currentRightDiv) {
-          $('#animatediv').animate({opacity: '0'}, "normal");
-        }
-      }
-      else {
-        document.getElementById("stackedRest").style.display = 'none';
-        currentRightDiv.classList.remove("stackedTop");
-      }
-    }
+    redrawStack();
   }
   if (event.type == 'selected') {
     var selectedBlock = leftWorkspace.getBlockById(event.newElementId);
     if (selectedBlock && selectedBlock.type == 'custom_task' && selectedBlock != currentSelectedBlock) {
       currentSelectedBlock = selectedBlock;
-      leftWorkspace.highlightBlock(selectedBlock.id);
+      highlightTaskBlocks(currentSelectedBlock.getFieldValue("TASK"));
       if (currentRightDiv) {
         $('#animatediv').animate({opacity: '0'}, "normal", doTaskSelected);
       }
@@ -51,7 +60,7 @@ function onTaskHeaderChanged(event) {
 var confirmed = false;
 
 function onTaskChanged(event) {
-  if (event.type != 'ui') {
+  if (!event.isUiEvent) {
     var count = 0;
     var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
     leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == currentTask) count++; });
@@ -151,9 +160,9 @@ function copyTask() {
   };
   promptAndCheckWithAlert('Copy of ' + currentTask, function (newName) {
     currentSelectedBlock.getField('TASK').setValue(newName);
-    //currentRightWorkspace.undo(false);
+    currentRightWorkspace.undo(false);
     var savedDom = workspaceToDom(currentRightWorkspace, true);
-    //currentRightWorkspace.undo(true);
+    currentRightWorkspace.undo(true);
     var oldDivId = currentRightDiv.id;
     currentRightDiv.id = '__' + newName + "div";
 
@@ -179,6 +188,8 @@ function copyTask() {
     definedPositions[newName] = definedPositions[currentTask];
     savedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
     savedRightWorkspace.addChangeListener(onTaskHeaderChanged);
+    highlightTaskBlocks(newName);
+    redrawStack();
     clearOverlay();
   });
 }
@@ -189,21 +200,12 @@ function doTaskSelected() {
     currentRightDiv.style.display = 'none';
   }
   var taskName = currentSelectedBlock.getFieldValue("TASK");
-  var copyCount = 0;
-  leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == taskName) copyCount++; });  
 
   if (document.getElementById("__" + taskName + "div")) {
     currentRightDiv = document.getElementById("__" + taskName + "div");
     currentRightDiv.style.display = 'block';
     currentRightWorkspace = rightWorkspaces[taskName]; 
-    if (copyCount > 1) {
-      document.getElementById("stackedRest").style.display = 'block';
-      currentRightDiv.classList.add("stackedTop");
-    }
-    else {
-      document.getElementById("stackedRest").style.display = 'none';
-      currentRightDiv.classList.remove("stackedTop");
-    }
+    redrawStack();
     Blockly.svgResize(currentRightWorkspace);
   }
   else {
@@ -211,13 +213,7 @@ function doTaskSelected() {
     currentRightDiv.id = "__" + taskName + "div";
     currentRightDiv.classList.add('workspace');
     currentRightDiv.style.position = 'relative';
-    if (copyCount > 1) {
-      document.getElementById("stackedRest").style.display = 'block';
-      currentRightDiv.classList.add("stackedTop");
-    }
-    else {
-      document.getElementById("stackedRest").style.display = 'none';
-    }
+    redrawStack();
 
     document.getElementById('animatediv').appendChild(currentRightDiv);
     currentRightWorkspace = Blockly.inject("__" + taskName + "div",
