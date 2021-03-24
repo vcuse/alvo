@@ -11,8 +11,16 @@ function onTaskSelected(event) {
       currentRightDiv.classList.add("stackedTop");
     }
     else {
-      document.getElementById("stackedRest").style.display = 'none';
-      currentRightDiv.classList.remove("stackedTop");
+      if (copyCount == 0) {
+        currentSelectedBlock = null;
+        if (currentRightDiv) {
+          $('#animatediv').animate({opacity: '0'}, "normal");
+        }
+      }
+      else {
+        document.getElementById("stackedRest").style.display = 'none';
+        currentRightDiv.classList.remove("stackedTop");
+      }
     }
   }
   if (event.type == 'selected') {
