@@ -128,7 +128,7 @@ body {
 }
 
 .stackedTop {
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 #stackedRest {
@@ -137,9 +137,9 @@ body {
     background-color: #FFFFFF;
     margin-bottom: 5px;
     border-radius: 3px;
-    top:15px;
-    left:15px;
-    width: calc(100% - 15px);
+    top:10px;
+    left:10px;
+    width: calc(100% - 10px);
     height:480px;
     display: none;
     opacity: 75%;
