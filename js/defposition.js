@@ -15,7 +15,7 @@ function defPositionDialog() {
     posStationElem.style.position = 'absolute';
     posStationElem.style.left = '50%';
     var stationpic = document.createElement('img');
-    stationpic.src = "media/workstation.png";
+    stationpic.src = pathPrefix + "media/workstation.png";
     stationpic.style.position = 'relative';
     stationpic.style.left = '-50%';
     stationpic.style.width = '280px';

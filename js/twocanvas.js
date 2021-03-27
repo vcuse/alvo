@@ -172,7 +172,7 @@ function copyTask() {
     savedRightDiv.style.position = 'relative';
     document.getElementById('animatediv').appendChild(savedRightDiv);
     savedRightWorkspace = Blockly.inject(oldDivId,
-      { media: 'blockly/media/',
+      { media: pathPrefix + 'blockly/media/',
         toolbox: toolboxRight,
         trashcan: true,
         move:{
@@ -217,7 +217,7 @@ function doTaskSelected() {
 
     document.getElementById('animatediv').appendChild(currentRightDiv);
     currentRightWorkspace = Blockly.inject("__" + taskName + "div",
-      { media: 'blockly/media/',
+      { media: pathPrefix + 'blockly/media/',
         toolbox: toolboxRight,
         trashcan: true,
         move:{

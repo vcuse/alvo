@@ -1,8 +1,10 @@
 // Injects Blockly into the html page and adds event handlers.
 
+var pathPrefix = pathPrefix || "";
+
 var toolbox = document.getElementById("toolbox");
 var leftWorkspace = Blockly.inject('leftdiv',
-  { media: 'blockly/media/',
+  { media: pathPrefix + 'blockly/media/',
     toolbox: toolboxLeft,
     trashcan: true,
     toolboxPosition: "start",

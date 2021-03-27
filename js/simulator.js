@@ -30,7 +30,7 @@ class Robot extends SimElem {
   constructor(simDiv, posX, posY) {
     var domElem = document.createElement("img");
     domElem.classList.add("sim-robot");
-    domElem.src = "media/robot.png";
+    domElem.src = pathPrefix + "media/robot.png";
     simDiv.appendChild(domElem);
     super(50, 50, posX, posY, domElem, simDiv);
   }
@@ -90,7 +90,7 @@ class Robot extends SimElem {
     var robotX = this.posX;
     var robotY = this.posY;
     this.carry = item;
-    this.domElem.src = "media/robot-carry.png";
+    this.domElem.src = pathPrefix + "media/robot-carry.png";
     item.domElem.style.zIndex = "2";
     anime({
       targets: item,
@@ -197,7 +197,7 @@ class Robot extends SimElem {
         })
         break;
     }
-    this.domElem.src = "media/robot.png";
+    this.domElem.src = pathPrefix + "media/robot.png";
     this.carry = null;
   }
 
@@ -220,7 +220,7 @@ class Station extends SimElem {
     var domElem = document.createElement('span');
     var imgElem = document.createElement("img");
     domElem.classList.add("sim-station");
-    imgElem.src = "media/workstation.png";
+    imgElem.src = pathPrefix + "media/workstation.png";
     imgElem.classList.add("sim-station-img");
     domElem.appendChild(imgElem);
     domElem.innerHTML += "<br>" + (name ? name : '');
@@ -306,19 +306,19 @@ class Item extends SimElem {
     domElem.classList.add("sim-item");
     switch (color) {
       case "yellow":
-        domElem.src = "media/item-yellow.png";
+        domElem.src = pathPrefix + "media/item-yellow.png";
         break;
       case "orange":
-        domElem.src = "media/item-orange.png";
+        domElem.src = pathPrefix + "media/item-orange.png";
         break;
       case "green":
-        domElem.src = "media/item-green.png";
+        domElem.src = pathPrefix + "media/item-green.png";
         break;
       case "blue":
-        domElem.src = "media/item-blue.png";
+        domElem.src = pathPrefix + "media/item-blue.png";
         break;
       default:
-        domElem.src = "media/item.png";
+        domElem.src = pathPrefix + "media/item.png";
     }
     simDiv.appendChild(domElem);
     super(20, 20, posX, posY, domElem);
@@ -356,15 +356,20 @@ function initSimulator() {
     task:[]
   };
   Simulator[Simulator.instance].robot = new Robot(document.getElementById("simulatordiv"), 0, 0);
-  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -80, 'Station A');
-  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -80, 'Station B');
-  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 100, 'Station C');
-  Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
-  Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "left");
-  //Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
+  if (typeof initTask != "undefined") {
+    initTask();
+  }
+  else {
+    Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -80, 'Station A');
+    Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -80, 'Station B');
+    Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 0, 100, 'Station C');
+    Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
+    Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
+    Simulator[Simulator.instance].station['STATIONC'].addItem("orange", "left");
+    //Simulator[Simulator.instance].station['STATIONC'].addItem("blue", "right");
+    Simulator[Simulator.instance].station['STATIONC'].addItem("green", "left");
+    Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
+  }
 }
 
 initSimulator();
