@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Task 2: Moving Stacks</h4>
+    <div>
+      <p>Task:</p>
+      <ol>
+        <li>Move all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> from the left side of Station A to the right side.</li>
+        <li>Move all the blue boxes <img src="../media/item-blue.png" style="height:20px; width:20px"> from the right side of Station B to the left side.</li>
+        <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
+      </ol>
+    </div>
+    <p>Expected Result:</p>
+    <img src="expected.png" style="height:120px">
+  </div>
+  <div class="maincontainer twocanvas">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="red-button" value="red" type="button" class="btn btn-danger">Red Button</button>
+      <button id="blue-button" value="blue" type="button" class="btn btn-primary">Blue Button</button>
+      <button id="yellow-button" value="yellow" type="button" class="btn btn-warning">Yellow Button</button>
+      </div>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <block type="custom_start" id="START" x="38" y="38"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A66E5C" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+    <category name="Loops" colour="#5ba55b">
+      <block type="controls_repeat"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/defposition.js"></script>
+</body>
+</html>
