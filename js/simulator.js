@@ -331,7 +331,7 @@ var Simulator = {
 };
 
 var previousError;
-function reportError(error) {
+function reportError(error, noIdle) {
   var output = document.getElementById('output');
   output.style.display = 'block';
   if (previousError) {
@@ -343,7 +343,9 @@ function reportError(error) {
   errorMessage.innerHTML = error + '<br>';
   output.insertBefore(errorMessage, output.firstChild);
   previousError = errorMessage;
-  Simulator[Simulator.instance].idle = true;
+  if (!noIdle) {
+    Simulator[Simulator.instance].idle = true;
+  }
 }
 
 function initSimulator() {
@@ -374,6 +376,45 @@ function initSimulator() {
 
 initSimulator();
 
+if (document.getElementById('test-button')) {
+  document.getElementById('test-button').onclick = async function() {
+    if (Simulator[Simulator.instance].idle) {
+      console.log('called!');
+      document.getElementById('simulatordiv').innerHTML = '';
+      initSimulator();
+      document.getElementById('task-fail').style.display = 'none';
+      document.getElementById('task-success').style.display = 'none';
+      Simulator[Simulator.instance].idle = false;
+      generated = [];
+      var code = '';
+      if (rightWorkspaces) {
+        for (var v in rightWorkspaces) {
+          code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+        }
+      }
+      code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
+      if (!leftWorkspace.getAllBlocks().find(block => block.type == 'custom_start')) {
+        code += '\n\n' + 'Simulator[' + Simulator.instance + '].idle = true;';
+      }
+      console.log(code);
+      eval(code);
+      var instance = Simulator.instance;
+      while (!Simulator[instance].idle) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+
+      if (checkTask(instance)) {
+        document.getElementById('task-success').style.display = 'inline';
+      }
+      else {
+        document.getElementById('task-fail').style.display = 'inline';
+      }
+    }
+    else {
+      reportError("Please reset simulator or wait for previous simulation to finish!", true);
+    }
+  }
+}
 if (document.getElementById('execution-button')) {
   document.getElementById('execution-button').onclick = function() {
     if (Simulator[Simulator.instance].idle) {
@@ -393,7 +434,7 @@ if (document.getElementById('execution-button')) {
       eval(code);
     }
     else {
-      reportError("Please reset simulator or wait for previous simulation to finish!");
+      reportError("Please reset simulator or wait for previous simulation to finish!", true);
     }
   }
 

@@ -20,11 +20,14 @@
         <li>Move all the blue boxes <img src="../media/item-blue.png" style="height:20px; width:20px"> from the right side of Station B to the left side.</li>
         <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
       </ol>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
+      <span id="task-success">Task completed! The current program has produced the expected result.</span>
     </div>
     <p>Expected Result:</p>
     <img src="expected.png" style="height:120px">
   </div>
-  <div class="maincontainer twocanvas">
+  <div class="maincontainer">
     <div id="leftdiv" class="workspace"></div>
     <div id="middlediv" class="workspace">
       <div id="animatediv" style="margin-left: 0px">

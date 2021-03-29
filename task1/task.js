@@ -5,4 +5,11 @@ var initTask = function() {
   Simulator[Simulator.instance].station['STATIONB'].addItem("orange", "left");
 }
 
+var checkTask = function(instance) {
+  var expectGreen = Simulator[Simulator.instance].station['STATIONA'].rightItems[0];
+  var expectOrange = Simulator[Simulator.instance].station['STATIONA'].rightItems[1];
+  return expectGreen && expectOrange && expectGreen.color == 'green' && expectOrange.color == 'orange' 
+         && (expectGreen.turned % 360) == 0 && (expectOrange.turned % 360) == 0;
+}
+
 var pathPrefix = "../";

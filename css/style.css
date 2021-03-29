@@ -11,8 +11,20 @@ body {
     border-radius: 3px;
     background-color: #FFF;
     display: grid;
-    grid-template-columns: 650px 130px 300px;
+    grid-template-columns: auto 130px 300px 150px;
     grid-column-gap: 20px;
+}
+
+#task-fail {
+    padding-left: 10px;
+    color:#990000;
+    display: none;
+}
+
+#task-success {
+    padding-left: 10px;
+    color:#009900;
+    display: none;
 }
 
 p {
@@ -20,23 +32,19 @@ p {
 }
 
 h4 {
-   grid-column: 1 / span 3;
+   grid-column: 1 / span 4;
 }
 .maincontainer {
     background-color: #f8f8f8;
     padding: 10px;
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: auto 400px;
+    grid-template-columns: auto auto 400px;
     grid-column-gap: 20px;
 }
 
-.twocanvas {
-    grid-template-columns: auto auto 400px;
-}
-
 .onecanvas {
-    grid-template-columns: auto 400px;
+    grid-column: 1 / span 2;
 }
 
 .workspace {
