@@ -34,3 +34,6 @@ Blockly.ContextMenuRegistry.registry.unregister('blockCollapseExpand')
 Blockly.ContextMenuRegistry.registry.unregister('collapseWorkspace')
 Blockly.ContextMenuRegistry.registry.unregister('expandWorkspace')
 
+Blockly.ShortcutRegistry.registry.unregister(Blockly.ShortcutItems.names.COPY)
+Blockly.ShortcutRegistry.registry.unregister(Blockly.ShortcutItems.names.CUT)
+Blockly.ShortcutRegistry.registry.unregister(Blockly.ShortcutItems.names.PASTE)
