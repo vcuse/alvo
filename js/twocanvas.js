@@ -49,11 +49,13 @@ function onTaskSelected(event) {
 }
 
 function onTaskHeaderChanged(event) {
-  if (event.type == Blockly.Events.CHANGE && event.blockId == currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').id) {
-    currentSelectedBlock.getField("SITE").setValue(currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getValue());
-  }
-  else {
-    onTaskChanged(event);
+  if (currentRightWorkspace) {
+    if (event.type == Blockly.Events.CHANGE && event.blockId == currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').id) {
+      currentSelectedBlock.getField("SITE").setValue(currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getValue());
+    }
+    else {
+      onTaskChanged(event);
+    }
   }
 }
 

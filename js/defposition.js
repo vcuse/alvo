@@ -57,8 +57,6 @@ function defPositionDialog() {
   }
 }
 
-var definedPositions = [];
-
 function selectPosition(xPos, yPos) {
   var workspace = currentRightWorkspace || leftWorkspace;
   var promptAndCheckWithAlert = function(defaultName) {
