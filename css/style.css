@@ -34,6 +34,17 @@ p {
 h4 {
    grid-column: 1 / span 4;
 }
+
+h5 {
+   grid-column: 1 / span 2;
+   margin-top: 15px;
+}
+
+.taskselector {
+    display: grid;
+    grid-template-columns: 220px auto;
+}
+
 .maincontainer {
     background-color: #f8f8f8;
     padding: 10px;
