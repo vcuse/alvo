@@ -1,3 +1,5 @@
+var initialized = false;
+
 var initTask = function() {
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -100, -80, 'Station A');
   Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 100, -80, 'Station B');
@@ -11,6 +13,39 @@ var initTask = function() {
   Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
   Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
   Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
+  if (!initialized) {
+    initialized = true;
+    definedPositions["DEFAULT"] = [];
+    definedPositions["DEFAULT"]["top left"] = '"left",2';
+    definedPositions["DEFAULT"]["middle left"] = '"left",1';
+    definedPositions["DEFAULT"]["bottom left"] = '"left",0';
+    definedPositions["DEFAULT"]["top right"] = '"right",2';
+    definedPositions["DEFAULT"]["middle right"] = '"right",1';
+    definedPositions["DEFAULT"]["bottom right"] = '"right",0';
+    definedPositions["Move Stack"] = [];
+    definedPositions["Move Stack"]["top left"] = '"left",2';
+    definedPositions["Move Stack"]["middle left"] = '"left",1';
+    definedPositions["Move Stack"]["bottom left"] = '"left",0';
+    definedPositions["Move Stack"]["top right"] = '"right",2';
+    definedPositions["Move Stack"]["middle right"] = '"right",1';
+    definedPositions["Move Stack"]["bottom right"] = '"right",0';
+    var rightWorkspace = Blockly.inject('__Move Stackdiv',
+    { media: pathPrefix + 'blockly/media/',
+      toolbox: toolboxRight,
+      trashcan: true,
+      toolboxPosition: "start",
+      move:{
+        scrollbars: false,
+        drag: false,
+        wheel: false}
+    });
+    var workspaceBlocks = document.getElementById("rightWorkspaceBlocks");
+    rightWorkspaces['Move Stack'] = rightWorkspace;
+    rightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
+    Blockly.Xml.domToWorkspace(workspaceBlocks, rightWorkspace);
+    document.getElementById('__Move Stackdiv').style.display = 'none';
+    rightWorkspace.addChangeListener(onTaskHeaderChanged);
+  }
 }
 
 var checkTask = function() {
