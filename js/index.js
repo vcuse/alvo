@@ -1,6 +1,5 @@
 // Injects Blockly into the html page and adds event handlers.
 
-var pathPrefix = pathPrefix || "";
 var definedPositions = [];
 
 var toolbox = document.getElementById("toolbox");

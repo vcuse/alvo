@@ -1,3 +1,6 @@
+
+var pathPrefix = pathPrefix || "";
+
 class SimElem {
   width;
   height;
