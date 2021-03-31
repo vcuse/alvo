@@ -1,5 +1,20 @@
 // Defines the custom blocks used in our toolbox.
 
+if (typeof taskStations == "undefined") {
+  var taskStations = [[
+      "Station A",
+      "STATIONA"
+  ],
+  [
+      "Station B",
+      "STATIONB"
+  ],
+  [
+      "Station C",
+      "STATIONC"
+  ]];
+}
+
 Blockly.defineBlocksWithJsonArray([
     // Start
     {
@@ -49,20 +64,7 @@ Blockly.defineBlocksWithJsonArray([
                 [
                     "Station...",
                     "NONE"
-                ],
-                [
-                    "Station A",
-                    "STATIONA"
-                ],
-                [
-                    "Station B",
-                    "STATIONB"
-                ],
-                [
-                    "Station C",
-                    "STATIONC"
-                ]
-                ]                
+                ]].concat(taskStations)                
             },
             {
                 "type": "field_label_serializable",
@@ -88,20 +90,7 @@ Blockly.defineBlocksWithJsonArray([
                 [
                     "Station...",
                     "NONE"
-                ],
-                [
-                    "Station A",
-                    "STATIONA"
-                ],
-                [
-                    "Station B",
-                    "STATIONB"
-                ],
-                [
-                    "Station C",
-                    "STATIONC"
-                ]
-                ]
+                ]].concat(taskStations)
             },
             {
                 "type": "field_label_serializable",
@@ -127,20 +116,7 @@ Blockly.defineBlocksWithJsonArray([
                 [
                     "Station...",
                     "NONE"
-                ],
-                [
-                    "Station A",
-                    "STATIONA"
-                ],
-                [
-                    "Station B",
-                    "STATIONB"
-                ],
-                [
-                    "Station C",
-                    "STATIONC"
-                ]
-                ]
+                ]].concat(taskStations)
             }
         ],
         "inputsInline": false,
@@ -162,20 +138,7 @@ Blockly.defineBlocksWithJsonArray([
                 [
                     "Station...",
                     "NONE"
-                ],
-                [
-                    "Station A",
-                    "STATIONA"
-                ],
-                [
-                    "Station B",
-                    "STATIONB"
-                ],
-                [
-                    "Station C",
-                    "STATIONC"
-                ]
-                ]
+                ]].concat(taskStations)
             }
         ],
         "inputsInline": false,

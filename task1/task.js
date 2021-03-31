@@ -1,8 +1,9 @@
 var initTask = function() {
-  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -75, -80, 'Station A');
-  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 75, -80, 'Station B');
-  Simulator[Simulator.instance].station['STATIONA'].addItem("green", "left");
-  Simulator[Simulator.instance].station['STATIONB'].addItem("orange", "left");
+  Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -140, -80, 'Station A');
+  Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 0, -80, 'Station B');
+  Simulator[Simulator.instance].station['STATIONC'] = new Station(document.getElementById("simulatordiv"), 140, -80, 'Station C');
+  Simulator[Simulator.instance].station['STATIONA'].addItem("green", "right");
+  Simulator[Simulator.instance].station['STATIONA'].addItem("orange", "right");
 }
 
 var checkTask = function(instance) {
@@ -13,3 +14,16 @@ var checkTask = function(instance) {
 }
 
 var pathPrefix = "../";
+
+var taskStations = [[
+      "Station A",
+      "STATIONA"
+  ],
+  [
+      "Station B",
+      "STATIONB"
+  ],
+  [
+      "Station C",
+      "STATIONC"
+  ]];
