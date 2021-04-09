@@ -1,5 +1,23 @@
 // Defines the custom blocks used in our toolbox.
 
+Blockly.Blocks['procedures_defreturn'] = null;
+Blockly.Blocks['procedures_ifreturn'] = null;
+Blockly.Blocks['procedures_defnoreturn'].init = function() {
+    var initName = Blockly.Procedures.findLegalName('', this);
+    var nameField = new Blockly.FieldTextInput(initName,
+        Blockly.Procedures.rename);
+    nameField.setSpellcheck(false);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg['PROCEDURES_DEFNORETURN_TITLE'])
+        .appendField(nameField, 'NAME')
+        .appendField('', 'PARAMS');
+    this.setStyle('procedure_blocks');
+    this.arguments_ = [];
+    this.argumentVarModels_ = [];
+    this.setStatements_(true);
+    this.statementConnection_ = null;
+  };
+
 if (typeof taskStations == "undefined") {
   var taskStations = [[
       "Station A",
