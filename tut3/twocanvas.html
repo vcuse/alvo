@@ -13,7 +13,7 @@
   <!-- HTML Elements -->
   <div class="taskcontainer">
     <h4>Tutorial 3: Editing and Re-using Tasks</h4>
-      <div style="grid-column-end: span 4">
+      <div id="steps" style="grid-column-end: span 4">
         <p>Task:</p>
         <ol>
           <li>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side <strong>and turn it upside-down</strong>.</li>
@@ -22,9 +22,9 @@
         </ol>
         <p>As you have seen in the previous tutorial, robot programs are often very similar to each other. It can therefore be useful to use existing code rather than writing all programs from scratch.</p>
         <p>The goal of this tutorial is similar to the previous one, and you could solve it like you did before, but we will use a different method to program this time. You can click on each step to get more detailed instructions.</p>
-        <ol>
+        <ol class="accordion-group">
           <li><a href="#step1" data-toggle="collapse">Re-use the first task</a>
-            <ol id="step1" class="collapse" style="list-style-type: lower-alpha">
+            <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below.</li>
               <li>Instead of creating a new task, drag the existing task onto the canvas and attach it to the bottom of the program.</li>
               <li>You should now have two almost identical task blocks right underneath each other. As you can see, both are highlighted at once. Assign the new block to "Station B" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
@@ -32,7 +32,7 @@
             </ol>
           </li>
           <li><a href="#step2" data-toggle="collapse">Turn the box upside-down at both stations</a>
-            <ol id="step2" class="collapse" style="list-style-type: lower-alpha">
+            <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="turnblock.png" style="height:30px"> block onto the canvas. The robot can only turn blocks that it is currently holding, so the new block has to be placed right after the <img src="pickupblock.png" style="height:30px"> block.</li>
               <li>As soon as you place the new block, a warning should appear. It asks you whether you want to edit all places where the current task is used, or create a copy first. For now, click on the <img src="editbutton.png" style="height:30px; margin:1px"> button.</li>
               <li>Drag another <img src="turnblock.png" style="height:30px"> block from the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu onto the canvas and place it right after the one you just added.</li>
@@ -40,13 +40,13 @@
             </ol>
           </li>
           <li><a href="#step3" data-toggle="collapse">Re-use the first task again</a>
-            <ol id="step3" class="collapse" style="list-style-type: lower-alpha">
+            <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Since the third part of the task is also similar to the previous ones, you can use the existing code as a starting point instead of creating a new task. Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below, drag the existing task onto the canvas and attach it to the bottom of the program as you did before.</li>
               <li>You should now have three almost identical task blocks right underneath each other, all of which are highlighted. Assign the new block to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
             </ol>
           </li>
           <li><a href="#step4" data-toggle="collapse">Change the locations for station C</a>
-            <ol id="step4" class="collapse" style="list-style-type: lower-alpha">
+            <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Make sure you have selected the program for station C in the left canvas.</li>
               <li>Open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px">. Select the <strong>middle left</strong> location and drag it onto the canvas.</li>
               <li>As soon as you place the new block, the same warning as before should appear. This time, click on the <img src="copybutton.png" style="height:30px; margin:1px"> button since you only want to change the program for station C.</li>
