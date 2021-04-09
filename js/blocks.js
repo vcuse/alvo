@@ -17,6 +17,35 @@ Blockly.Blocks['procedures_defnoreturn'].init = function() {
     this.setStatements_(true);
     this.statementConnection_ = null;
   };
+Blockly.Blocks['procedures_defnoreturn'].customContextMenu = function(options) {
+    if (this.isInFlyout) {
+      return;
+    }
+    // Add option to create caller.
+    var option = {enabled: true};
+    var name = this.getFieldValue('NAME');
+    option.text = "Create block for using '%1'".replace('%1', name);
+    var xmlMutation = Blockly.utils.xml.createElement('mutation');
+    xmlMutation.setAttribute('name', name);
+    for (var i = 0; i < this.arguments_.length; i++) {
+      var xmlArg = Blockly.utils.xml.createElement('arg');
+      xmlArg.setAttribute('name', this.arguments_[i]);
+      xmlMutation.appendChild(xmlArg);
+    }
+    var xmlBlock = Blockly.utils.xml.createElement('block');
+    xmlBlock.setAttribute('type', this.callType_);
+    xmlBlock.appendChild(xmlMutation);
+    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
+    options.push(option);
+
+    var copyOption = {enabled: true};
+    var name = this.getFieldValue('NAME');
+    copyOption.text = "Copy definition of '%1'".replace('%1', name);
+    var xmlCopy = Blockly.Xml.blockToDom(this, true);
+    copyOption.callback = Blockly.ContextMenu.callbackFactory(this, xmlCopy);
+    options.push(copyOption);
+
+  }
 
 if (typeof taskStations == "undefined") {
   var taskStations = [[
