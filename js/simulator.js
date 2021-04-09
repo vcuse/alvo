@@ -138,7 +138,7 @@ class Robot extends SimElem {
       reportError("Robot is not correctly positioned to place item at this station!");
       return;
     }
-    if (!station.isSidePlaceable(side)) {  
+    if (!station.isSidePlaceable(side, index)) {  
       reportError("Robot cannot place an item at the given position!");
       return;
     }
@@ -265,7 +265,7 @@ class Station extends SimElem {
   }
 
   isSidePlaceable(side, opt_index) {
-    return !opt_index || computeNextIndex(side) == opt_index;
+    return typeof(opt_index) == "undefined" || this.computeNextIndex(side) == opt_index;
   }
 
   computeNextIndex(side) {
