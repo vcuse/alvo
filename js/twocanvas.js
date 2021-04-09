@@ -91,20 +91,22 @@ function copyEditDialogue() {
     prompt2.style.left = '-50%';
     prompt2.style.backgroundColor = '#FFFFFF';
     prompt2.style.opacity = '100%';
-    prompt2.style.width = '250px';
-    prompt2.style.height = '130px';
+    prompt2.style.width = '400px';
+    prompt2.style.height = '150px';
     prompt2.style.marginTop = '50px';
     prompt2.style.fontSize = '.875rem';
     prompt2.style.border = '1px black solid';
-    prompt2.style.padding = '3px';
+    prompt2.style.padding = '6px';
+    prompt2.style.paddingTop = '15px';
+
     promptElem.appendChild(prompt2);
-    prompt2.innerHTML = 'You are about to edit all places where this task is used. Do you want to create a copy of the task first?<br><br>';
+    prompt2.innerHTML = 'You are currently editing this task in all places where it is used at once. Do you want to continue, or create a copy of the task that you can edit separately?<br><br>';
     var copyButton = document.createElement('button');
     copyButton.id = 'copyButton';
     copyButton.classList.add('btn');
     copyButton.classList.add('btn-primary');
     copyButton.classList.add('btn-sm');
-    copyButton.innerHTML = 'Create Copy';
+    copyButton.innerHTML = 'Create copy before editing';
     prompt2.appendChild(copyButton);
     prompt2.innerHTML += ' '; 
     var editButton = document.createElement('button');
@@ -112,7 +114,7 @@ function copyEditDialogue() {
     editButton.classList.add('btn');
     editButton.classList.add('btn-secondary');
     editButton.classList.add('btn-sm');
-    editButton.innerHTML = 'Edit Existing Task';
+    editButton.innerHTML = 'Edit task everywhere at once';
     prompt2.appendChild(editButton);
     currentRightDiv.insertBefore(overlayElem, currentRightDiv.firstChild);
     currentRightDiv.insertBefore(promptElem, currentRightDiv.firstChild);
