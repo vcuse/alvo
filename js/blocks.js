@@ -44,7 +44,6 @@ Blockly.Blocks['procedures_defnoreturn'].customContextMenu = function(options) {
     var xmlCopy = Blockly.Xml.blockToDom(this, true);
     copyOption.callback = Blockly.ContextMenu.callbackFactory(this, xmlCopy);
     options.push(copyOption);
-
   }
 
 if (typeof taskStations == "undefined") {

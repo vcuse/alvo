@@ -6,17 +6,21 @@ goog.require('Blockly.JavaScript');
 
 var generated = [];
 var currentTask = 'DEFAULT';
+var currentHead = null;
 
 Blockly.JavaScript['custom_triggerstart'] = function(block) {
   if (generated[block.id]) 
     return '';
   generated[block.id] = true;
+  currentHead = block;
   var code = 'Simulator[' + Simulator.instance + '].trigger["' + block.getFieldValue('TRIGGER') + '"] = function() {\n';
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (nextBlock) {
     code += Blockly.JavaScript.blockToCode(nextBlock);
+    currentHead = null;
     return code + "\n}";
   }
+  currentHead = null;
   return '';
 };
 
@@ -25,15 +29,19 @@ Blockly.JavaScript['custom_start'] = function(block) {
   if (generated[block.id]) 
     return '';
   generated[block.id] = true;
+  currentHead = block;
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   if (nextBlock) {
-    return 'var callback = function() { Simulator[' + Simulator.instance + '].idle = true; }; ' + Blockly.JavaScript.blockToCode(nextBlock);
+    var code = 'var station = null;\nvar callback = function() { Simulator[' + Simulator.instance + '].idle = true; };\n\n ' + Blockly.JavaScript.blockToCode(nextBlock);
+    currentHead = null;
+    return code;
   }
+  currentHead = null;
   return 'Simulator[' + Simulator.instance + '].idle = true';
 };
 
 Blockly.JavaScript['custom_robotmove'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
   var site = block.getFieldValue('SITE');
@@ -42,14 +50,14 @@ Blockly.JavaScript['custom_robotmove'] = function(block) {
   if (site != "NONE") {
     var moveCode = 'Simulator[' + Simulator.instance + '].robot.moveToStation(Simulator[' + Simulator.instance + '].station["' + site + '"]';
     if (nextBlock) {
-      moveCode += ', function() { var station = "' + site + '"; ' + Blockly.JavaScript.blockToCode(nextBlock) + '})';
+      moveCode += ', function() { station = "' + site + '"; ' + Blockly.JavaScript.blockToCode(nextBlock) + '})';
     }
     else {
-      moveCode += ', function() { Simulator[' + Simulator.instance + '].idle = true; })';
+      moveCode += ', function() { callback(); })';
     }
   }
   else {
-    var moveCode = 'var station = null;';
+    var moveCode = 'station = null;';
     if (nextBlock) {
       moveCode += Blockly.JavaScript.blockToCode(nextBlock);
     }
@@ -61,7 +69,7 @@ Blockly.JavaScript['custom_robotmove'] = function(block) {
 };
 
 Blockly.JavaScript['custom_task'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
   var site = block.getFieldValue('SITE');
@@ -74,7 +82,7 @@ Blockly.JavaScript['custom_task'] = function(block) {
       taskCode += "function() { " + Blockly.JavaScript.blockToCode(nextBlock) + '})})';
     }
     else {
-      taskCode += 'function() { Simulator[' + Simulator.instance + '].idle = true; })})';
+      taskCode += 'function() { callback(); })})';
     }
   }
   else {
@@ -93,6 +101,7 @@ Blockly.JavaScript['custom_task'] = function(block) {
 Blockly.JavaScript['custom_taskheader'] = function(block) {
   if (generated[block.id]) 
     return '';
+  currentHead = block;
   currentTask = block.getFieldValue('TASK');
   generated[block.id] = true;
   var code = 'Simulator[' + Simulator.instance + '].task["' + block.getFieldValue('TASK') + '"] = function(station, callback) {\n';
@@ -100,11 +109,12 @@ Blockly.JavaScript['custom_taskheader'] = function(block) {
   if (nextBlock) {
     code += Blockly.JavaScript.blockToCode(nextBlock);
   }
+  currentHead = null;
   return code + "\n}";
 };
 
 Blockly.JavaScript['custom_pickup'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
   var location = Blockly.JavaScript.valueToCode(block, 'LOCATION', 0)
@@ -121,7 +131,7 @@ Blockly.JavaScript['custom_pickup'] = function(block) {
 };
 
 Blockly.JavaScript['custom_place'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
   var location = Blockly.JavaScript.valueToCode(block, 'LOCATION', 0)
@@ -138,7 +148,7 @@ Blockly.JavaScript['custom_place'] = function(block) {
 };
 
 Blockly.JavaScript['custom_turn'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
   var location = Blockly.JavaScript.valueToCode(block, 'LOCATION', 0)
@@ -155,13 +165,52 @@ Blockly.JavaScript['custom_turn'] = function(block) {
 };
 
 Blockly.JavaScript['custom_dummylocation'] = function(block) {
-  if (generated[block.id]) 
+  if (generated[block.id] || !currentHead) 
     return '';
+  generated[block.id] = true;
   return ['"center", 0', 0];
 };
 
 Blockly.JavaScript['custom_location'] = function(block) {
+  if (generated[block.id] || !currentHead) 
+    return '';
+  generated[block.id] = true;
+  return [definedPositions[currentTask][block.getFieldValue('LOCATION')], 0];
+};
+
+Blockly.JavaScript['procedures_callnoreturn'] = function(block) {
+  if (generated[block.id] || !currentHead) 
+    return '';
+  generated[block.id] = true;
+  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+  // Call a procedure with a return value.
+  var funcName = Blockly.JavaScript.variableDB_.getName(
+      block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
+  var code = funcName + "(";
+  if (nextBlock) {
+    code += "function() {" + Blockly.JavaScript.blockToCode(nextBlock) + '})';
+  }
+  else {
+    code += 'function() { callback(); })';
+  }
+  return code;
+};
+
+Blockly.JavaScript['procedures_defnoreturn'] = function(block) {
   if (generated[block.id]) 
     return '';
-  return [definedPositions[currentTask][block.getFieldValue('LOCATION')], 0];
+  generated[block.id] = true;
+  currentHead = block;
+  // Define a procedure with a return value.
+  var funcName = Blockly.JavaScript.variableDB_.getName(
+      block.getFieldValue('NAME'), Blockly.PROCEDURE_CATEGORY_NAME);
+  var branch = Blockly.JavaScript.statementToCode(block, 'STACK');
+  var code = 'function ' + funcName + '(callback) {\n' +
+      branch + '\n}';
+  return code;
+};
+
+Blockly.JavaScript.scrub_ = function(_block, code, _opt_thisOnly) {
+  // Optionally override
+  return code;
 };
