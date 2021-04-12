@@ -11,21 +11,47 @@
 </head>
 <body>
   <!-- HTML Elements -->
-  <div class="taskcontainer">
-    <h4>Task 1: Pick and Place Warm-up</h4>
-    <div>
-      <p>Task:</p>
-      <ol>
-        <li>Move the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station B to the right side of Station A.</li>
-        <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from Station C to the right side of Station A and stack it on top of the green box.</li>
-      </ol>
+<div class="taskcontainer">
+    <h4>Tutorial 1: Basic Programming</h4>
+      <div id="steps" style="grid-column-end: span 4">
+        <p>Task:</p>
+        <p>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side.<br><br>
+        You can program this task in four steps. You can click on each step to get more detailed instructions.</p>
+        <ol class="accordion-group">
+          <li><a href="#step1" data-toggle="collapse">Program the robot to move to a workstation</a>
+            <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Open the <img src="movemenu.png" style="height:22px; border: solid 1px #333"> menu below and drag the <img src="moveblock.png" style="height:30px"> block onto the canvas.</li>
+              <li>Attach the new block to the bottom of <img src="startblock.png" style="height:30px">.</li>
+              <li>Set the correct station as target for the block by clicking on <img src="stationmenu.png" style="height:22px"> and selecting "Station A".</li>
+            </ol>
+          </li>
+          <li><a href="#step2" data-toggle="collapse">Program the robot to pick up the block</a>
+            <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="pickupblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the entire program, just like you did with the other block before.</li>
+              <li>Some robot commands, like the one you just added to the program, require a target location. To define a new location, open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu below and select <img src="definelocation.png" style="height:22px">.</li>
+              <li>Select the location where the robot should pick up the box. In this case, it is the <strong>bottom left</strong> of the station. You can give this location a different name or just use the suggested default name.</li>
+              <li>A new block is added to the menu for the location you just created. Drag this block onto the canvas and attach it to the right side of <img src="pickupblock.png" style="height:30px">, replacing the "&lt;location&gt;" placeholder.</li>
+            </ol>
+          </li>
+          <li><a href="#step3" data-toggle="collapse">Program the robot to place the block</a>
+            <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu again and drag the <img src="placeblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the existing blocks.</li>
+              <li>Define a new target location for this command, just as you did before. This time, the location should be the <strong>bottom right</strong> of the station.</li>
+              <li>Attach this newly defined location to the <img src="placeblock.png" style="height:30px"> block.</li>
+            </ol>
+          </li>
+          <li><a href="#step4" data-parent="#steps" data-toggle="collapse">Finish and test the program</a>
+            <ol id="step4" class="collapse" style="list-style-type: lower-alpha">
+              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
+            </ol>
+          </li>
+        </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
-      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
-      <span id="task-success">Task completed! The current program has produced the expected result.</span>
+      <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first pick-and-place task!</span>
     </div>
-    <p>Expected Result:</p>
-    <img src="expected.png" style="height:95px">
   </div>
+
   <div class="maincontainer">
     <div id="leftdiv" class="workspace onecanvas"></div>
     <div id="rightdiv">
@@ -77,6 +103,7 @@
     <category name="Loops" colour="#5ba55b">
       <block type="controls_repeat"></block>
     </category>
+    <category name="Recipes" colour="290" custom="PROCEDURE"></category>
   </xml>
 
   <!-- Javascript Code -->

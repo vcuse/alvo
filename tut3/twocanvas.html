@@ -12,7 +12,7 @@
 <body>
   <!-- HTML Elements -->
   <div class="taskcontainer">
-    <h4>Tutorial 3: Editing and Re-using Tasks</h4>
+    <h4>Tutorial 3: Editing and Re-using Blocks</h4>
       <div id="steps" style="grid-column-end: span 4">
         <p>Task:</p>
         <ol>
@@ -36,10 +36,10 @@
               <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="turnblock.png" style="height:30px"> block onto the canvas. The robot can only turn blocks that it is currently holding, so the new block has to be placed right after the <img src="pickupblock.png" style="height:30px"> block.</li>
               <li>As soon as you place the new block, a warning should appear. It asks you whether you want to edit all places where the current task is used, or create a copy first. For now, click on the <img src="editbutton.png" style="height:30px; margin:1px"> button.</li>
               <li>Drag another <img src="turnblock.png" style="height:30px"> block from the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu onto the canvas and place it right after the one you just added.</li>
-              <li>Before you continue, take another moment to understand what the current program does and try it out by clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator. As you can see, the program still executes the exact same commands first at station A and then at station B. This is because you selected the <img src="editbutton.png" style="height:30px; margin:1px"> button and your edits have been applied to the programs at station A and B at once.</li>
+              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, the program still executes the exact same commands first at station A and then at station B. This is because you selected the <img src="editbutton.png" style="height:30px; margin:1px"> button and your edits have been applied to the programs for both stations at once.</li>
             </ol>
           </li>
-          <li><a href="#step3" data-toggle="collapse">Re-use the first task again</a>
+          <li><a href="#step3" data-toggle="collapse">Save time by re-using the first task again</a>
             <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Since the third part of the task is also similar to the previous ones, you can use the existing code as a starting point instead of creating a new task. Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below, drag the existing task onto the canvas and attach it to the bottom of the program as you did before.</li>
               <li>You should now have three almost identical task blocks right underneath each other, all of which are highlighted. Assign the new block to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
@@ -59,7 +59,7 @@
         </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
       <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
-      <span id="task-success">Task completed! Congratulations, you've successfully re-used tasks at multiple stations!</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully re-used programs for multiple stations!</span>
     </div>
   </div>
   <div class="maincontainer twocanvas">

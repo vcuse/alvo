@@ -12,19 +12,47 @@
 <body>
   <!-- HTML Elements -->
   <div class="taskcontainer">
-    <h4>Task 1: Pick and Place Warm-up</h4>
-    <div>
-      <p>Task:</p>
-      <ol>
-        <li>Move the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station B to the right side of Station A.</li>
-        <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from Station C to the right side of Station A and stack it on top of the green box.</li>
-      </ol>
+    <h4>Tutorial 2: Multiple Tasks and Stacking Blocks</h4>
+      <div id="steps" style="grid-column-end: span 4">
+        <p>Task:</p>
+        <ol>
+          <li>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side.</li>
+          <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station B to the right side, on top of the green box.</li>
+        </ol>
+        <p>You have already solved the first part of this task is the previous tutorial, so we will give you the sample solution for that tutorial as a starting point.</p>
+        <p>Using what you have learned before, you can program the second part of this task in four steps. You can click on each step to get more detailed instructions.</p>
+        <ol class="accordion-group">
+          <li><a href="#step1" data-toggle="collapse">Program the robot to move to the second workstation</a>
+            <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Open the <img src="movemenu.png" style="height:22px; border: solid 1px #333"> menu and drag a new <img src="moveblock.png" style="height:30px"> block onto the canvas.</li>
+              <li>Attach the new block to the bottom of the existing program. The robot will always execute commands in order from top to bottom.</li>
+              <li>Set the correct station as target for the new block by clicking on <img src="stationmenu.png" style="height:22px"> and selecting "Station B".</li>
+            </ol>
+          </li>
+          <li><a href="#step2" data-toggle="collapse">Program the robot to pick up the block</a>
+            <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>You can program the rest of this task very similarly to the previous tutorial. Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="pickupblock.png" style="height:30px"> block onto the canvas. Attach it to the other block.</li>
+              <li>Add the target location for the pick-up command. This time, after you open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px">, you have to select the <strong>middle left</strong> location since you have to pick up the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from the top of the stack.</li>
+              <li>Note how all commands of the program use the same list of locations, no matter at which station the robot is doing work. As before, drag the newly created block onto the canvas and attach it to the right side of <img src="pickupblock.png" style="height:30px">, replacing the "&lt;location&gt;" placeholder.</li>
+            </ol>
+          </li>
+          <li><a href="#step3" data-toggle="collapse">Program the robot to place the block</a>
+            <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> again and drag the <img src="placeblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the existing blocks.</li>
+              <li>Define a new target location for this command. This time, the location should be the <strong>middle right</strong> of the station, since you have to place the orange block at the top of the green block on the right.</li>
+              <li>Attach this newly defined location to the <img src="placeblock.png" style="height:30px"> block.</li>
+            </ol>
+          </li>
+          <li><a href="#step4" data-toggle="collapse">Finish and test the program</a>
+            <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
+            </ol>
+          </li>
+        </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
-      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
-      <span id="task-success">Task completed! The current program has produced the expected result.</span>
+      <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!</span>
     </div>
-    <p>Expected Result:</p>
-    <img src="expected.png" style="height:95px">
   </div>
   <div class="maincontainer">
     <div id="leftdiv" class="workspace onecanvas"></div>
@@ -46,7 +74,7 @@
 
   <!-- Starting configuration -->
   <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
-    <block type="custom_start" id="START" x="38" y="38"></block>
+    <block type="custom_start" id="START" x="38" y="38"><next><block type="custom_robotmove" x="38" y="38"><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value></next></block></next></block></next></block></next></block>
   </xml>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
@@ -77,6 +105,7 @@
     <category name="Loops" colour="#5ba55b">
       <block type="controls_repeat"></block>
     </category>
+    <category name="Recipes" colour="290" custom="PROCEDURE"></category>
   </xml>
 
   <!-- Javascript Code -->
