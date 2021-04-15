@@ -26,34 +26,42 @@
           <li><a href="#step1" data-toggle="collapse">Re-use the first task</a>
             <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below.</li>
-              <li>Instead of creating a new task, drag the existing task onto the canvas and attach it to the bottom of the program.</li>
-              <li>You should now have two almost identical task blocks right underneath each other. As you can see, both are highlighted at once. Assign the new block to "Station B" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
-              <li>Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out. As you can see, the program executes the exact same commands first at station A and then at station B.</li>
+              <li>Instead of creating a new task, drag the existing task onto the canvas and attach it to the very bottom of the program.</li>
+              <li>Assign the new block to "Station B" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
+              <li>Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out. As you can see, both tasks execute the same commands at different station.</li>
             </ol>
           </li>
           <li><a href="#step2" data-toggle="collapse">Turn the box upside-down at both stations</a>
             <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="turnblock.png" style="height:30px"> block onto the canvas. The robot can only turn blocks that it is currently holding, so the new block has to be placed right after the <img src="pickupblock.png" style="height:30px"> block.</li>
-              <li>As soon as you place the new block, a warning should appear. It asks you whether you want to edit all places where the current task is used, or create a copy first. For now, click on the <img src="editbutton.png" style="height:30px; margin:1px"> button.</li>
+              <li>As soon as you place the new block, a warning will appear. It asks you whether you want to edit the currently selected task everywhere or only for the current station. The task says that the robot should turn the boxes upside-down everywhere, so you should click on the <img src="editbutton.png" style="height:30px; margin:1px"> button.</li>
               <li>Drag another <img src="turnblock.png" style="height:30px"> block from the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu onto the canvas and place it right after the one you just added.</li>
-              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, the program still executes the exact same commands first at station A and then at station B. This is because you selected the <img src="editbutton.png" style="height:30px; margin:1px"> button and your edits have been applied to the programs for both stations at once.</li>
+              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, the program still executes the exact same commands first at station A and then at station B. All your changes to the task have been applied everywhere at once.</li>
             </ol>
           </li>
           <li><a href="#step3" data-toggle="collapse">Save time by re-using the first task again</a>
             <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Since the third part of the task is also similar to the previous ones, you can use the existing code as a starting point instead of creating a new task. Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below, drag the existing task onto the canvas and attach it to the bottom of the program as you did before.</li>
-              <li>You should now have three almost identical task blocks right underneath each other, all of which are highlighted. Assign the new block to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
+              <li>Since the third part of the task is also similar to the previous ones, you can use the existing code as a starting point instead of creating a new task. There are two ways to do this: 
+                <ul>
+                  <li>You can repeat the previous steps and add a third copy of the task, but this time select <img src="copybutton.png" style="height:30px; margin:1px"> to only change the program for station C.</li>
+                  <li>You can create a duplicate of a task by right-clicking on it in the editor on the left and selecting <img src="duplicate.png" style="height:28px; border: solid 1px #333">. This duplicate has a different name and is independent of the other usages of the task.</li>
+                </ul>
+              </li>
+              <li>For now, we suggest that you try copying the task using the right-click menu. Select <img src="duplicate.png" style="height:28px; border: solid 1px #333"> and a new task block should appear next to the existing one.</li>
+              <li>Attach the new task block to the very bottom of the program. Give the new block a descriptive name, such as "Move stacked box to the right", and assign it to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
             </ol>
           </li>
           <li><a href="#step4" data-toggle="collapse">Change the locations for station C</a>
             <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Make sure you have selected the program for station C in the left canvas.</li>
-              <li>Open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px">. Select the <strong>middle left</strong> location and drag it onto the canvas.</li>
-              <li>As soon as you place the new block, the same warning as before should appear. This time, click on the <img src="copybutton.png" style="height:30px; margin:1px"> button since you only want to change the program for station C.</li>
-              <li>Enter a new name for the task for station C, for example "Move stacked box to the right". As you can see, the left canvas has changed now. The currently selected task has been renamed and is the only one highlighted. You are now only editing this task.</li>
-              <li>Continue editing the current task: attach the "middle left" location you just created to the <img src="pickupblock.png" style="height:30px"> block, replacing the "bottom left" block. You can delete the leftover "bottom left" block by dragging it onto the trash can symbol if you want.</li>
+              <li>Make sure you have selected the new task for station C in the left canvas. Notice how this task already contains the same commands as the original task and can be the starting point for programming station C. </li>
+              <li>Open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px; margin:1px;">. Select the <strong>middle left</strong> location and drag it onto the canvas.</li>
+              <li>Attach the "middle left" location you just created to the <img src="pickupblock.png" style="height:30px; margin:1px;"> block, replacing the "bottom left" block. You can delete the leftover "bottom left" block by dragging it onto the trash can symbol if you want.</li>
               <li>Repeat the previous steps and define another new location at the <strong>middle right</strong>. Attach it to the <img src="placeblock.png" style="height:30px"> block, replacing the "bottom right" block. Again, you can delete the leftover block if you want.</li>
-              <li>Test your solution by clicking the button below. Watch how the robot executes each step of the program. Notice how the programs for the stations A and B have not changed after you created a copy of the task.</li>
+            </ol>
+          </li>
+          <li><a href="#step5" data-toggle="collapse">Test the program</a>
+            <ol id="step5" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program. Notice how the programs for stations A and B were not affected by editing the duplicated task.</li>
             </ol>
           </li>
         </ol>
@@ -132,10 +140,10 @@
   </xml>
 
   <!-- Javascript Code -->
-  <script src="task.js"></script>
   <script src="../blockly/blockly_uncompressed.js"></script>
   <script src="../blockly/blocks_compressed.js"></script>
   <script src="../blockly/javascript_compressed.js"></script>
+  <script src="task.js"></script>
   <script src="../js/generator.js"></script>
   <script src="../blockly/msg/js/en.js"></script>
   <script src="../js/blocks.js"></script>
