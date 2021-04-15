@@ -28,57 +28,6 @@ var taskValidator = function (newName) {
   return newName;
 }
 
-Blockly.Blocks['custom_task'].customContextMenu = function(options) {
-    if (this.isInFlyout) {
-      return;
-    }
-    var copyOption = {enabled: true};
-    var name = this.getFieldValue('TASK');
-    copyOption.text = "Duplicate task '%1'".replace('%1', name);
-    var xmlCopy = Blockly.Xml.blockToDom(this, true);
-    var block = this;
-    var counter = 2;
-    var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == name + counter);
-
-    while (collisions.length > 0) {
-      counter += 1;
-      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == (name + counter));
-    }
-    var newName = name + counter;
-    for (i = 0; i < xmlCopy.childNodes.length; i++) {
-      if (xmlCopy.childNodes[i].getAttribute('name') == "TASK") {
-        xmlCopy.childNodes[i].innerHTML = newName;
-      }
-    }
-    copyOption.callback = function () {
-      var savedDom = workspaceToDom(currentRightWorkspace, true);
-      var newRightDiv = document.createElement('div');
-      newRightDiv.id = '__' + newName + 'div';
-      newRightDiv.classList.add('workspace');
-      newRightDiv.style.position = 'relative';
-      document.getElementById('animatediv').appendChild(newRightDiv);
-      var copiedRightWorkspace = Blockly.inject(newRightDiv.id,
-        { media: pathPrefix + 'blockly/media/',
-          toolbox: toolboxRight,
-          trashcan: true,
-          move:{
-            scrollbars: false,
-            drag: false,
-            wheel: false}
-      });
-      Blockly.Xml.domToWorkspace(savedDom, copiedRightWorkspace);
-      newRightDiv.style.display = 'none';
-      copiedRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField('TASK').setValue(newName);
-      rightWorkspaces[newName] = copiedRightWorkspace;
-      definedPositions[newName] = definedPositions[name];
-      copiedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
-      copiedRightWorkspace.addChangeListener(onTaskHeaderChanged);
-      redrawStack();
-      Blockly.ContextMenu.callbackFactory(block, xmlCopy)();
-    }
-    options.push(copyOption);
-  }
-
 function highlightTaskBlocks(taskName) {
   leftWorkspace.getAllBlocks().forEach(block => leftWorkspace.highlightBlock(block.id, false));
   leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => leftWorkspace.highlightBlock(block.id, true));
