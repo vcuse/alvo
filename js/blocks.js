@@ -113,9 +113,10 @@ Blockly.defineBlocksWithJsonArray([
                 ]].concat(taskStations)                
             },
             {
-                "type": "field_label_serializable",
-                "name": "TASK",
-                
+              "type": "field_input",
+              "name": "TASK",
+              "text": "do a task",
+              "spellcheck": false
             }
         ],
         "inputsInline": false,
@@ -139,9 +140,10 @@ Blockly.defineBlocksWithJsonArray([
                 ]].concat(taskStations)
             },
             {
-                "type": "field_label_serializable",
-                "name": "TASK",
-
+              "type": "field_input",
+              "name": "TASK",
+              "text": "do a task",
+              "spellcheck": false
             }
         ],
         "inputsInline": false,
@@ -338,6 +340,8 @@ Blockly.defineBlocksWithJsonArray([
     },
 ]);
 
+
+
 var nameUsedWithAnyType = function(name, workspace) {
   var allTasks = workspace.getVariableMap().getAllVariables();
 
@@ -387,16 +391,24 @@ var createTaskButtonHandler = function(
 
 var flyoutTaskCategory = function(workspace) {
   var xmlList = [];
-  var button = document.createElement('button');
-  button.setAttribute('text', 'Create new task...');
-  button.setAttribute('web-class', 'taskButton');
-  button.setAttribute('callbackKey', 'CREATE_TASK');
-
-  workspace.registerButtonCallback('CREATE_TASK', function(button) {
-    createTaskButtonHandler(button.getTargetWorkspace());
-  });
-
-  xmlList.push(button);
+  var newBlock = Blockly.utils.xml.createElement('block');
+  newBlock.setAttribute('type', 'custom_task');
+  newBlock.setAttribute('gap', 30);
+  var nameField = Blockly.utils.xml.createElement('field');
+  nameField.setAttribute('name', 'TASK');
+  var name = "Do a new task";
+  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == name);
+  if (collisions.length > 0) {
+    var counter = 1;
+    while (collisions.length > 0) {
+      counter += 1;
+      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == (name + counter));
+    }
+    name = name + counter;
+  }
+  nameField.appendChild(Blockly.utils.xml.createTextNode(name));
+  newBlock.appendChild(nameField);
+  xmlList.push(newBlock);
 
   var blockList = flyoutTaskCategoryBlocks(workspace);
   xmlList = xmlList.concat(blockList);
@@ -410,10 +422,22 @@ var triggersFlyoutCategory = function(workspace) {
 };
 
 var flyoutTaskCategoryBlocks = function(workspace) {
-  var taskList = workspace.getVariablesOfType('');
+  var taskList = workspace.getBlocksByType('custom_task', false).map(function(block) {
+        return block.getFieldValue('TASK');
+      });
 
   var xmlList = [];
+  if (taskList.length > 0) {
+  var heading = Blockly.utils.xml.createElement('label');
+    heading.setAttribute('text', 'Existing tasks:');
+    heading.setAttribute('web-class','toolboxHeading')
+    xmlList.push(heading);
+  }
+  var done = [];
   for (var i = 0, task; (task = taskList[i]); i++) {
+    if (done.includes(task)) 
+      continue;
+    done.push(task);
     // New variables are added to the end of the variableModelList.
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'custom_task');
@@ -465,8 +489,7 @@ var triggersFlyoutCategoryBlocks = function(workspace) {
 var generateTaskFieldDom = function(task) {
   var field = Blockly.utils.xml.createElement('field');
   field.setAttribute('name', 'TASK');
-  field.setAttribute('id', task.getId());
-  var name = Blockly.utils.xml.createTextNode(task.name);
+  var name = Blockly.utils.xml.createTextNode(task);
   field.appendChild(name);
   return field;
 };

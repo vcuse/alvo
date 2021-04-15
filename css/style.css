@@ -155,6 +155,11 @@ h5 {
     color:#CC0000;
 }
 
+.toolboxHeading>.blocklyFlyoutLabelText {
+    font-weight: bold !important;
+    font-size: 14pt !important;
+}
+
 .positionGrid {
     position: relative;
     background-color: #FFFFFF;

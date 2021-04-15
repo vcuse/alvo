@@ -1,3 +1,84 @@
+var taskValidator = function (newName) {
+  var oldName = this.getValue('TASK');
+  var taskCalls = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == oldName);
+  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == newName);
+
+  if (collisions.length > 0) {
+    var counter = 1;
+    while (collisions.length > 0) {
+      counter += 1;
+      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == (newName + counter));
+    }
+    newName = newName + counter;
+  }
+  for (i = 0; i < taskCalls.length; i++) {
+    taskCalls[i].getField('TASK').setValidator(null);
+    taskCalls[i].getField('TASK').setValue(newName);
+    taskCalls[i].getField('TASK').setValidator(taskValidator);
+  }
+  rightWorkspaces[newName] = rightWorkspaces[oldName];
+  rightWorkspaces[oldName] = undefined;
+  definedPositions[newName] = definedPositions[oldName];
+  definedPositions[oldName] = undefined;
+  currentRightDiv.id = '__' + newName + "div";
+  var taskHeader = rightWorkspaces[newName].getBlocksByType('custom_taskheader')[0];
+  taskHeader.getField('TASK').setValidator(null);
+  taskHeader.getField('TASK').setValue(newName);
+  taskHeader.getField('TASK').setValidator(taskValidator);
+  return newName;
+}
+
+Blockly.Blocks['custom_task'].customContextMenu = function(options) {
+    if (this.isInFlyout) {
+      return;
+    }
+    var copyOption = {enabled: true};
+    var name = this.getFieldValue('TASK');
+    copyOption.text = "Copy task '%1'".replace('%1', name);
+    var xmlCopy = Blockly.Xml.blockToDom(this, true);
+    var block = this;
+    var counter = 2;
+    var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == name + counter);
+
+    while (collisions.length > 0) {
+      counter += 1;
+      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == (name + counter));
+    }
+    var newName = name + counter;
+    for (i = 0; i < xmlCopy.childNodes.length; i++) {
+      if (xmlCopy.childNodes[i].getAttribute('name') == "TASK") {
+        xmlCopy.childNodes[i].innerHTML = newName;
+      }
+    }
+    copyOption.callback = function () {
+      var savedDom = workspaceToDom(currentRightWorkspace, true);
+      var newRightDiv = document.createElement('div');
+      newRightDiv.id = '__' + newName + 'div';
+      newRightDiv.classList.add('workspace');
+      newRightDiv.style.position = 'relative';
+      document.getElementById('animatediv').appendChild(newRightDiv);
+      var copiedRightWorkspace = Blockly.inject(newRightDiv.id,
+        { media: pathPrefix + 'blockly/media/',
+          toolbox: toolboxRight,
+          trashcan: true,
+          move:{
+            scrollbars: false,
+            drag: false,
+            wheel: false}
+      });
+      Blockly.Xml.domToWorkspace(savedDom, copiedRightWorkspace);
+      newRightDiv.style.display = 'none';
+      copiedRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField('TASK').setValue(newName);
+      rightWorkspaces[newName] = copiedRightWorkspace;
+      definedPositions[newName] = definedPositions[name];
+      copiedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
+      copiedRightWorkspace.addChangeListener(onTaskHeaderChanged);
+      redrawStack();
+      Blockly.ContextMenu.callbackFactory(block, xmlCopy)();
+    }
+    options.push(copyOption);
+  }
+
 function highlightTaskBlocks(taskName) {
   leftWorkspace.getAllBlocks().forEach(block => leftWorkspace.highlightBlock(block.id, false));
   leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => leftWorkspace.highlightBlock(block.id, true));
@@ -26,6 +107,16 @@ function redrawStack() {
 }
 
 function onTaskSelected(event) {
+  if (event.type == Blockly.Events.BLOCK_CREATE) {
+    for (i = 0; i < event.ids.length; i++) {
+      var block = leftWorkspace.getBlockById(event.ids[i])
+      if (block.type == 'custom_task') {
+        block.getField("TASK").setValidator(taskValidator);
+      }
+    }
+  }
+
+
   if (event.type == Blockly.Events.CHANGE && event.blockId == currentSelectedBlock.id) {
     currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
   }
@@ -50,6 +141,14 @@ function onTaskSelected(event) {
 
 function onTaskHeaderChanged(event) {
   if (currentRightWorkspace) {
+    if (event.type == Blockly.Events.BLOCK_CREATE) {
+      for (i = 0; i < event.ids.length; i++) {
+        var block = currentRightWorkspace.getBlockById(event.ids[i])
+        if (block && block.type == 'custom_taskheader') {
+          block.getField("TASK").setValidator(taskValidator);
+        }
+      }
+    }
     if (event.type == Blockly.Events.CHANGE && event.blockId == currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').id) {
       currentSelectedBlock.getField("SITE").setValue(currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").getValue());
     }
@@ -62,7 +161,7 @@ function onTaskHeaderChanged(event) {
 var confirmed = false;
 
 function onTaskChanged(event) {
-  if (!event.isUiEvent && event.type != Blockly.Events.BLOCK_CREATE && event.oldCoordinate) {
+  if (!event.isUiEvent && event.workspaceId == currentRightWorkspace.id && event.type != Blockly.Events.BLOCK_CREATE && event.oldCoordinate) {
     var count = 0;
     var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
     leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == currentTask) count++; });
@@ -91,8 +190,8 @@ function copyEditDialogue() {
     prompt2.style.left = '-50%';
     prompt2.style.backgroundColor = '#FFFFFF';
     prompt2.style.opacity = '100%';
-    prompt2.style.width = '400px';
-    prompt2.style.height = '150px';
+    prompt2.style.width = '310px';
+    prompt2.style.height = '145px';
     prompt2.style.marginTop = '50px';
     prompt2.style.fontSize = '.875rem';
     prompt2.style.border = '1px black solid';
@@ -100,21 +199,21 @@ function copyEditDialogue() {
     prompt2.style.paddingTop = '15px';
 
     promptElem.appendChild(prompt2);
-    prompt2.innerHTML = 'You are currently editing this task in all places where it is used at once. Do you want to continue, or create a copy of the task that you can edit separately?<br><br>';
+    prompt2.innerHTML = 'The task you are editing is used multiple times. Do you want to change all of them or only the currently selected usage?<br><br>';
     var copyButton = document.createElement('button');
-    copyButton.id = 'copyButton';
+    copyButton.id = 'editButton';
     copyButton.classList.add('btn');
     copyButton.classList.add('btn-primary');
     copyButton.classList.add('btn-sm');
-    copyButton.innerHTML = 'Create copy before editing';
+    copyButton.innerHTML = 'Edit task everywhere';
     prompt2.appendChild(copyButton);
     prompt2.innerHTML += ' '; 
     var editButton = document.createElement('button');
-    editButton.id = 'editButton';
+    editButton.id = 'copyButton';
     editButton.classList.add('btn');
     editButton.classList.add('btn-secondary');
     editButton.classList.add('btn-sm');
-    editButton.innerHTML = 'Edit task everywhere at once';
+    editButton.innerHTML = 'Edit only this usage';
     prompt2.appendChild(editButton);
     currentRightDiv.insertBefore(overlayElem, currentRightDiv.firstChild);
     currentRightDiv.insertBefore(promptElem, currentRightDiv.firstChild);
@@ -134,68 +233,51 @@ function clearOverlay() {
 function copyTask() {
   var workspace = leftWorkspace;
   var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
-  var promptAndCheckWithAlert = function(defaultName, opt_callback) {
-    Blockly.Variables.promptName("Please enter a name for the copy of the current task:", defaultName,
-        function(text) {
-          if (text) {
-            var existing =
-                nameUsedWithAnyType(text, workspace);
-            if (existing) {
-              var msg = "A task with name '%1' already exists!".replace(
-                '%1', existing.name);              
-              Blockly.alert(msg,
-                  function() {
-                    promptAndCheckWithAlert(text);  // Recurse
-                  });
-            } else {
-              // No conflict
-              workspace.createVariable(text, '');
-              if (opt_callback) {
-                opt_callback(text);
-              }
-            }
-          } else {
-            // User canceled prompt.
-            if (opt_callback) {
-              opt_callback(null);
-            }
-          }
-        });
-  };
-  promptAndCheckWithAlert('Copy of ' + currentTask, function (newName) {
-    currentSelectedBlock.getField('TASK').setValue(newName);
-    currentRightWorkspace.undo(false);
-    var savedDom = workspaceToDom(currentRightWorkspace, true);
-    currentRightWorkspace.undo(true);
-    var oldDivId = currentRightDiv.id;
-    currentRightDiv.id = '__' + newName + "div";
+  
+  var counter = 2;
+  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == currentTask + counter);
 
-    savedRightDiv = document.createElement('div');
-    savedRightDiv.id = oldDivId;
-    savedRightDiv.classList.add('workspace');
-    savedRightDiv.style.position = 'relative';
-    document.getElementById('animatediv').appendChild(savedRightDiv);
-    savedRightWorkspace = Blockly.inject(oldDivId,
-      { media: pathPrefix + 'blockly/media/',
-        toolbox: toolboxRight,
-        trashcan: true,
-        move:{
-          scrollbars: false,
-          drag: false,
-          wheel: false}
-    });
-    Blockly.Xml.domToWorkspace(savedDom, savedRightWorkspace);
-    savedRightDiv.style.display = 'none';
-    currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField('TASK').setValue(newName);
-    rightWorkspaces[currentTask] = savedRightWorkspace;
-    rightWorkspaces[newName] = currentRightWorkspace;
-    definedPositions[newName] = definedPositions[currentTask];
-    savedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
-    savedRightWorkspace.addChangeListener(onTaskHeaderChanged);
-    highlightTaskBlocks(newName);
-    redrawStack();
-    clearOverlay();
+  while (collisions.length > 0) {
+    counter += 1;
+    collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == (currentTask + counter));
+  }
+  var newName = currentTask + counter;
+  currentSelectedBlock.getField('TASK').setValidator(null);
+  currentSelectedBlock.getField('TASK').setValue(newName);
+  currentSelectedBlock.getField('TASK').setValidator(taskValidator);
+  currentRightWorkspace.undo(false);
+  var savedDom = workspaceToDom(currentRightWorkspace, true);
+  currentRightWorkspace.undo(true);
+  var oldDivId = currentRightDiv.id;
+  currentRightDiv.id = '__' + newName + "div";
+
+  savedRightDiv = document.createElement('div');
+  savedRightDiv.id = oldDivId;
+  savedRightDiv.classList.add('workspace');
+  savedRightDiv.style.position = 'relative';
+  document.getElementById('animatediv').appendChild(savedRightDiv);
+  savedRightWorkspace = Blockly.inject(oldDivId,
+    { media: pathPrefix + 'blockly/media/',
+      toolbox: toolboxRight,
+      trashcan: true,
+      move:{
+        scrollbars: false,
+        drag: false,
+        wheel: false}
   });
+  Blockly.Xml.domToWorkspace(savedDom, savedRightWorkspace);
+  savedRightDiv.style.display = 'none';
+  rightWorkspaces[currentTask] = savedRightWorkspace;
+  rightWorkspaces[newName] = currentRightWorkspace;
+  definedPositions[newName] = definedPositions[currentTask];
+  savedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
+  savedRightWorkspace.addChangeListener(onTaskHeaderChanged);
+  currentRightWorkspace.getBlocksByType('custom_taskheader')[0].getField('TASK').setValidator(null);
+  currentRightWorkspace.getBlocksByType('custom_taskheader')[0].getField('TASK').setValue(newName);
+  currentRightWorkspace.getBlocksByType('custom_taskheader')[0].getField('TASK').setValidator(taskValidator);
+  highlightTaskBlocks(newName);
+  redrawStack();
+  clearOverlay();
 }
 
 function doTaskSelected() {
