@@ -34,7 +34,7 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
     }
     var copyOption = {enabled: true};
     var name = this.getFieldValue('TASK');
-    copyOption.text = "Copy task '%1'".replace('%1', name);
+    copyOption.text = "Duplicate task '%1'".replace('%1', name);
     var xmlCopy = Blockly.Xml.blockToDom(this, true);
     var block = this;
     var counter = 2;
