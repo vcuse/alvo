@@ -57,7 +57,7 @@ Blockly.JavaScript['custom_robotmove'] = function(block) {
     }
   }
   else {
-    var moveCode = 'station = null;';
+    var moveCode = 'station = null; reportError("No target station selected for move command! Ignoring this command.", true);';
     if (nextBlock) {
       moveCode += Blockly.JavaScript.blockToCode(nextBlock);
     }
@@ -86,8 +86,7 @@ Blockly.JavaScript['custom_task'] = function(block) {
     }
   }
   else {
-    var moveCode = '';
-    var taskCode = '';
+    var moveCode = 'reportError("No target station selected for task! Ignoring this task.", true); ';
     if (nextBlock) {
       moveCode += Blockly.JavaScript.blockToCode(nextBlock);
     }
@@ -151,7 +150,6 @@ Blockly.JavaScript['custom_turn'] = function(block) {
   if (generated[block.id] || !currentHead) 
     return '';
   generated[block.id] = true;
-  var location = Blockly.JavaScript.valueToCode(block, 'LOCATION', 0)
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
 
   var armCode = 'Simulator[' + Simulator.instance + '].robot.turnCarriedItem("' + block.getFieldValue('DIRECTION') + '"';

@@ -183,7 +183,7 @@ class Robot extends SimElem {
         })
         break;
       default:
-        station.centerItems[station.computeNextIndex("cennter")] = this.carry;
+        station.centerItems[station.computeNextIndex("center")] = this.carry;
         anime({
           targets: item,
           posX : station.posX,
