@@ -114,8 +114,8 @@ function onTaskChanged(event) {
     var count = 0;
     var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
     leftWorkspace.getAllBlocks().filter(block => block.type == 'custom_task').forEach(block => { if (block.getFieldValue('TASK') == currentTask) count++; });
-    if (count > 1)
-      copyEditDialogue();
+    //if (count > 1)
+    //  copyEditDialogue();
   }
 }
 
