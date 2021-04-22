@@ -1,16 +1,7 @@
 var taskValidator = function (newName) {
   var oldName = this.getValue('TASK');
   var taskCalls = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == oldName);
-  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == newName);
-
-  if (collisions.length > 0) {
-    var counter = 1;
-    while (collisions.length > 0) {
-      counter += 1;
-      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') != oldName && block.getFieldValue('TASK') == (newName + counter));
-    }
-    newName = newName + counter;
-  }
+  newName = getCollisionFreeTaskName(newName);
   for (i = 0; i < taskCalls.length; i++) {
     taskCalls[i].getField('TASK').setValidator(null);
     taskCalls[i].getField('TASK').setValue(newName);
@@ -25,6 +16,8 @@ var taskValidator = function (newName) {
   taskHeader.getField('TASK').setValidator(null);
   taskHeader.getField('TASK').setValue(newName);
   taskHeader.getField('TASK').setValidator(taskValidator);
+  definedTasks = definedTasks.filter(task => task != oldName);
+  definedTasks.push(newName);
   return newName;
 }
 
@@ -60,6 +53,7 @@ function onTaskSelected(event) {
     for (i = 0; i < event.ids.length; i++) {
       var block = leftWorkspace.getBlockById(event.ids[i])
       if (block.type == 'custom_task') {
+        definedTasks.push(block.getFieldValue("TASK"));
         block.getField("TASK").setValidator(taskValidator);
       }
     }
@@ -182,15 +176,8 @@ function clearOverlay() {
 function copyTask() {
   var workspace = leftWorkspace;
   var currentTask = currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getFieldValue('TASK');
-  
-  var counter = 2;
-  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == currentTask + counter);
 
-  while (collisions.length > 0) {
-    counter += 1;
-    collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == (currentTask + counter));
-  }
-  var newName = currentTask + counter;
+  var newName = getCollisionFreeTaskName(currentTask);
   currentSelectedBlock.getField('TASK').setValidator(null);
   currentSelectedBlock.getField('TASK').setValue(newName);
   currentSelectedBlock.getField('TASK').setValidator(taskValidator);

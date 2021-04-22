@@ -10,14 +10,8 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
   var name = this.getFieldValue('TASK');
   copyOption.text = "Duplicate task '%1'".replace('%1', name);
   var block = this;
-  var counter = 2;
-  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == name + counter);
-
-  while (collisions.length > 0) {
-    counter += 1;
-    collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == (name + counter));
-  }
-  var newName = name + counter;
+  var newName = getCollisionFreeTaskName(name);
+  definedTasks.push(newName);
   var xmlCopy = Blockly.utils.xml.createElement('block');
   xmlCopy.setAttribute('type', 'custom_task');
   var task = Blockly.utils.xml.createElement('field');

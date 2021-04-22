@@ -341,6 +341,20 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 
+var definedTasks = [];
+
+function getCollisionFreeTaskName(name) {
+  var counter = 2;
+  var collisions = definedTasks.filter(task => task == name);
+  var newName = name;
+
+  while (collisions.length > 0) {
+    collisions = definedTasks.filter(task => task == name + counter);  
+    newName = name + counter;
+    counter += 1;
+  }
+  return newName;
+}
 
 var nameUsedWithAnyType = function(name, workspace) {
   var allTasks = workspace.getVariableMap().getAllVariables();
@@ -396,16 +410,7 @@ var flyoutTaskCategory = function(workspace) {
   newBlock.setAttribute('gap', 30);
   var nameField = Blockly.utils.xml.createElement('field');
   nameField.setAttribute('name', 'TASK');
-  var name = "Do a new task";
-  var collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == name);
-  if (collisions.length > 0) {
-    var counter = 1;
-    while (collisions.length > 0) {
-      counter += 1;
-      collisions = leftWorkspace.getBlocksByType('custom_task').filter(block => block.getFieldValue('TASK') == (name + counter));
-    }
-    name = name + counter;
-  }
+  var name = getCollisionFreeTaskName("Do a new task");
   nameField.appendChild(Blockly.utils.xml.createTextNode(name));
   newBlock.appendChild(nameField);
   xmlList.push(newBlock);
@@ -422,19 +427,15 @@ var triggersFlyoutCategory = function(workspace) {
 };
 
 var flyoutTaskCategoryBlocks = function(workspace) {
-  var taskList = workspace.getBlocksByType('custom_task', false).map(function(block) {
-        return block.getFieldValue('TASK');
-      });
-
   var xmlList = [];
-  if (taskList.length > 0) {
+  if (definedTasks.length > 0) {
   var heading = Blockly.utils.xml.createElement('label');
     heading.setAttribute('text', 'Existing tasks:');
     heading.setAttribute('web-class','toolboxHeading')
     xmlList.push(heading);
   }
   var done = [];
-  for (var i = 0, task; (task = taskList[i]); i++) {
+  for (var i = 0, task; (task = definedTasks[i]); i++) {
     if (done.includes(task)) 
       continue;
     done.push(task);
@@ -442,7 +443,7 @@ var flyoutTaskCategoryBlocks = function(workspace) {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'custom_task');
     block.appendChild(
-        generateTaskFieldDom(task));
+    generateTaskFieldDom(task));
     xmlList.push(block);
   }
   return xmlList;
