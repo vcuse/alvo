@@ -41,7 +41,7 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
         toolbox: toolboxRight,
         trashcan: true,
         move:{
-          scrollbars: false,
+          scrollbars: true,
           drag: false,
           wheel: false}
     });
@@ -65,7 +65,7 @@ var leftWorkspace = Blockly.inject('leftdiv',
     trashcan: true,
     toolboxPosition: "start",
     move:{
-      scrollbars: false,
+      scrollbars: true,
       drag: false,
       wheel: false}
 });

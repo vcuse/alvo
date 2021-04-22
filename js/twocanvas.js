@@ -210,7 +210,7 @@ function copyTask() {
       toolbox: toolboxRight,
       trashcan: true,
       move:{
-        scrollbars: false,
+        scrollbars: true,
         drag: false,
         wheel: false}
   });
@@ -256,7 +256,7 @@ function doTaskSelected() {
         toolbox: toolboxRight,
         trashcan: true,
         move:{
-          scrollbars: false,
+          scrollbars: true,
           drag: false,
           wheel: false}
     });
