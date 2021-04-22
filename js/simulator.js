@@ -308,6 +308,9 @@ class Item extends SimElem {
     var domElem = document.createElement("img");
     domElem.classList.add("sim-item");
     switch (color) {
+      case "white":
+        domElem.src = pathPrefix + "media/item.png";
+        break;
       case "yellow":
         domElem.src = pathPrefix + "media/item-yellow.png";
         break;
@@ -417,8 +420,9 @@ if (document.getElementById('test-button')) {
       reportError("Please reset simulator or wait for previous simulation to finish!", true);
     }
   }
+  document.getElementById('execution-button').onclick = document.getElementById('test-button').onclick;
 }
-if (document.getElementById('execution-button')) {
+else if (document.getElementById('execution-button')) {
   document.getElementById('execution-button').onclick = function() {
     if (Simulator[Simulator.instance].idle) {
       Simulator[Simulator.instance].idle = false;
@@ -440,7 +444,8 @@ if (document.getElementById('execution-button')) {
       reportError("Please reset simulator or wait for previous simulation to finish!", true);
     }
   }
-
+}
+if (document.getElementById('red-button')) {
   document.getElementById('red-button').onclick = function() {
     if (Simulator[Simulator.instance].idle) {
       Simulator[Simulator.instance].idle = false;
@@ -448,7 +453,8 @@ if (document.getElementById('execution-button')) {
         Simulator[Simulator.instance].trigger["RED"]();
     }
   }
-
+}
+if (document.getElementById('blue-button')) {
   document.getElementById('blue-button').onclick = function() {
     if (Simulator[Simulator.instance].idle) {
       Simulator[Simulator.instance].idle = false;
@@ -456,7 +462,8 @@ if (document.getElementById('execution-button')) {
         Simulator[Simulator.instance].trigger["BLUE"]();
     }
   }
-
+}
+if (document.getElementById('yellow-button')) {
   document.getElementById('yellow-button').onclick = function() {
     if (Simulator[Simulator.instance].idle) {
       Simulator[Simulator.instance].idle = false;
@@ -464,7 +471,8 @@ if (document.getElementById('execution-button')) {
         Simulator[Simulator.instance].trigger["YELLOW"]();
     }
   }
-
+}
+if (document.getElementById('reset-button')) {
   document.getElementById('reset-button').onclick = function() {
     document.getElementById('simulatordiv').innerHTML = '';
     initSimulator();
