@@ -37,12 +37,12 @@ h4 {
 
 h5 {
    grid-column: 1 / span 2;
-   margin-top: 15px;
+   margin-top: 20px;
 }
 
 .taskselector {
     display: grid;
-    grid-template-columns: 220px auto;
+    grid-template-columns: 200px auto;
 }
 
 .maincontainer {
@@ -65,10 +65,12 @@ h5 {
 #leftdiv {
     width: 100%;
     position: relative;
+    min-width: 400px;
 }
 
 #middlediv {
     width: 100%;
+    min-width: 400px;
 }
 
 #rightdiv {

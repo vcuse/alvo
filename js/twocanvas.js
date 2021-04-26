@@ -251,8 +251,8 @@ function doTaskSelected() {
     currentRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'custom_taskheader');
-    block.setAttribute('x', '38');
-    block.setAttribute('y', '38');
+    block.setAttribute('x', '28');
+    block.setAttribute('y', '28');
     var field = Blockly.utils.xml.createElement('field');
     field.setAttribute('name', 'TASK');
     field.setAttribute('id', currentSelectedBlock.getFieldValue("TASK"));

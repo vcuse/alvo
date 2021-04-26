@@ -15,33 +15,32 @@
     <div id="leftdiv" class="workspace twocanvas taskselector">
       <h5>Playground</h5>
       <form action="twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
-      <h5></h5>
       <h5></h5>
       <h5>Tutorial 1: Basic Programming</h5>
       <form action="tut1/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="tut1/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5>Tutorial 2: Multiple Tasks and Stacking Blocks</h5>
       <form action="tut2/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="tut2/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5>Tutorial 3: Editing and Re-using Blocks</h5>
       <form action="tut3/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="tut3/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5></h5>
     </div>
@@ -50,28 +49,26 @@
       <h5></h5>
       <h5></h5>
       <h5></h5>
-      <h5></h5>
-      <h5></h5>
       <h5>Task 1: Pick and Place Between Stations</h5>
       <form action="task1/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="task1/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5>Task 2: Moving Stacks</h5>
       <form action="task2/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="task2/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5>Task 3: Swapping Locations</h5>
       <form action="task3/twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Design" class="btn btn-primary">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
       </form>
       <form action="task3/onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Design" type="submit" class="btn btn-info">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
       </form>
       <h5></h5>
     </div>
@@ -79,15 +76,15 @@
     <div id="rightdiv">
       <div id="simulatorarea">
       <div id="simulatordiv"></div>
-      <button value="start-execution" onclick="alert('Please select a design and tutorial/task on the left to use the simulator.');" type="button" class="btn btn-success">Run Program</button>
-      <button value="reset-simulator" onclick="alert('Please select a design and tutorial/task on the left to use the simulator.');" type="button" class="btn btn-secondary">Reset Simulator</button>
+      <button value="start-execution" onclick="alert('Please select a Mode and tutorial/task on the left to use the simulator.');" type="button" class="btn btn-success">Run Program</button>
+      <button value="reset-simulator" onclick="alert('Please select a Mode and tutorial/task on the left to use the simulator.');" type="button" class="btn btn-secondary">Reset Simulator</button>
       </div>
     </div>
   </div>
 
   <!-- Starting configuration -->
   <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
-    <block type="custom_start" id="START" x="38" y="38"></block>
+    <block type="custom_start" id="START" x="28" y="28"></block>
   </xml>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
