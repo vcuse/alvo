@@ -409,6 +409,15 @@ if (document.getElementById('test-button')) {
         await new Promise(r => setTimeout(r, 100));
       }
 
+      var codeLog = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(leftWorkspace));
+      if (rightWorkspaces) {
+        for (var v in rightWorkspaces) {
+          codeLog += '\n\n' + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(rightWorkspaces[v]));
+        }
+      }
+
+      submitLog('code', codeLog);
+
       if (checkTask(instance)) {
         document.getElementById('task-success').style.display = 'inline';
       }
@@ -479,3 +488,14 @@ if (document.getElementById('reset-button')) {
   }
 }
 
+function submitLog(type, log) {
+  var xhr = new XMLHttpRequest();
+  var url = "https://www.cs.ubc.ca/~ritschel/log.php";
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+      console.log(xhr.responseText);
+  };
+  var id = Date.now();
+  xhr.send("id=" + id + "&type=" + type + "&log=" + encodeURIComponent(log));
+}
