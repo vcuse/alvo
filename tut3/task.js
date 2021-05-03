@@ -52,6 +52,7 @@ var checkTask = function(instance) {
 }
 
 var pathPrefix = "../";
+var taskId = "tut3";
 
 var taskStations = [[
       "Station A",

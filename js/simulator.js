@@ -416,13 +416,13 @@ if (document.getElementById('test-button')) {
         }
       }
 
-      submitLog('code', codeLog);
-
       if (checkTask(instance)) {
         document.getElementById('task-success').style.display = 'inline';
+        submitLog('success', codeLog);
       }
       else {
         document.getElementById('task-fail').style.display = 'inline';
+        submitLog('fail', codeLog);
       }
     }
     else {
@@ -488,6 +488,18 @@ if (document.getElementById('reset-button')) {
   }
 }
 
+function initLog() {
+  if (getCookie("uid")) {
+    uid = getCookie("uid");
+  }
+  else {
+  uid = Date.now();
+  setCookie("uid", uid, 365);
+  }
+}
+
+initLog();
+
 function submitLog(type, log) {
   var xhr = new XMLHttpRequest();
   var url = "https://www.cs.ubc.ca/~ritschel/log.php";
@@ -496,6 +508,5 @@ function submitLog(type, log) {
   xhr.onreadystatechange = function () {
       console.log(xhr.responseText);
   };
-  var id = Date.now();
-  xhr.send("id=" + id + "&type=" + type + "&log=" + encodeURIComponent(log));
+  xhr.send("id=" + uid + "&task=" + taskId + "&type=" + type + "&log=" + encodeURIComponent(log));
 }
