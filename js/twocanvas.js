@@ -262,6 +262,7 @@ function doTaskSelected() {
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom('<xml xmlns="https://developers.google.com/blockly/xml">' + Blockly.Xml.domToText(block) + '</xml>'), currentRightWorkspace);
     currentRightWorkspace.getAllBlocks().forEach(block => { block.setDeletable(false); });
     currentRightWorkspace.addChangeListener(onTaskHeaderChanged);
+    currentRightWorkspace.addChangeListener(logEvent);
   }
   currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
 

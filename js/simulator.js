@@ -1,6 +1,7 @@
 
 var pathPrefix = pathPrefix || "";
 var uid = undefined;
+var eventLog = [];
 
 class SimElem {
   width;
@@ -419,6 +420,7 @@ if (document.getElementById('test-button')) {
 
       if (checkTask(instance)) {
         submitLog('success', codeLog);
+        submitLog('events', JSON.stringify(eventLog));
         document.getElementById('task-success').style.display = 'inline';
       }
       else {
@@ -512,6 +514,9 @@ function getCookie(cname) {
 }
 
 function initLog() {
+  if (typeof(leftWorkspace) != "undefined")
+    leftWorkspace.addChangeListener(logEvent);
+
   if (getCookie("uid")) {
     uid = getCookie("uid");
   }
@@ -546,6 +551,21 @@ function initLog() {
       document.getElementById("form-b").style.display = 'block';
     }
   }
+}
+
+function logEvent(event) {
+  var wid = undefined;
+  if (event.workspaceId == leftWorkspace.id)
+    wid = "MAIN";
+  else {
+    for (var v in rightWorkspaces) {
+      if (rightWorkspaces[v] && event.workspaceId == rightWorkspaces[v].id)
+        wid = v;
+    }
+  }
+  if (!wid) 
+    wid = "UNKNOWN";
+  eventLog.push([wid, event.type, event.isUiEvent, event.blockId]);
 }
 
 initLog();

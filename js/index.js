@@ -61,6 +61,7 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
       definedPositions[newName] = definedPositions[name];
       copiedRightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
       copiedRightWorkspace.addChangeListener(onTaskHeaderChanged);
+      copiedRightWorkspace.addChangeListener(logEvent);
       redrawStack();
       Blockly.ContextMenu.callbackFactory(block, xmlCopy)();
       definedTasks.push(newName);

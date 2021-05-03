@@ -16,12 +16,10 @@ var initTask = function() {
 var checkTask = function() {
   if (Date.now() - startTime > maxTime) {
     setTimeout(function(){ 
-      submitLog("finish", "0")
+      submitLog("finish", "0");
+      submitLog('events', JSON.stringify(eventLog));
       alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the end of the study.");
-      if (getCookie("ugroup") == 1)
-        window.location.href = "../studyfinish.html";
-      else
-        window.location.href = "../studyfinish.html";
+      window.location.href = "../studyfinish.html";
     }, 1000);
   }
   var expectOrange1 = Simulator[Simulator.instance].station['STATIONA'].leftItems[0];

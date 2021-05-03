@@ -33,8 +33,10 @@ var initTask = function() {
       rightWorkspaces['Move box to the right'] = rightWorkspace;
       rightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
       Blockly.Xml.domToWorkspace(workspaceBlocks, rightWorkspace);
+      rightWorkspace.getBlocksByType("custom_taskheader")[0].getField("TASK").setValidator(taskValidator);
       document.getElementById('__Move box to the rightdiv').style.display = 'none';
       rightWorkspace.addChangeListener(onTaskHeaderChanged);
+      rightWorkspace.addChangeListener(logEvent);
     }
   }
 }

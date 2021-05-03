@@ -49,8 +49,10 @@ var initTask = function() {
       rightWorkspaces['Move Stack'] = rightWorkspace;
       rightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
       Blockly.Xml.domToWorkspace(workspaceBlocks, rightWorkspace);
+      rightWorkspace.getBlocksByType("custom_taskheader")[0].getField("TASK").setValidator(taskValidator);
       document.getElementById('__Move Stackdiv').style.display = 'none';
       rightWorkspace.addChangeListener(onTaskHeaderChanged);
+      rightWorkspace.addChangeListener(logEvent);
     }
   }
 }
@@ -58,7 +60,8 @@ var initTask = function() {
 var checkTask = function() {
   if (Date.now() - startTime > maxTime) {
     setTimeout(function(){ 
-      submitLog("finish", "0")
+      submitLog("finish", "0");
+      submitLog('events', JSON.stringify(eventLog));
       alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the next task.");
       if (getCookie("ugroup") == 1)
         window.location.href = "../task3/twocanvas.html";
