@@ -13,6 +13,8 @@ var checkTask = function(instance) {
   return expectYellow && expectYellow.color == 'yellow' && (expectYellow.turned % 360) == 0;
 }
 
+setTimeout(function(){ submitLog("start", "0") }, 1000);
+
 var pathPrefix = "../";
 var taskId = "tut1";
 

@@ -14,6 +14,16 @@ var initTask = function() {
 }
 
 var checkTask = function() {
+  if (Date.now() - startTime > maxTime) {
+    setTimeout(function(){ 
+      submitLog("finish", "0")
+      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the end of the study.");
+      if (getCookie("ugroup") == 1)
+        window.location.href = "../studyfinish.html";
+      else
+        window.location.href = "../studyfinish.html";
+    }, 1000);
+  }
   var expectOrange1 = Simulator[Simulator.instance].station['STATIONA'].leftItems[0];
   var expectGreen1 = Simulator[Simulator.instance].station['STATIONB'].leftItems[0];
   var expectBlue1 = Simulator[Simulator.instance].station['STATIONC'].leftItems[0];
@@ -31,8 +41,12 @@ var checkTask = function() {
   return greens && oranges && blues && yellows;
 }
 
+setTimeout(function(){ submitLog("start", "0") }, 1000);
+
 var pathPrefix = "../";
 var taskId = "task3";
+var startTime = Date.now();
+var maxTime = 1000 * 5 * 1;
 
 var taskStations = [[
       "Station A",

@@ -1,5 +1,6 @@
 
 var pathPrefix = pathPrefix || "";
+var uid = undefined;
 
 class SimElem {
   width;
@@ -417,12 +418,12 @@ if (document.getElementById('test-button')) {
       }
 
       if (checkTask(instance)) {
-        document.getElementById('task-success').style.display = 'inline';
         submitLog('success', codeLog);
+        document.getElementById('task-success').style.display = 'inline';
       }
       else {
-        document.getElementById('task-fail').style.display = 'inline';
         submitLog('fail', codeLog);
+        document.getElementById('task-fail').style.display = 'inline';
       }
     }
     else {
@@ -488,13 +489,62 @@ if (document.getElementById('reset-button')) {
   }
 }
 
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return undefined;
+}
+
 function initLog() {
   if (getCookie("uid")) {
     uid = getCookie("uid");
   }
   else {
-  uid = Date.now();
-  setCookie("uid", uid, 365);
+    uid = Date.now();
+    setCookie("uid", uid, 365);
+  }
+
+  var ugroup = getCookie("ugroup");
+  if (!ugroup) {
+    ugroup = Math.floor(Math.random() * 2) + 1;
+    setCookie("ugroup", ugroup, 365);
+    submitLog('start', ugroup);
+  }
+
+  if (document.getElementById("uid")) {
+    document.getElementById("uid").innerHTML = uid;
+  }
+  if (ugroup == 1) {
+    if (document.getElementById("head-a")) {
+      document.getElementById("head-a").style.display = 'block';
+    }
+    if (document.getElementById("form-a")) {
+      document.getElementById("form-a").style.display = 'block';
+    }
+  }
+  if (ugroup == 2) {
+    if (document.getElementById("head-b")) {
+      document.getElementById("head-b").style.display = 'block';
+    }
+    if (document.getElementById("form-b")) {
+      document.getElementById("form-b").style.display = 'block';
+    }
   }
 }
 
@@ -508,5 +558,10 @@ function submitLog(type, log) {
   xhr.onreadystatechange = function () {
       console.log(xhr.responseText);
   };
-  xhr.send("id=" + uid + "&task=" + taskId + "&type=" + type + "&log=" + encodeURIComponent(log));
+  if (typeof(taskId) != "undefined") {
+    xhr.send("id=" + uid + "&task=" + taskId + "&type=" + type + "&log=" + encodeURIComponent(log));
+  }
+  else {
+    xhr.send("id=" + uid + "&type=" + type + "&log=" + encodeURIComponent(log));
+  }
 }

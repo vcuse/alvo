@@ -51,6 +51,8 @@ var checkTask = function(instance) {
 var pathPrefix = "../";
 var taskId = "tut2";
 
+setTimeout(function(){ submitLog("start", "0") }, 1000);
+
 var taskStations = [[
       "Station A",
       "STATIONA"

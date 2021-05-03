@@ -56,6 +56,16 @@ var initTask = function() {
 }
 
 var checkTask = function() {
+  if (Date.now() - startTime > maxTime) {
+    setTimeout(function(){ 
+      submitLog("finish", "0")
+      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the next task.");
+      if (getCookie("ugroup") == 1)
+        window.location.href = "../task3/twocanvas.html";
+      else
+        window.location.href = "../task3/onecanvas.html";
+    }, 1000);
+  }
   var expectGreen1 = Simulator[Simulator.instance].station['STATIONA'].rightItems[0];
   var expectGreen2 = Simulator[Simulator.instance].station['STATIONA'].rightItems[1];
   var expectGreen3 = Simulator[Simulator.instance].station['STATIONA'].rightItems[2];
@@ -87,8 +97,12 @@ var checkTask = function() {
   return greens && oranges && blues && yellows;
 }
 
+setTimeout(function(){ submitLog("start", "0") }, 1000);
+
 var pathPrefix = "../";
 var taskId = "task2";
+var startTime = Date.now();
+var maxTime = 1000 * 60 * 10;
 
 var taskStations = [[
       "Station A",

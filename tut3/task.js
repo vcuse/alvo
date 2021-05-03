@@ -51,6 +51,8 @@ var checkTask = function(instance) {
          && (expectYellow.turned % 360) == 180 && (expectBlue.turned % 360) == 180 && (expectGreen1.turned % 360) == 0 && (expectGreen2.turned % 360) == 0 && (expectOrange.turned % 360) == 180;
 }
 
+setTimeout(function(){ submitLog("start", "0") }, 1000);
+
 var pathPrefix = "../";
 var taskId = "tut3";
 
