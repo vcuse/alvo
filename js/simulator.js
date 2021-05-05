@@ -513,10 +513,27 @@ function getCookie(cname) {
   return undefined;
 }
 
+function findGetParameter(parameterName) {
+    var result = undefined,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+          tmp = item.split("=");
+          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
 function initLog() {
   if (typeof(leftWorkspace) != "undefined")
     leftWorkspace.addChangeListener(logEvent);
 
+  if (findGetParameter('uid')) {
+    uid = findGetParameter('uid');
+    setCookie("uid", uid, 365);
+  }
   if (getCookie("uid")) {
     uid = getCookie("uid");
   }
