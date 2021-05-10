@@ -105,7 +105,7 @@ setTimeout(function(){ submitLog("start", "0") }, 1000);
 var pathPrefix = "../";
 var taskId = "task2";
 var startTime = Date.now();
-var maxTime = 1000 * 60 * 10;
+var maxTime = 1000 * 60 * 15;
 
 var taskStations = [[
       "Station A",
