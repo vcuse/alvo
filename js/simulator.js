@@ -546,7 +546,7 @@ function initLog() {
 
   var ugroup = getCookie("ugroup");
   if (!ugroup) {
-    ugroup = Math.floor(Math.random() * 1.3) + 1;
+    ugroup = 1;
     setCookie("ugroup", ugroup, 365);
     submitLog('start', ugroup);
   }
