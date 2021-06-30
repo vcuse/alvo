@@ -397,7 +397,8 @@ if (document.getElementById('test-button')) {
       var code = '';
       if (rightWorkspaces) {
         for (var v in rightWorkspaces) {
-          code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+          if (v && rightWorkspaces[v])
+            code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
         }
       }
       code += Blockly.JavaScript.workspaceToCode(leftWorkspace);
@@ -414,7 +415,8 @@ if (document.getElementById('test-button')) {
       var codeLog = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(leftWorkspace));
       if (rightWorkspaces) {
         for (var v in rightWorkspaces) {
-          codeLog += '\n\n' + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(rightWorkspaces[v]));
+          if (v && rightWorkspaces[v])
+            codeLog += '\n\n' + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(rightWorkspaces[v]));
         }
       }
 
