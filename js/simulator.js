@@ -412,7 +412,7 @@ if (document.getElementById('test-button')) {
         await new Promise(r => setTimeout(r, 100));
       }
 
-      var codeLog = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(leftWorkspace));
+      var codeLog = code + "\n\n\n\n" + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(leftWorkspace));
       if (rightWorkspaces) {
         for (var v in rightWorkspaces) {
           if (v && rightWorkspaces[v])
