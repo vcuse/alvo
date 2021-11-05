@@ -21,9 +21,9 @@
         <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station C to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
       </ol>
         <p>As you have seen in the previous tutorial, robot programs are often very similar to each other. It can therefore be useful to use existing code rather than writing all programs from scratch.</p>
-        <p>In this tutorial, we ask you to solve a task that benefits significantly from re-using existing code, and we will show you how to solve it in a smart way. You can click on each step to get more detailed instructions.</p>
+        <p>In this tutorial, we ask you to write a program that benefits significantly from re-using existing code, and we will show you how to solve it in a smart way. You can click on each step to get more detailed instructions.</p>
         <ol class="accordion-group">
-          <li><a href="#step1" data-toggle="collapse">Look at the existing program</a>
+          <li><a href="#step1" data-toggle="collapse">Look at the existing task</a>
             <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>For this task, we have given you a small program to start with. Click on the <img src="movestack.png" style="height:30px; margin: 1px"> task block below to look at the given code in detail.</li>
               <li>This code will pick up blocks from the left side of a station and move them to the right side of the station. Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out.</li>
@@ -31,7 +31,7 @@
 
             </ol>
           </li>
-          <li><a href="#step2" data-toggle="collapse">Re-use the existing program</a>
+          <li><a href="#step2" data-toggle="collapse">Re-use the existing task</a>
             <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>You might have noticed that step 2 of the given task is very similar to step 1. In fact, you can re-use the exact same program to solve this task.</li>
               <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="movestacknostation.png" style="height:30px"> block from the "Existing tasks" list onto the canvas.</li>
@@ -39,7 +39,7 @@
               <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again.</li>
             </ol>
           </li>
-          <li><a href="#step3" data-toggle="collapse">Clone the existing program</a>
+          <li><a href="#step3" data-toggle="collapse">Clone the existing task</a>
             <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>You have now solved the first 2 steps of the given task. Step 3 is too different from the first two to re-use the existing program as it is. However, you can use the existing program as a starting point to save you some time.</li>
               <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and right-click on the <img src="movestacknostation.png" style="height:30px"> block in the "Existing tasks" list.</li>
@@ -48,13 +48,14 @@
               <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, you have not yet solved step 3 of the task completely. However, you now have a starting point for adding the missing steps.</li>
             </ol>
           </li>
-          <li><a href="#step4" data-toggle="collapse">Edit the cloned program</a>
+          <li><a href="#step4" data-toggle="collapse">Edit the cloned task</a>
             <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Make sure that you have selected the newly created task for station C in the left canvas.</li>
               <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu and drag the <img src="turnitem.png" style="height:30px; margin:1px"> block onto the canvas.</li>
               <li>The robot can only turn items that it is currently carrying, so the new block needs to be added in-between the blocks for picking up and placing an item. We recommend that you begin by adding the block between picking up and placing the first item in the stack.</li>
               <li>Repeat the previous steps to add a second <img src="turnitem.png" style="height:30px; margin:1px;"> block right after the previous one. Combined the two blocks will turn the item upside-down.</li>
               <li>Now repeat the previous steps to add more <img src="turnitem.png" style="height:30px; margin:1px;"> blocks for the other two items in the stack. You should have used 6 turn blocks in total in the final program.</li>
+              <li>We recommend that you give cloned tasks a name that describes what they do. In this example, you could name the task "Move and turn stack".</li>
             </ol>
           </li>
           <li><a href="#step5" data-toggle="collapse">Test the program</a>
