@@ -28,22 +28,24 @@ function highlightTaskBlocks(taskName) {
 
 function redrawStack() {
   var copyCount = 0;
-  var taskName = currentSelectedBlock.getFieldValue("TASK");
-  leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => copyCount++);  
-  if (copyCount > 1) {
-    document.getElementById("stackedRest").style.display = 'block';
-    currentRightDiv.classList.add("stackedTop");
-  }
-  else {
-    if (copyCount == 0) {
-      currentSelectedBlock = null;
-      if (currentRightDiv) {
-        $('#animatediv').animate({opacity: '0'}, "normal");
-      }
+  if (currentSelectedBlock != null) {
+    var taskName = currentSelectedBlock.getFieldValue("TASK");
+    leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_task' && block.getFieldValue('TASK') == taskName)).forEach(block => copyCount++);  
+    if (copyCount > 1) {
+      document.getElementById("stackedRest").style.display = 'block';
+      currentRightDiv.classList.add("stackedTop");
     }
     else {
-      document.getElementById("stackedRest").style.display = 'none';
-      currentRightDiv.classList.remove("stackedTop");
+      if (copyCount == 0) {
+        currentSelectedBlock = null;
+        if (currentRightDiv) {
+          $('#animatediv').animate({opacity: '0'}, "normal");
+        }
+      }
+      else {
+        document.getElementById("stackedRest").style.display = 'none';
+        currentRightDiv.classList.remove("stackedTop");
+      }
     }
   }
 }
