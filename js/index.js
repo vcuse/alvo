@@ -71,7 +71,7 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
   else {
     var copyOption = {enabled: true};
     var name = this.getFieldValue('TASK');
-    copyOption.text = "Duplicate task '%1'".replace('%1', name);
+    copyOption.text = "Clone task '%1'".replace('%1', name);
     var block = this;
     var newName = getCollisionFreeTaskName(name);
     var xmlCopy = Blockly.utils.xml.createElement('block');
