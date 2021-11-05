@@ -10,9 +10,9 @@ var initTask = function() {
   Simulator[Simulator.instance].station['STATIONB'].addItem("orange", "left");
   Simulator[Simulator.instance].station['STATIONB'].addItem("orange", "left");
   Simulator[Simulator.instance].station['STATIONB'].addItem("orange", "left");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "right");
-  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "right");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
+  Simulator[Simulator.instance].station['STATIONC'].addItem("yellow", "left");
 
   if (!initialized) {
     initialized = true;
