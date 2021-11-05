@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Task 1: Moving Stacks</h4>
+    <div>
+    <p>Task:</p>
+      <ol>
+        <li>Move all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> from the center of Station A to the center of Station B.<br> <em>Note that the program you are given below already solves this part of the task.</em></li>
+        <li>Move all the orange boxes <img src="../media/item-orange.png" style="height:20px; width:20px"> from the center of Station D to center of Station C.</li>
+        <li>Move all the blue boxes <img src="../media/item-blue.png" style="height:20px; width:20px"> from the left side of Station E to the right side.</li>
+        <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the right side of Station F to the left side.</li>
+      </ol>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
+      <span id="task-success">Task completed! The current program has produced the expected result.<br><br>
+      <strong><a style="font-size: 20pt;" href="">Click here to continue.</a></strong><br>
+    </span>
+    </div>
+    <p>Expected Result:</p>
+    <img src="expected.png" style="height:90px">
+  </div>
+  <div class="maincontainer">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+        <div id="__Pick Topdiv" class="workspace" style="position: relative;"></div>
+        <div id="__Pick Bottomdiv" class="workspace" style="position: relative;"></div>
+        <div id="__Place Topdiv" class="workspace" style="position: relative;"></div>
+        <div id="__Place Bottomdiv" class="workspace" style="position: relative;"></div>
+
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+      </div>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <variables>
+      <variable id="Pick Top">Pick Top</variable>
+      <variable id="Place Bottom">Place Bottom</variable>
+      <variable id="Pick Bottom">Pick Bottom</variable>
+      <variable id="Place Top">Place Top</variable>
+    </variables>
+      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task"><field name="TASK">Pick Top</field><field name="SITE">STATIONA</field><next><block type="custom_task"><field name="TASK">Place Bottom</field><field name="SITE">STATIONB</field><next><block type="custom_task"><field name="TASK">Pick Bottom</field><field name="SITE">STATIONA</field><next><block type="custom_task"><field name="TASK">Place Top</field><field name="SITE">STATIONB</field></block></next></block></next></block></next></block></next></block></xml>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="pickTopBlocks" style="display: none">
+    <variables>
+      <variable id="top center">top center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Pick Top</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top center</field></block></value><next></next></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="pickBottomBlocks" style="display: none">
+    <variables>
+      <variable id="bottom center">bottom center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Pick Bottom</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom center</field></block></value><next></next></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="placeTopBlocks" style="display: none">
+    <variables>
+      <variable id="top center">top center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Place Top</field><field name="SITE">STATIONB</field><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top center</field></block></value><next></next></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="placeBottomBlocks" style="display: none">
+    <variables>
+      <variable id="bottom center">bottom center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Place Bottom</field><field name="SITE">STATIONB</field><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom center</field></block></value><next></next></block></next></block>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/defposition.js"></script>
+</body>
+</html>

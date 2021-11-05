@@ -12,67 +12,73 @@
 <body>
   <!-- HTML Elements -->
   <div class="taskcontainer">
-    <h4>Tutorial 3: Editing and Re-using Blocks</h4>
-      <div id="steps" style="grid-column-end: span 4">
-        <p>Task:</p>
-        <ol>
-          <li>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side <strong>and turn it upside-down</strong>.</li>
-          <li>Move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from the left side of Station B to the right side <strong>and turn it upside-down</strong>.</li>
-          <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station C to the right side, on top of the green box, <strong>and turn it upside-down</strong>.</li>
-        </ol>
+    <h4>Tutorial 3: Editing and Re-using Code</h4>
+    <div>
+    <p>Task:</p>
+      <ol>
+        <li>Move all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> from the left side of Station A to the right side.</li>
+        <li>Move all the orange boxes <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station B to the right side.</li>
+        <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station C to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
+      </ol>
         <p>As you have seen in the previous tutorial, robot programs are often very similar to each other. It can therefore be useful to use existing code rather than writing all programs from scratch.</p>
-        <p>The goal of this tutorial is similar to the previous one, and you could solve it like you did before, but we will use a different method to program this time. You can click on each step to get more detailed instructions.</p>
+        <p>In this tutorial, we ask you to solve a task that benefits significantly from re-using existing code, and we will show you how to solve it in a smart way. You can click on each step to get more detailed instructions.</p>
         <ol class="accordion-group">
-          <li><a href="#step1" data-toggle="collapse">Re-use the first task</a>
+          <li><a href="#step1" data-toggle="collapse">Look at the existing program</a>
             <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu below.</li>
-              <li>Instead of creating a new task, drag the existing task onto the canvas and attach it to the very bottom of the program.</li>
-              <li>Assign the new block to "Station B" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
-              <li>Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out. As you can see, both tasks execute the same commands at different station.</li>
+              <li>For this task, we have given you a small program to start with. Click on the <img src="movestack.png" style="height:30px; margin: 1px"> task block below to look at the given code in detail.</li>
+              <li>This code will pick up blocks from the left side of a station and move them to the right side of the station. Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out.</li>
+              <li>As you can see, the given program already solves step 1 of the given task by moving all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> into their intended positions.</li>
+
             </ol>
           </li>
-          <li><a href="#step2" data-toggle="collapse">Turn the box upside-down at both stations</a>
+          <li><a href="#step2" data-toggle="collapse">Re-use the existing program</a>
             <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="turnblock.png" style="height:30px"> block onto the canvas. The robot can only turn blocks that it is currently holding, so the new block has to be placed right after the <img src="pickupblock.png" style="height:30px"> block.</li>
-              <li>Drag another <img src="turnblock.png" style="height:30px"> block from the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu onto the canvas and place it right after the one you just added.</li>
-              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, your changes have affected all places where the same task is used, in this case both station A and B.</li>
+              <li>You might have noticed that step 2 of the given task is very similar to step 1. In fact, you can re-use the exact same program to solve this task.</li>
+              <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and drag the <img src="movestacknostation.png" style="height:30px"> block from the "Existing tasks" list onto the canvas.</li>
+              <li>Attach the new task block to the very bottom of the program. Then assign it to "Station B" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
+              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again.</li>
             </ol>
           </li>
-          <li><a href="#step3" data-toggle="collapse">Save time by re-using the first task again</a>
+          <li><a href="#step3" data-toggle="collapse">Clone the existing program</a>
             <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Since the third part of the task is also similar to the previous ones, you can use the existing code as a starting point instead of creating a new task. <strong>However, you need to create a duplicate of that task first so that your changes don't affect the other stations.</strong></li>
-              <li>To create a duplicate of a task, right-click on it in the left editor and select <img src="duplicate.png" style="height:28px; border: solid 1px #333">. A new task block should appear next to the existing one.</li>
-              <li>Attach the new task block to the very bottom of the program. Give the new block a descriptive name, such as "Move stacked box to the right", and assign it to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
+              <li>You have now solved the first 2 steps of the given task. Step 3 is too different from the first two to re-use the existing program as it is. However, you can use the existing program as a starting point to save you some time.</li>
+              <li>Open the <img src="tasksmenu.png" style="height:22px; border: solid 1px #333"> menu in the task editor and right-click on the <img src="movestacknostation.png" style="height:30px"> block in the "Existing tasks" list.</li>
+              <li>Select <img src="clonetask.png" style="height:22px; border: solid 1px #333"> in the right-click menu to create an identical copy of the task. The new task should appear right underneath the existing one in the "Existing tasks" list.</li>
+              <li>Drag the new task you just created onto the canvas and attach it to the very bottom of the program. Then assign it to "Station C" using the <img src="stationmenu.png" style="height:22px"> menu.</li>
+              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and then clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button again. As you can see, you have not yet solved step 3 of the task completely. However, you now have a starting point for adding the missing steps.</li>
             </ol>
           </li>
-          <li><a href="#step4" data-toggle="collapse">Change the locations for station C</a>
+          <li><a href="#step4" data-toggle="collapse">Edit the cloned program</a>
             <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Make sure you have selected the new task for station C in the left canvas. Notice how this task already contains the same commands as the original task and can be the starting point for programming station C. </li>
-              <li>Open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px; margin:1px;">. Select the <strong>middle left</strong> location and drag it onto the canvas.</li>
-              <li>Attach the "middle left" location you just created to the <img src="pickupblock.png" style="height:30px; margin:1px;"> block, replacing the "bottom left" block. You can delete the leftover "bottom left" block by dragging it onto the trash can symbol if you want.</li>
-              <li>Repeat the previous steps and define another new location at the <strong>middle right</strong>. Attach it to the <img src="placeblock.png" style="height:30px"> block, replacing the "bottom right" block. Again, you can delete the leftover block if you want.</li>
+              <li>Make sure that you have selected the newly created task for station C in the left canvas.</li>
+              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu and drag the <img src="turnitem.png" style="height:30px; margin:1px"> block onto the canvas.</li>
+              <li>The robot can only turn items that it is currently carrying, so the new block needs to be added in-between the blocks for picking up and placing an item. We recommend that you begin by adding the block between picking up and placing the first item in the stack.</li>
+              <li>Repeat the previous steps to add a second <img src="turnitem.png" style="height:30px; margin:1px;"> block right after the previous one. Combined the two blocks will turn the item upside-down.</li>
+              <li>Now repeat the previous steps to add more <img src="turnitem.png" style="height:30px; margin:1px;"> blocks for the other two items in the stack. You should have used 6 turn blocks in total in the final program.</li>
             </ol>
           </li>
           <li><a href="#step5" data-toggle="collapse">Test the program</a>
             <ol id="step5" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program. Notice how the programs for stations A and B were not affected by editing the duplicated task.</li>
+              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
             </ol>
           </li>
         </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
       <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
-      <span id="task-success">Task completed! Congratulations, you've successfully re-used programs for multiple stations!<br><br>
-      <strong><a style="font-size: 20pt;" href="../task1/twocanvas.html">Click here to continue with the first task.</a></strong><br></span>
+      <span id="task-success">Task completed! Congratulations, you've successfully re-used programs for multiple stations!<br><strong><a style="font-size: 20pt;" id="surveylink" href="">Click here to continue.</a></strong><br>
+    </span>
     </div>
+    <p>Expected Result:</p>
+    <img src="expected.png" style="height:110px">
   </div>
-  <div class="maincontainer twocanvas">
+  <div class="maincontainer">
     <div id="leftdiv" class="workspace"></div>
     <div id="middlediv" class="workspace">
       <div id="animatediv" style="margin-left: 0px">
         <div id="stackedRest">
           <div id="stackedDummyDrawer"></div>
         </div>
-        <div id="__Move box to the rightdiv" class="workspace" style="position: relative;"></div>
+        <div id="__Move Stackdiv" class="workspace" style="position: relative;"></div>
       </div>
     </div>
     <div id="rightdiv">
@@ -90,17 +96,9 @@
 
   <!-- Starting configuration -->
   <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
-      <variables>
-      <variable id="Move box to the right">Move box to the right</variable></variables>
-      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task"><field name="TASK">Move box to the right</field><field name="SITE">STATIONA</field></block></next></block></xml>
-  </xml>
-
-  <xml xmlns="https://developers.google.com/blockly/xml" id="rightWorkspaceBlocks" style="display: none">
     <variables>
-      <variable id="bottom left">bottom left</variable>
-      <variable id="bottom right">bottom right</variable>
-    </variables>
-    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Move box to the right</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value></next></block></next></block></next></block>
+      <variable id="Move Stack">Move Stack</variable></variables>
+      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task"><field name="TASK">Move Stack</field><field name="SITE">STATIONA</field></block></next></block></xml>
   </xml>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
@@ -129,11 +127,23 @@
     </category>
   </xml>
 
+  <xml xmlns="https://developers.google.com/blockly/xml" id="rightWorkspaceBlocks" style="display: none">
+    <variables>
+      <variable id="top left">top left</variable>
+      <variable id="middle left">middle left</variable>
+      <variable id="bottom left">bottom left</variable>
+      <variable id="top right">top right</variable>
+      <variable id="middle right">middle right</variable>
+      <variable id="bottom right">bottom right</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Move Stack</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top right</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block>
+  </xml>
+
   <!-- Javascript Code -->
+  <script src="task.js"></script>
   <script src="../blockly/blockly_uncompressed.js"></script>
   <script src="../blockly/blocks_compressed.js"></script>
   <script src="../blockly/javascript_compressed.js"></script>
-  <script src="task.js"></script>
   <script src="../js/generator.js"></script>
   <script src="../blockly/msg/js/en.js"></script>
   <script src="../js/blocks.js"></script>

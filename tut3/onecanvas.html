@@ -12,75 +12,24 @@
 <body>
   <!-- HTML Elements -->
   <div class="taskcontainer">
-    <h4>Tutorial 3: Editing and Re-using Blocks</h4>
-      <div id="steps" style="grid-column-end: span 4">
-        <p>Task:</p>
-        <ol>
-          <li>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side <strong>and turn it upside-down</strong>.</li>
-          <li>Move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from the left side of Station B to the right side <strong>and turn it upside-down</strong>.</li>
-          <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station C to the right side, on top of the green box, <strong>and turn it upside-down</strong>.</li>
-        </ol>
-        <p>As you have seen in the previous tutorial, robot programs are often very similar to each other. It can therefore be useful to use existing code rather than writing all programs from scratch.</p>
-        <p>The goal of this tutorial is similar to the previous one, and you could solve it like you did before, but we will use a different method to program this time. You can click on each step to get more detailed instructions.</p>
-        <ol class="accordion-group">
-          <li><a href="#step1" data-toggle="collapse">Create a recipe for the code from the first task</a>
-            <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="recipemenu.png" style="height:22px; border: solid 1px #333"> menu below and drag the <img src="recipeblock.png" style="height:30px"> block from there onto the canvas. It will not attach to the existing blocks, so you can drag it anywhere where there is space.</li>
-              <li>Move the pick-up and place commands into the new recipe you created. To do so, start dragging the <img src="pickupbottomleft.png" style="height:30px"> block from the existing program and the other block attached to it will automatically move with it. Drag them into the center of the new block you just added and attach them to it.</li>
-              <li>Rename the <img src="recipeblock.png" style="height:30px"> block by clicking on the "do something" text. You should give it a name that describes what the code inside does, like "Move box to right" in this case.</li>
-              <li>Open the <img src="recipemenu.png" style="height:22px; border: solid 1px #333"> menu again. There should be a new <img src="moverightblock.png" style="height:30px"> block (or a similar block with the same name that you gave the recipe block). Drag this new block onto the canvas and attach it to the bottom of the <img src="moveblockstationa.png" style="height:30px"> block.</li>
-              <li>Before you continue, take a moment to understand what the current program does. Click the <img src="runprogram.png" style="height:30px; margin:1px"> button underneath the simulator to try it out. As you can see, the program executes the exact same commands as before: It picks up the box from the left side of station A and moves it to the right side.</li>
-            </ol>
-          </li>
-          <li><a href="#step2" data-toggle="collapse">Re-use the recipe for station B</a>
-            <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="movemenu.png" style="height:22px; border: solid 1px #333"> menu and drag a second <img src="moveblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the current program, after the <img src="moverightblock.png" style="height:30px"> block.</li>
-              <li>Set the correct station as target for the new block by clicking on <img src="stationmenu.png" style="height:22px"> and selecting "Station B".</li>
-              <li>Open the <img src="recipemenu.png" style="height:22px; border: solid 1px #333"> menu and drag a second <img src="moverightblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the current program, underneath the block you added one step earlier.</li>
-              <li>Before you continue, take a moment to understand what the current program does. Reset the simulator and then click the <img src="runprogram.png" style="height:30px; margin:1px"> button again to try it out. As you can see, the program now executes the same commands as before, but for both station A and B.</li>
-            </ol>
-          </li>
-          <li><a href="#step3" data-toggle="collapse">Turn the box upside-down at both stations</a>
-            <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu and drag the <img src="turnblock.png" style="height:30px"> block onto the canvas. Place it inside the recipe. The robot can only turn blocks that it is currently holding, so the new block has to be placed right after the <img src="pickupblock.png" style="height:30px"> block.</li>
-              <li>Drag another <img src="turnblock.png" style="height:30px"> block from the <img src="armmenu.png" style="height:22px; border: solid 1px #333"> menu onto the canvas and place it right after the one you just added.</li>
-              <li>Before you continue, take another moment to understand what the current program does and try it out by resetting the simulator and clicking the <img src="runprogram.png" style="height:30px; margin:1px"> button. As you can see, the program still executes the exact same commands first at station A and then at station B. This is because both stations use the same recipe, and all changes you make to the recipe are applied to the programs for both stations at once.</li>
-            </ol>
-          </li>
-          <li><a href="#step4" data-toggle="collapse">Save time by copying the recipe</a>
-            <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Since the third part of the task is also similar to the previous ones, you can use the existing recipe as a starting point instead of creating a new one from scratch. Right-click the <img src="recipeblock.png" style="height:30px"> block and click on "Copy definition of 'Move box to right'" (or the equivalent with the recipe name you picked).</li>
-              <li>You have just created a copy of the current recipe with exactly the same blocks inside. You might have to drag the new recipe a bit to the side so it doesn't overlap with the other one. This recipe can be the starting point for programming station C.</li>
-            </ol>
-          </li>
-          <li><a href="#step5" data-toggle="collapse">Change the locations in the copied recipe</a>
-            <ol id="step5" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Open the <img src="locationmenu.png" style="height:22px; border: solid 1px #333"> menu and select <img src="definelocation.png" style="height:22px">. Select the <strong>middle left</strong> location and drag the new block onto the canvas.</li>
-              <li>Attach the "middle left" location you just created to the <img src="pickupblock.png" style="height:30px"> block of the copied recipe, replacing the "bottom left" block. You can delete the leftover "bottom left" block by dragging it onto the trash can symbol if you want.</li>
-              <li>Repeat the previous steps and define another new location at the <strong>middle right</strong>. Attach it to the <img src="placeblock.png" style="height:30px"> block of the copied recipe, replacing the "bottom right" block. Again, you can delete the leftover block if you want.</li>
-              <li>Now that you have changed the copied recipe's content, you should also change its name so it fits the new content better. In this example, you could rename it to "Move stacked box to right".</li>
-            </ol>
-          </li>
-          <li><a href="#step6" data-toggle="collapse">Use the new recipe in your program</a>
-            <ol id="step6" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>All that is left to do is to use the new recipe in your program. Open the <img src="movemenu.png" style="height:22px; border: solid 1px #333"> menu and drag another <img src="moveblock.png" style="height:30px"> block onto the canvas. Attach it to the bottom of the current program, after the last <img src="moverightblock.png" style="height:30px"> block.</li>
-              <li>Set the correct station as target for the new block by clicking on <img src="stationmenu.png" style="height:22px"> and selecting "Station C".</li>
-              <li>Open the <img src="recipemenu.png" style="height:22px; border: solid 1px #333"> menu and drag the block with the name you gave to the copied recipe onto the canvas. Attach it to the bottom of the current program, underneath the block you added one step earlier.</li>
-            </ol>
-          </li>
-          <li><a href="#step7" data-toggle="collapse">Test the program</a>
-            <ol id="step7" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program. Notice how the programs for stations A and B still use the old recipe and were not affected by your changes.</li>
-            </ol>
-          </li>
-        </ol>
+    <h4>Task 2: Moving Stacks</h4>
+    <div>
+      <p>Task:</p>
+      <ol>
+        <li>Move all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> from the left side of Station A to the right side.<br> <em>Note that the program you are given below already solves this part of the task.</em></li>
+        <li>Move all the orange boxes <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station B to the right side.</li>
+        <li>Move all the blue boxes <img src="../media/item-blue.png" style="height:20px; width:20px"> from the right side of Station C to the left side.</li>
+        <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station D to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
+      </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
-      <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
-      <span id="task-success">Task completed! Congratulations, you've successfully re-used programs for multiple stations!<br><br>
-      <strong><a style="font-size: 20pt;" href="../task1/onecanvas.html">Click here to continue with the first task.</a></strong><br></span>
+      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
+      <span id="task-success">Task completed! The current program has produced the expected result.<br><br>
+      <strong><a style="font-size: 20pt;" href="../task3/onecanvas.html">Click here to continue with the next task.</a></strong><br>
+    </span>
     </div>
+    <p>Expected Result:</p>
+    <img src="expected.png" style="height:110px">
   </div>
-
   <div class="maincontainer">
     <div id="leftdiv" class="workspace onecanvas"></div>
     <div id="rightdiv">
@@ -99,10 +48,14 @@
   <!-- Starting configuration -->
   <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
     <variables>
+      <variable id="top left">top left</variable>
+      <variable id="middle left">middle left</variable>
       <variable id="bottom left">bottom left</variable>
+      <variable id="top right">top right</variable>
+      <variable id="middle right">middle right</variable>
       <variable id="bottom right">bottom right</variable>
     </variables>
-    <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_robotmove" x="28" y="28"><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value></next></block></next></block></next></block></next></block>
+    <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_robotmove"><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top right</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
   </xml>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
