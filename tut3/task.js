@@ -77,7 +77,7 @@ var checkTask = function() {
                && expectYellow1.color == 'yellow' && (expectYellow1.turned % 360) == 180
                && expectYellow2.color == 'yellow' && (expectYellow2.turned % 360) == 180
                && expectYellow3.color == 'yellow' && (expectYellow3.turned % 360) == 180;
-  return greens && oranges && blues && yellows;
+  return greens && oranges && yellows;
 }
 
 setTimeout(function(){ submitLog("start", "0") }, 1000);
