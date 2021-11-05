@@ -13,12 +13,12 @@
   <!-- HTML Elements -->
   <div class="maincontainer">
     <div id="leftdiv" class="workspace twocanvas taskselector">
-      <h5>Playground</h5>
-      <form action="twocanvas.html" method="get">
-        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
+      <h5>Study Results</h5>
+      <form action="mobilerobot-data.html" method="get" style="float:left">
+        <input id="results-button" value="Study Results (HTML)" type="submit" class="btn btn-secondary">
       </form>
-      <form action="onecanvas.html" method="get">
-        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
+      <form action="mobilerobot-data.csv" method="get" style="">
+        <input id="results-button" value="Study Results (CSV)" type="submit" class="btn btn-secondary">
       </form>
       <h5></h5>
       <h5>Tutorial 1: Basic Programming</h5>
@@ -45,9 +45,13 @@
       <h5></h5>
     </div>
     <div id="middlediv" class="workspace twocanvas taskselector">
-      <h5></h5>
-      <h5></h5>
-      <h5></h5>
+      <h5>Playground</h5>
+      <form action="twocanvas.html" method="get">
+        <input type="submit" id="twocanvas-button" value="Use Two-Canvas Mode" class="btn btn-primary">
+      </form>
+      <form action="onecanvas.html" method="get">
+        <input id="onecanvas-button" value="Use One-Canvas Mode" type="submit" class="btn btn-info">
+      </form>
       <h5></h5>
       <h5>Task 1: Pick and Place Between Stations</h5>
       <form action="task1/twocanvas.html" method="get">
