@@ -10,6 +10,10 @@ the [first-experiment](https://github.com/vcuse/alvo/tree/main/first-experiment)
 If you wanna see how we implemented a pratical example of our prototype using a mobile robot manipulator, please take a look at the
 [application](https://github.com/vcuse/alvo/tree/main/application) folder.
 
+> Try our experiment online by accessing the following website:
+> https://vcuse.github.io/alvo/first-experiment/
+
+
 Questions?
 Feel free to get in touch with us:
 - Nico Ritschel: ritschel@cs.ubc.ca
