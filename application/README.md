@@ -37,3 +37,5 @@ First, download the repository. The index.html file is referenced relative to th
 
 If you need help do not hesitate to send a message to:
 - Ethan Hollingsworth: Ethan.Hollingsworth@ccam-va.com  or  hollingsworre@vcu.edu
+- Felipe Fronchetti: fronchettl@vcu.edu
+- David Shepherd: shepherdd@vcu.edu
