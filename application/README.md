@@ -36,6 +36,6 @@ First, download the repository. The index.html file is referenced relative to th
 ## :speech_balloon:	For help
 
 If you need help do not hesitate to send a message to:
-- Ethan Hollingsworth: Ethan.Hollingsworth@ccam-va.com  or  hollingsworre@vcu.edu
+- Ethan Hollingsworth: hollingsworre@vcu.edu
 - Felipe Fronchetti: fronchettl@vcu.edu
 - David Shepherd: shepherdd@vcu.edu
