@@ -1,0 +1,205 @@
+html {
+    background-color: #d1d1d1;
+    font-family: sans-serif;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+h4 {
+   grid-column: 1 / span 4;
+}
+
+h5 {
+   grid-column: 1 / span 2;
+   margin-top: 20px;
+}
+
+html, body, .container-fluid {
+    height: 100%;
+    min-height: 100%;
+}
+
+#workspace {
+    height: 85%;
+}
+
+#toolbar-top {
+    padding: 10px;
+    min-height: 5%;
+    background-color: #d1d1d1;
+}
+
+#toolbar-bottom {
+    background-color: white;
+    min-height: 5%;
+    padding: 10px;
+}
+
+#taskdiv, #animatediv {
+    height: 100%;
+    padding: 5px;
+}
+
+.injectionDiv {
+    border: #999 1px solid;
+    border-radius: 3px;
+}
+
+.toolboxHeading>.blocklyFlyoutLabelText {
+    font-weight: bold !important;
+    font-size: 14pt !important;
+}
+
+#workspace-button {
+    background-color: #ebebeb;
+    border-radius: 3px;
+}
+
+#workspace-button:hover {
+    background-color: #f5f5f5;
+}
+
+#move-station-button {
+    color: white;
+    background-color: #3891d1;
+    outline: none;
+    box-shadow: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#move-station-button:hover, #move-station-button:focus {
+    color: white;
+    background-color: #3081bb;
+}
+
+#move-arm-button {
+    color: white;
+    background-color: #1fa7a7;
+    outline: none;
+    box-shadow: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#move-arm-button:hover, #move-arm-button:focus {
+    color: white;
+    background-color: #1f9b9b;
+}
+
+#station-button-group, #arm-button-group{
+    margin-right: 10px;
+}
+
+#workspace-filename {
+    font-size: 22px;
+}
+
+#execution-button {
+    border: none;
+    width: 200px;
+    border-radius: 4px;
+    font-size: 22px;
+    color: white;
+    background-color: #30ad32;
+    outline: none;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.4);
+}
+
+#execution-button:hover, #execution-button:focus{
+    color: white;
+    background-color: #2a992c;   
+}
+
+#execution-button:active,
+#robot-moving-modal-stop-button:active {
+    transform: scale(0.97);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+#robot-moving-modal-stop-button{
+    border: none;
+    width: 200px;
+    border-radius: 4px;
+    font-size: 22px;
+    outline: none;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.4);
+}
+
+#move-station-button:active, 
+#move-arm-button:active, 
+#open-gripper-button:active, 
+#close-gripper-button:active,
+.modal-confirm-button:active {
+    transform: scale(0.97);
+}
+
+#open-gripper-button {
+    outline: none;
+    box-shadow: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+#close-gripper-button {
+    outline: none;
+    box-shadow: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.modal-confirm-button {
+    border-radius: 4px;
+    font-size: 20px;
+    width: 175px;
+    color: white;
+    background-color: #e07f4f;
+}
+
+.modal-confirm-button:hover, .modal-confirm-button:focus {
+    color: white;
+    background-color: #bb6940;
+}
+
+.selectpicker{
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#onecanvas-button, #twocanvas-button{
+    font-size: 18px;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 3px;
+    color: white;
+    background-color: #1521d1;
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.4);
+}
+
+#onecanvas-button:hover, #twocanvas-button:hover{
+    color: white;
+    background-color: #1827f3;
+}
+
+#program-select-body{
+    background-color: #256b79;
+}
+
+#program-select-text{
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-shadow: 1px 1px 1px #919191,
+        1px 3px 6px rgba(16,16,16,0.4),
+        1px 7px 10px rgba(16,16,16,0.4);
+}
+
+#joint-velocity-label, #joint-acceleration-label{
+    margin-left:5px;
+}
+
+#joint-options-button:hover{
+    background-color: #ebebeb;
+}

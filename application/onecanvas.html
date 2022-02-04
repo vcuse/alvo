@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>One Canvas Programming.</title>
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="container-fluid fill">
+
+    <!-- Toolbar (Top) -->
+    <div class="row" id="toolbar-top">
+      <div class="col-4" id="workspace-options">
+        <div class="row align-items-center">
+          <div class="col-2 col-sm-4" style="width: 180px;">
+            <!-- Workspace button -->
+            <div class="dropdown">
+              <button id="workspace-button" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Workspace
+              </button>
+              <div class="dropdown-menu">
+                <button class="dropdown-item" id="reload-button">New workspace</button>
+                <button class="dropdown-item" value="save-by-name" id="save-button">Save current workspace</button>
+                <button class="dropdown-item" value="one-canvas" id="open-file-button">Open saved workspace</button>
+                <form action="index.html" method="get">
+                  <input class="dropdown-item" id="main-page-button" value="Exit One-Canvas Mode" type="submit">
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-10 col-sm-6">
+            <!-- Workspace filename -->
+            <span id="workspace-filename">Example.json</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Robot control buttons -->
+      <div class="col-8" id="robot-options">
+        <div class="row float-end">
+          <div class="col-12"> 
+            <!-- Drive to station buttons -->
+            <div class="btn-group" id="station-button-group">
+              <button type="button" class="btn" id="move-station-button">Drive to Station</button>
+              <select class="selectpicker" id="station-select">
+                <option selected value="STATIONA">A</option>
+                <option value="STATIONB">B</option>
+                <option value="STATIONC">C</option>
+              </select>
+            </div>
+            <!-- Move arm buttons -->
+            <div class="btn-group" id="arm-button-group">
+              <button type="button" class="btn" id="move-arm-button">Move Arm To</button>
+              <select class="selectpicker" id="move-arm-select">
+                <option selected value="Buffer">Buffer</option>
+                <option value="Table">Table</option>
+                <option value="Safety">Safety</option>
+              </select>
+            </div>
+            <!-- Open/closed grippers buttons -->
+            <div class="btn-group" id="gripper-button-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-primary" id="open-gripper-button">Open Gripper</button>
+              <button type="button" class="btn btn-primary" id="close-gripper-button">Close Gripper</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blockly workspace -->
+    <div id="workspace" class="row">    
+      <div class="workspace-area col-6">
+        <div id="taskdiv" class="row">
+          <div id="leftdiv" class="col-12"></div>
+        </div>        
+      </div>
+    </div>
+  
+    <!-- Toolbar (Bottom) -->
+    <div class="row" id="toolbar-bottom">
+      <div class="col-3">
+        <div class="dropup">
+          <button id="joint-options-button" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+          <div class="dropdown-menu">
+            <label for="Joint Velocity" class="form-label" id="joint-velocity-label">Joint Velocity</label>
+            <input type="range" class="form-range" min="0.1" max="2" step="0.01" value="1" id="joint-velocity-range" onchange="updateJointVelocity(this.value);">
+            <label for="Joint Acceleration" class="form-label" id="joint-acceleration-label">Joint Acceleration</label>
+            <input type="range" class="form-range" min="0.1" max="2" step="0.01" value="1" id="joint-acceleration-range" onchange="updateJointAcceleration(this.value);">
+          </div>
+        </div>
+      </div>
+      <div class="col-6 text-center">
+        <!-- Start button -->
+        <button id="execution-button" type="button" class="btn btn-primary">Start</button>     
+      </div>
+      <div class="col-3"></div>     
+    </div>
+
+  </div>
+  
+  <div id="position-modal" class="modal fade" data-value="new-position" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Teach Position</h5>
+          <button id="position-modal-cancel-button" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span id="position-modal-warning"></span>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button id="position-modal-confirm-button" type="button" class="btn modal-confirm-button">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="variable-prompt-modal" class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Define Location</h5>
+          <button id="variable-prompt-modal-cancel-button" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <span id="variable-prompt-modal-warning"></span>
+          <input type="text" class="form-control" id="variable-name-input" placeholder="Example: Target, Gear, Spacer..." aria-label="Example: Target, Gear, Spacer..." aria-describedby="button-addon2">
+          <div class="modal-footer justify-content-center">
+            <button id="variable-prompt-modal-confirm-button" class="btn modal-confirm-button" type="button" id="variable-prompt-modal-confirm-button">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="robot-moving-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Robot is Moving</h5>
+        </div>
+        <div class="modal-body">
+          <span id="robot-moving-modal-warning"></span>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button id="robot-moving-modal-stop-button" type="button" class="btn btn-danger">Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <block type="custom_start" id="START" x="38" y="28"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Drive" colour="#5C9FA6">
+      <block type="custom_robot_drive"></block>
+    </category>
+    <category name="Arm" colour="#DB4437">      
+      <block type="custom_move"></block>
+      <block type="custom_linear_move"></block>
+    </category>
+    <category name="Gripper" colour="#4285F4">
+      <block type="custom_open"></block>
+      <block type="custom_close"></block>
+    </category>
+  </xml>
+
+  <!-- Bootstrap -->
+  <script src="bootstrap/jquery.min.js"></script>
+  <script src="bootstrap/bootstrap.bundle.min.js"></script>
+  <!-- Blockly -->
+  <script src="blockly/blockly_uncompressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/javascript_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="js/mobile_robot_generator.js"></script>  
+  <!-- Javascript Code -->
+  <script src="js/joint_ranges.js"></script>
+  <script src="js/ur5_defines.js"></script>
+  <script src="js/blocks.js"></script>
+  <script src="js/define_position.js"></script>
+  <script src="js/onecanvas_index.js"></script>  
+  <script src="js/start_code.js"></script>
+  <script src="js/stop_code.js"></script>
+  <script src="js/new_workspace.js"></script>
+  <script src="js/variable_prompt.js"></script>
+  <script src="js/dropdown_menu.js"></script>
+  <script src="js/move_arm.js"></script>
+  <script src="js/gripper.js"></script>
+  <script src="js/station_move.js"></script>
+  <script src="js/open_workspace.js"></script> 
+  <!-- Prototype Language -->
+  <script src="js/MobileRobot/robot_arm.js"></script>
+  <script src="js/MobileRobot/robot_hand.js"></script>
+  <script src="js/MobileRobot/run.js"></script>
+  <script src="js/MobileRobot/tasks.js"></script>
+  <script src="js/MobileRobot/robot_drive.js"></script>
+</body>
+</html>
+
+<!-- Logic for saving of a one-canvas Blockly workspace -->
+<script>
+
+var saveButton = document.getElementById('save-button');
+
+saveButton.onclick = function() {
+  var leftWorkspace_xml = Blockly.Xml.workspaceToDom(leftWorkspace);
+  var leftWorkspace_xml_text = Blockly.Xml.domToPrettyText(leftWorkspace_xml);
+
+  ur5_poses["SingleCanvas"] = ur5_poses[currentRightWorkspace.id];
+            
+  //compile all relevant info into a json object and send to cs
+  var file = {
+    "leftWorkspace_xml_text" : leftWorkspace_xml_text,
+    "urRobTargets" : ur5_poses
+  }
+
+  //means this is a user desired save
+  if($('#save-button').val() == "save-by-name"){
+    file = "<SAVE_FILE_ONE_CANVAS>" + JSON.stringify(file, undefined, 4); 
+    console.log(file);
+    window.chrome.webview.postMessage(file);
+  //means this is an autosave  
+  }else if($('#save-button').val() == "autosave"){
+    file["autosave"] = true;  //set autosave key to true so that wpf knows this is an autosave by searching for it on wpf side
+    file = "<SAVE_FILE_ONE_CANVAS>" + JSON.stringify(file, undefined, 4);
+    window.chrome.webview.postMessage(file);
+    $('#save-button').val("save-by-name"); //change button value back to save-by-name
+  }   
+}
+
+</script>
