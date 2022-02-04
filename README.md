@@ -5,7 +5,7 @@ A block-based programming language prototype for mobile and collaborative robots
 
 
 If you are here because you want to learn more about our first experiment with Amazon Turk individuals, please take a look at
-the [first-experiment](https://github.com/vcuse/alvo/tree/main/first-experiment). folder.
+the [first-experiment](https://github.com/vcuse/alvo/tree/main/first-experiment) folder.
 
 If you wanna see how we implemented a pratical example of our prototype using a mobile robot manipulator, please take a look at the
 [application](https://github.com/vcuse/alvo/tree/main/application) folder.
