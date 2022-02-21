@@ -1,6 +1,6 @@
 # Alvo 🦕
 
-A block based programming language for the UR5/MiR mobile manipulator owned by CCAM.
+A block based programming language for the UR5/MiR mobile manipulator.
 
 ## :card_index_dividers:	Files
 - index.html: The HTML file where the programming language is loaded. Can navigate to two or one canvas applications from here.
@@ -36,4 +36,6 @@ First, download the repository. The index.html file is referenced relative to th
 ## :speech_balloon:	For help
 
 If you need help do not hesitate to send a message to:
-- Ethan Hollingsworth: Ethan.Hollingsworth@ccam-va.com  or  hollingsworre@vcu.edu
+- Ethan Hollingsworth: hollingsworre@vcu.edu
+- Felipe Fronchetti: fronchettl@vcu.edu
+- David Shepherd: shepherdd@vcu.edu
