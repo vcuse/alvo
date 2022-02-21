@@ -44,5 +44,16 @@ namespace MobileRobotProject
         {
             Ur5.Disconnect(); //ensure close of ur rtde socket
         }
+
+        private void MinimizeMainWindow(object sender, RoutedEventArgs e)
+        {
+            /* Listener - Minimizes the main window then the minize button is used */
+            this.WindowState = WindowState.Minimized;
+        }
+        private void CloseMainWindow(object sender, RoutedEventArgs e)
+        {
+            /* Listener - Closes the main window then the close button is used */
+            this.Close();
+        }
     }    
 }

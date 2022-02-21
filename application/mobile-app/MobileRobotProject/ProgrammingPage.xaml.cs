@@ -29,7 +29,7 @@ namespace MobileRobotProject
         private bool _StationB_request = true; //UR will set this false, wait 0.5s and then set true to signal move request
         private bool _StationC_request = true; //UR will set this false, wait 0.5s and then set true to signal move request
         private bool _UrProgramStarted = true;
-        private readonly string _mission_group_name = "E064"; //the mission group name where the docking stations will be placed (Note: Need to set from UI)
+        private readonly string _mission_group_name = "VCU"; //the mission group name where the docking stations will be placed (Note: Need to set from UI)
         private string _DockStationA_guid = "{ \"mission_id\" : \"***\" }";
         private string _DockStationB_guid = "{ \"mission_id\" : \"***\" }";
         private string _DockStationC_guid = "{ \"mission_id\" : \"***\" }";
@@ -440,15 +440,15 @@ namespace MobileRobotProject
                 try
                 {
                     string documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string arloFolder = Path.Combine(documentFolder, "Arlo/AutosavedWorkspace" + canvas);
+                    string alvoFolder = Path.Combine(documentFolder, "Alvo/AutosavedWorkspace" + canvas);
 
-                    if (!Directory.Exists(arloFolder))
+                    if (!Directory.Exists(alvoFolder))
                     {
-                        Directory.CreateDirectory(arloFolder);
+                        Directory.CreateDirectory(alvoFolder);
                     }
 
                     string filename = canvas + "WorkspaceBackup" + ".json";
-                    string localFilepath = Path.Combine(arloFolder, filename);
+                    string localFilepath = Path.Combine(alvoFolder, filename);
                     File.WriteAllText(localFilepath, file);
                 }
                 catch (Exception ex)
@@ -461,16 +461,16 @@ namespace MobileRobotProject
                 try
                 {
                     string documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string arloFolder = Path.Combine(documentFolder, "Arlo/SavedWorkspaces" + canvas);
+                    string alvoFolder = Path.Combine(documentFolder, "Alvo/SavedWorkspaces" + canvas);
 
-                    if (!Directory.Exists(arloFolder))
+                    if (!Directory.Exists(alvoFolder))
                     {
-                        Directory.CreateDirectory(arloFolder);
+                        Directory.CreateDirectory(alvoFolder);
                     }
 
                     SaveFileDialog saveFileDialog = new SaveFileDialog
                     {
-                        InitialDirectory = documentFolder + "\\Arlo\\SavedWorkspaces" + canvas + "\\",
+                        InitialDirectory = documentFolder + "\\Alvo\\SavedWorkspaces" + canvas + "\\",
                         Title = "Save Blockly Workspace",
                         OverwritePrompt = true,
                         DefaultExt = "json",
@@ -498,16 +498,16 @@ namespace MobileRobotProject
             try
             {
                 string documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                string arloFolder = Path.Combine(documentFolder, "Arlo/SavedWorkspaces" + canvas);
+                string alvoFolder = Path.Combine(documentFolder, "Alvo/SavedWorkspaces" + canvas);
 
-                if (!Directory.Exists(arloFolder))
+                if (!Directory.Exists(alvoFolder))
                 {
-                    Directory.CreateDirectory(arloFolder);
+                    Directory.CreateDirectory(alvoFolder);
                 }
                
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
-                    InitialDirectory = documentFolder + "\\Arlo\\SavedWorkspaces" + canvas + "\\",
+                    InitialDirectory = documentFolder + "\\Alvo\\SavedWorkspaces" + canvas + "\\",
                     Title = "Load Saved Blockly Workspace",
 
                     CheckFileExists = true,

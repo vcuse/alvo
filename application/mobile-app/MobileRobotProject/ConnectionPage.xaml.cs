@@ -46,7 +46,7 @@ namespace MobileRobotProject
                      * Invoke Blockly programming page when controller is connected.
                     */
                     if(result) NewControllerWasConnected?.Invoke(this, new ProgrammingPage(_Ur5, _UrOutputs, _UrInputs, requestedAddress.ToString()));
-                    else MessageBox.Show("Input Recipe was not accepted by Ur. Try closing and restarting the application");
+                    else MessageBox.Show("Input Recipe was not accepted by UR. Try closing and restarting the application");
                 }
                 else
                 {

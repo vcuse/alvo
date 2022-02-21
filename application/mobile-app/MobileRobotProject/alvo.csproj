@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="alvo.png" />
+    <None Remove="twotone_public_black_48dp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.992.28" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="alvo.png" />
+    <Resource Include="twotone_public_black_48dp.png" />
   </ItemGroup>
 
 </Project>

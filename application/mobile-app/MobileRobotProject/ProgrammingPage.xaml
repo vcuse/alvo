@@ -6,8 +6,9 @@
       xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
       xmlns:local="clr-namespace:MobileRobotProject"
       mc:Ignorable="d" 
-      d:DesignHeight="480" d:DesignWidth="1280"
-      Title="Programming">
+      d:DesignHeight="480" 
+      d:DesignWidth="1280"
+      Title="Programming Environment">
 
     <Grid Background="#cccccc">
         <Grid.ColumnDefinitions>

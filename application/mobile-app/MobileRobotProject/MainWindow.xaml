@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MobileRobotProject"
         mc:Ignorable="d"
-        Title="Alvo" Height="600" Width="800" WindowState="Maximized" WindowStartupLocation="CenterScreen">
-    <Grid Background="Black">
+        Title="Alvo - Block-based prototype for mobile robots" 
+        Height="600" 
+        Width="800"     
+        WindowState="Maximized"
+        WindowStyle="None">
+
+    <Grid Background="#0d0d0d">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -26,6 +31,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
+            <Button Grid.Column="0" Background="{x:Null}" BorderThickness="0" Width="50" Foreground="White" Content="-" FontSize="22" Click="MinimizeMainWindow"></Button>
+            <Button Grid.Column="1" Background="{x:Null}" BorderThickness="0" Width="50" Foreground="White" Content="×" FontSize="22" Click="CloseMainWindow"></Button>
         </Grid>
 
         <Frame x:Name="MainWindowFrame" Grid.Row="1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden" Margin="0,0,-0.4,0.4"/>
