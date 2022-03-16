@@ -13,9 +13,6 @@ using System.Net.Http;
 
 namespace MobileRobotProject
 {
-    /// <summary>
-    /// Interaction logic for ProgrammingPage.xaml
-    /// </summary>
     public partial class ProgrammingPage : Page
     {
         private HttpClient client;
@@ -23,13 +20,13 @@ namespace MobileRobotProject
         private readonly UniversalRobot_Inputs _UrInputs;
         private readonly UniversalRobot_Outputs _UrOutputs;       
         private readonly string _Ur5_ip;
-        private readonly int _Ur5_script_port = 30002;     //ur scripting port
+        private readonly int _Ur5_script_port = 30002; // UR Port
         private string _tcpPose;
-        private bool _StationA_request = true; //UR will set this false, wait 0.5s and then set true to signal move request
-        private bool _StationB_request = true; //UR will set this false, wait 0.5s and then set true to signal move request
-        private bool _StationC_request = true; //UR will set this false, wait 0.5s and then set true to signal move request
+        private bool _StationA_request = true; // UR will set this false, wait 0.5s and then set true to signal move request
+        private bool _StationB_request = true; // UR will set this false, wait 0.5s and then set true to signal move request
+        private bool _StationC_request = true; // UR will set this false, wait 0.5s and then set true to signal move request
         private bool _UrProgramStarted = true;
-        private readonly string _mission_group_name = "VCU"; //the mission group name where the docking stations will be placed (Note: Need to set from UI)
+        private readonly string _mission_group_name = "VCU"; // The mission group name where the docking stations will be placed, defined at mir.com.
         private string _DockStationA_guid = "{ \"mission_id\" : \"***\" }";
         private string _DockStationB_guid = "{ \"mission_id\" : \"***\" }";
         private string _DockStationC_guid = "{ \"mission_id\" : \"***\" }";
@@ -40,17 +37,15 @@ namespace MobileRobotProject
 
             private set
             {
-                //this means the request value has changed from false to true and MiR needs to move to StationA
+                // This means the request value has changed from false to true and the mobile robot needs to move to Station A
                 if((_StationA_request != value) && (value == true))
                 {
                     _StationA_request = value;
                     SignalMiR(_DockStationA_guid);
-                    //trigger MiR with Rest here
-                    Debug.WriteLine("Trigger A");
                 }
                 else if ((_StationA_request != value) && (value == false))
                 {
-                    _StationA_request = value; // set request back to false
+                    _StationA_request = value; // Set request back to false
                 }
             }
         }
@@ -61,17 +56,15 @@ namespace MobileRobotProject
 
             private set 
             {
-                //this means the request value has changed from false to true and MiR needs to move to StationB
+                // This means the request value has changed from false to true and the mobile robot needs to move to Station B
                 if ((_StationB_request != value) && (value == true))
                 {
                     _StationB_request = value;
                     SignalMiR(_DockStationB_guid);
-                    //trigger MiR with Rest here
-                    Debug.WriteLine("Trigger B");
                 }
                 else if ((_StationB_request != value) && (value == false))
                 {
-                    _StationB_request = value; // set request back to false
+                    _StationB_request = value; // Set request back to false
                 }
             }
         }
@@ -82,17 +75,15 @@ namespace MobileRobotProject
 
             private set 
             {
-                //this means the request value has changed from false to true and MiR needs to move to StationC
+                // This means the request value has changed from false to true and mobile robot needs to move to Station C
                 if ((_StationC_request != value) && (value == true))
                 {
                     _StationC_request = value;
                     SignalMiR(_DockStationC_guid);
-                    //trigger MiR with Rest here
-                    Debug.WriteLine("Trigger C");
                 }
                 else if ((_StationC_request != value) && (value == false))
                 {
-                    _StationC_request = value; // set request back to false
+                    _StationC_request = value; // Set request back to false
                 }
             }
         }
@@ -103,16 +94,15 @@ namespace MobileRobotProject
 
             private set
             {
-                //this means the request value has changed from false to true and program has started
+                // This means the request value has changed from false to true and program has started
                 if ((_UrProgramStarted != value) && (value == true))
                 {
                     _UrProgramStarted = value;
                     ShowRobotMovingModal();
                 }
-                // change from true to false and program has stopped
                 else if ((_UrProgramStarted != value) && (value == false))
                 {
-                    _UrProgramStarted = value; // set request back to false
+                    _UrProgramStarted = value; // Set request back to false
                     HideRobotMovingModal();
                 }
             }
@@ -128,35 +118,36 @@ namespace MobileRobotProject
             _UrInputs = UrInputs;
             _UrOutputs = UrOutputs;
             InitializeAsync();
-            _Ur5.OnDataReceive += Ur5_OnDataReceive; // set up callback for rtde tcp pose data
-            _Ur5.OnSockClosed += Ur5_OnSockClosed;  // callback for when rtde socket is closed
+            _Ur5.OnDataReceive += Ur5_OnDataReceive; // Set up callback for RTDE TCP pose data
+            _Ur5.OnSockClosed += Ur5_OnSockClosed;  // Set up callback for when RTDE socket is closed
         }
 
         private async void InitializeAsync()
         {
-            /* Method - Initializes the async communication with the WebView. When a POST mesage is received,
-             * the listener ParseMessageFromWeb is invoked. */         
+            /* Initializes the async communication with the WebView. When a POST mesage is received,
+             * the listener ParseMessageFromWeb is invoked. */   
+            
             await webView.EnsureCoreWebView2Async(null);
-            webView.Source = new Uri(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\..\index.html")));
+            webView.Source = new Uri(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "index.html")));
             webView.CoreWebView2.WebMessageReceived += ParseMessageFromWeb;
-            _Ur5.Ur_ControlStart(); //start Rtde service
+            _Ur5.Ur_ControlStart(); // Starts RTDE service
             GetStationGuids();
         }
 
-        /*
-         *  Dynamically gets the MiR docking station Guids by:
-         *  1. Getting the mission groups endpoint and searching for mission group
-         *  2. If mission group found it uses the provided url to get the missions from that group
-         *  3. Searches those missions for DockStationA, DockStationB, DockStationC and appends the
-         *  guid for each mission into the class variables _DockStationA_guid, _DockStationB_guid, _DockStationC_guid
-         *  4. If any of these calls fail then the user is alerted and the default guids are used (which may or may not work)
-         *  
-         *  For this to work the MiR docking stations should be placed under a mission_group name equal to the _mission_group_name
-         *  variable in this class (E064 as of now). The docking station missions MUST be named DockStationA, DockStationB, DockStationC
-         *  within the assigned mission group. This is all done within the mir.com UI.
-         */
         private async void GetStationGuids()
         {
+            /*  Dynamically gets the mobile robot docking station GUIDs by:
+             *  1. Getting the mission groups endpoint and searching for mission group
+             *  2. If mission group was found, it uses the provided URL to get the missions from that group
+             *  3. Searches those missions for `DockStationA`, `DockStationB`, `DockStationC` and appends the
+             *  GUID for each mission into the class variables `_DockStationA_guid`, `_DockStationB_guid`, `_DockStationC_guid`
+             *  4. If any of these calls fail then the user is alerted and the default GUIDs are used (which may not work)
+             *  
+             *  For this to work the the mobile robot, docking stations should be placed under a mission_group name equal to the _mission_group_name
+             *  variable in this class (VCU as of now). The docking station missions must be named DockStationA, DockStationB, DockStationC
+             *  within the assigned mission group. This is all done within the https://mir.com/ dashboard.
+             */
+
             string mission_URL = "";
             bool mission_URL_found = false;
             bool dockstationA_found = false;
@@ -176,16 +167,16 @@ namespace MobileRobotProject
                     if (mission_group.TryGetProperty("name", out JsonElement group_name))
                     {
                         string name = group_name.GetString();
-                        // If group name found then get and save the url of that group
+                        // If group name found then get and save the URL of that group
                         if(name == _mission_group_name)
                         {
                             if (mission_group.TryGetProperty("url", out JsonElement group_url))
                             {
-                                // save group_url outside of using statement
+                                // Save group_url outside of using statement
                                 mission_URL = group_url.GetString();
                                 mission_URL_found = true;
                                 Debug.WriteLine("Mission group found: " + mission_URL);
-                                break; // exit foreach loop as url was found
+                                break; // Exit foreach loop as url was found
                             }
                         }
                     }
@@ -222,7 +213,7 @@ namespace MobileRobotProject
                             {
                                 if (mission.TryGetProperty("guid", out JsonElement mission_guid))
                                 {
-                                    // save guid                                    
+                                    // Save GUID                                
                                     _DockStationB_guid = _DockStationB_guid.Replace("***", mission_guid.GetString());
                                     dockstationB_found = true;
                                     Debug.WriteLine("Station B found: " + _DockStationB_guid);
@@ -232,7 +223,7 @@ namespace MobileRobotProject
                             {
                                 if (mission.TryGetProperty("guid", out JsonElement mission_guid))
                                 {
-                                    // save guid                                    
+                                    // Save GUID                                    
                                     _DockStationC_guid = _DockStationC_guid.Replace("***", mission_guid.GetString());
                                     dockstationC_found = true;
                                     Debug.WriteLine("Station C found: " + _DockStationC_guid);
