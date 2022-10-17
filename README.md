@@ -1,5 +1,9 @@
 # Alvo 🦕
-A block-based programming language prototype for mobile and collaborative robots.
+
+## Warning
+The organization and authors of this repository are not liable for any consequential damage or injury that any code or information available in this repository may produce to you or others. The code available in this repository should be used only for reading purposes as different robots may act different during execution. Use the code and information available here at your own risk, and always make sure you are following all the safety procedures recommended by your robot manufacturer.
+
+## A block-based programming language prototype for mobile and collaborative robots.
 
 ![image](https://user-images.githubusercontent.com/15092904/152582769-915d774b-79de-4d63-81ea-8b32baa9c6cd.jpg)
 
