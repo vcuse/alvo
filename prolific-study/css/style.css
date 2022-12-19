@@ -1,0 +1,339 @@
+body {
+    background-color: #f8f8f8;
+    font-family: sans-serif;
+    width: 100%
+}
+
+.taskcontainer {
+    margin:10px;
+    padding: 10px;
+    border: solid 1px #999;
+    border-radius: 3px;
+    background-color: #FFF;
+    display: grid;
+    grid-template-columns: auto 130px 300px 150px;
+    grid-column-gap: 20px;
+}
+
+#task-fail {
+    padding-left: 10px;
+    color:#990000;
+    display: none;
+}
+
+#task-wait {
+    padding-left: 10px;
+    color:#777700;
+    display: none;
+}
+
+#task-success {
+    padding-left: 10px;
+    color:#009900;
+    display: none;
+}
+
+#test-stop-button {
+    display: none;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+h4 {
+   grid-column: 1 / span 4;
+}
+
+h5 {
+   grid-column: 1 / span 2;
+   margin-top: 20px;
+}
+
+.taskselector {
+    display: grid;
+    grid-template-columns: 200px auto;
+}
+
+.maincontainer {
+    background-color: #f8f8f8;
+    padding: 10px;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: calc(45% - 190px) calc(55% - 190px) 350px;
+    grid-column-gap: 15px;
+}
+
+.onecanvas {
+    grid-column: 1 / span 2;
+}
+
+.workspace {
+    height: 480px;
+}
+
+.graphspace {
+    width:100%;
+    height:480px;
+    border:#999 1px solid;
+}
+
+.graphcontent {
+    overflow:scroll;
+    position:relative;
+    width:calc(100% - 128px);
+    height:478px;
+    cursor:default;
+    background-color: #FFF;
+}
+
+.graphbutton {
+    font-size: 10.5pt; 
+    color: #FFFFFF;
+    display:flex; 
+    border-radius: 5px;
+    text-align: center;
+    align-items: center; 
+    justify-content:center; 
+    border: white 1px solid; 
+    cursor: grab;
+    padding: 10px 5px 10px 5px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    user-select: none;
+}
+
+.graphbutton-fixed {
+    margin:5px;
+}
+
+.graphbutton-fixed:hover {
+    border: #FFCC33 solid 3px;
+    margin: -2px 5px -2px 5px;
+}
+
+.graphbutton-top:hover {
+    border: #FFCC33 solid 3px;
+    margin: 3px 5px -2px 5px;
+}
+
+
+.graphbutton>select {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.graphbuttoncategorysignals {
+    border-left: #3EA567 solid 8px;
+}
+
+.graphbuttoncategory {
+    padding-left: 16px;
+    margin: 3px 0px 3px 0px;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    user-select: none;
+}
+
+.graphbuttoncategory:hover {
+    background-color: #E8E8E8;
+}
+
+.graphbuttoncategorycombinators {
+    border-left: #3A54A5 solid 8px;
+} 
+
+.graphbuttons {
+    width: 128px;
+    height: 478px;
+    float: left;
+    background-color: #E2E2E2;
+}
+
+.graphbuttonspopup {
+    display: none; 
+    width: 300px;
+    height: 480px;
+    position: absolute;
+    left: 128px;
+    background-color: rgba(226,226,226,0.75);
+    z-index: 1000;
+}
+
+#leftdiv {
+    width: 100%;
+    position: relative;
+    min-width: 400px;
+}
+
+#middlediv {
+    width: 100%;
+    min-width: 400px;
+}
+
+#rightdiv {
+    width: 100%;
+    text-align: center;
+}
+
+#animatediv {
+    position: relative;
+}
+
+#output {
+    grid-row-start: 2;
+    grid-column: 1 / span 2;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    height: 100px;
+    width: 100%;
+    overflow-y: scroll;
+    display: none;
+}
+
+#simbuttons {
+    grid-row-start: 2;
+    grid-column-start: 3;
+}
+
+.injectionDiv {
+    border: #999 1px solid;
+    border-radius: 3px;
+}
+
+#simulatorarea {
+    position: relative;
+    border: 1px #999 solid;
+    background-color: #FFFFFF;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#simulatordiv {
+    position: relative;
+    width: 350px;
+    height: 430px;
+    margin-bottom: 5px;
+}
+
+.sim-robot {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+}
+
+.sim-station {
+    position: absolute;
+    color: #666666;
+    font-size: 10.5pt;
+}
+
+.sim-station-img {
+    width: 60px;
+    height: 30px;
+}
+
+.sim-machine-img {
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    top:-39px;
+    left:5px;
+}
+
+.sim-bin-img {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top:-29px;
+    left:15px;
+    z-index: 1;
+}
+
+.sim-item {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 0px solid black;
+}
+
+.taskButton {
+    fill: #5C9FA6;
+}
+
+.locationButton {
+    fill: #A08260;
+}
+
+.error {
+    font-weight: bold;
+    color:#CC0000;
+}
+
+.toolboxHeading>.blocklyFlyoutLabelText {
+    font-weight: bold !important;
+    font-size: 14pt !important;
+}
+
+.positionGrid {
+    position: relative;
+    background-color: #FFFFFF;
+    width: 70px;
+    height: 70px;
+    opacity: 75%;
+    border: 4px #000000 dashed;
+}
+
+.stackedTop {
+    margin-right: 10px;
+}
+
+#stackedRest {
+    position: absolute;
+    border: 1px #999 solid;
+    background-color: #FFFFFF;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    top:10px;
+    left:10px;
+    width: calc(100% - 10px);
+    height:480px;
+    display: none;
+    opacity: 75%;
+}
+
+#stackedDummyDrawer {
+    width: 107px;
+    background-color: #DDDDDD;
+    height: 100%;
+    margin:0px;
+}
+
+.exitButton {
+    position: absolute;
+    text-align: center;
+    font-size: 35pt;
+    top:0px;
+    right:15px;
+    line-height: 1.0;
+    color: #666666;
+    cursor: pointer;
+}
+
+.exitButton:hover {
+    color: #000000;
+}
+
+.positionGrid:hover {
+    opacity: 100%;
+    border-color: #CCCC00;
+}
+
+.show {
+    display:block;
+}

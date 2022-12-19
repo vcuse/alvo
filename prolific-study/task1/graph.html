@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Task 1: Item Factory</h4>
+      <div id="steps" style="grid-column-end: span 4">
+        <p>Task:</p>
+        <p>This task is controlled by the two buttons at the bottom of the simulator.</p>
+        <ol>
+          <li>When Button 1 is pressed, the robot should move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from Station A to the item processor machine at Station C.</li>
+          <li>When Button 2 is pressed, the robot should move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from Station B to the item processor machine at Station C.</li>
+          <li>After processing of either item is complete, the robot should move them into the chute at Station C. The order in which they get placed into the chute does not matter.</li>
+        </ol>
+        <p>Note: If you want to try out your program manually, we recommend using the Run Program button next to the simulator (where you can manually click the red and blue button). When you click on the Test Current Program button below, the manual buttons will be disabled and the simulator will trigger them for you.</p>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <button id="test-stop-button" value="stop-test" type="button" class="btn btn-danger">Abort Test</button>
+      <span id="task-wait">Task not yet completed! If it is still running and just waiting for a trigger, we will automatically detect when it completes.</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!<br><br>
+      <strong><a style="font-size: 20pt;" href="../tut3/twocanvas.html">Click here to continue with the next tutorial.</a></strong><br>
+    </span>
+    </div>
+  </div>
+  <div class="maincontainer twocanvas">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="trigger-button1" value="trigger-button1" type="button" class="btn btn-info">Button 1</button>
+      <button id="trigger-button2" value="trigger-button2" type="button" class="btn btn-danger">Button 2</button>
+      </div>
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+      <block type="custom_start" id="START" x="28" y="28"></block>
+    </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A56D5B" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+    <category name="Machine" colour="#8C5BA5">
+      <block type="custom_machine"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../lib/mxgraph/mxClient.min.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/graph.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/defposition.js"></script>
+  <script type="text/javascript">mxClient.basePath = "../";</script>
+</body>
+</html>

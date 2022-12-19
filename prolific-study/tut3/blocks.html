@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Tutorial 3: Using Triggers and Machines</h4>
+      <div id="steps" style="grid-column-end: span 4">
+        <p>Task:</p>
+        <ol>
+          <li>Move the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station A to the item processor machine at Station B.</li>
+          <li>Turn on the machine <img src="../media/machine.png" style="height:38px; width:38px; margin-top:3px;"> to process the green box into a round shape <img src="../media/item-green.png" style="height:18px; width:18px; border-radius: 50%;">.</li>
+          <li>After processing is complete, move the green box into the chute <img src="../media/bin.png" style="height:25px; width:25px"> at Station C.</li>
+        </ol>
+        <p>This task requires you to use what you have learned before, but it will also introduce some new elements. You can click on each step to get more detailed instructions.</p>
+        <ol class="accordion-group">
+          <li><a href="#step1" data-toggle="collapse">Move the item to Station B and turn on the machine</a>
+            <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Create a new task to pick up the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station A, following the same steps as in the previous tutorials.</li>
+              <li>Create a second task to place the box into the machine at Station B. Note that the machine limits where you can place the box. It always has to go into the <strong>middle center</strong> position.</li>
+              <li>After placing the box into the machine, you can turn it on by adding a <img src="machineblock.png" style="height:30px"> block at the end of the task.</li>
+              <li>We recommend that you try out the program up to this point. As you will see, the machine takes some time to process the box. It is only finished once it has returned to its regular colour.</li>
+            </ol>
+          </li>
+          <li><a href="#step2" data-toggle="collapse">Add a trigger that reacts to when the machine is finished</a>
+            <ol id="step2" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Since the machine takes a while to process the box, you cannot simply continue by moving the box to Station C. Instead, you will have to tell the robot when it is ready to continue.</li>
+              <li>Open the <img src="triggersmenu.png" style="height:22px; border: solid 1px #333"> menu below and drag the <img src="newtrigger.png" style="height:30px"> block from there onto the canvas. It does not attach to the existing blocks, but can go anywhere.</li>
+              <li>Click on <img src="newtriggername.png" style="height:22px"> and change the trigger's name so that it describes what you want the robot to react to. For this trigger, you can for example pick the name "Machine is finished".</li>
+            </ol>
+          </li>
+          <li><a href="#step3" data-toggle="collapse">Program the trigger</a>
+            <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>The trigger has to be programmed to work as intended, similar to the robot itself. Click on the trigger you just placed to open the trigger editor on the right.</li>
+              <li>Triggers use different blocks than tasks. You can find signals to react to in the <img src="signalsmenu.png" style="height:22px; border: solid 1px #333"> menu and blocks to connect them in the <img src="combinatorsmenu.png" style="height:22px; border: solid 1px #333"> menu.</li>
+              <li>For the trigger to react to the machine being finished, you have to use a <img src="machinerunning.png" style="height:30px"> block and a <img src="machineempty.png" style="height:30px"> block. </li>
+              <li>You can attach the blocks to the trigger in any order. Make sure to select <img src="stationB.png" style="height:18px"> for both blocks, and to select <img src="idle.png" style="height:18px"> and <img src="nonempty.png" style="height:18px">.</li>
+            </ol>
+          </li>
+          <li><a href="#step4" data-toggle="collapse">Finish and test the program</a>
+            <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
+              <li>Now that you have programmed the trigger, you can add a task for picking up the processed box from Station B. This block needs to be attached to the new trigger block on the left.</li>
+              <li>Finally, you need one more task that places the processed block at Station C. This task block attaches to the block you just created. You can always place an item in the <strong>bottom center</strong> position of the chute.</li>
+              <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
+            </ol>
+          </li>
+        </ol>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <button id="test-stop-button" value="stop-test" type="button" class="btn btn-danger">Abort Test</button>
+      <span id="task-wait">Task not yet completed! If it is still running and just waiting for a trigger, we will automatically detect when it completes.</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!<br><br>
+      <strong><a style="font-size: 20pt;" href="../tut3/twocanvas.html">Click here to continue with the next tutorial.</a></strong><br>
+    </span>
+    </div>
+  </div>
+  <div class="maincontainer twocanvas">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="trigger-button1" value="trigger-button1" type="button" class="btn btn-info">Button 1</button>
+      <button id="trigger-button2" value="trigger-button2" type="button" class="btn btn-danger">Button 2</button>
+      </div>
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+       <block type="custom_start" id="START" x="28" y="28"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A56D5B" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+    <category name="Machine" colour="#8C5BA5">
+      <block type="custom_machine"></block>
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxTrigger" style="display: none">
+    <category name="Signals" colour="#3EA567">
+      <block type="custom_button1">
+      </block>
+      <block type="custom_button2">
+      </block>
+      <block type="custom_emptygripper">
+      </block>
+      <block type="custom_machineidle">
+      </block>
+      <block type="custom_machineempty">
+      </block>
+    </category>
+    <category name="Combinators" colour="#3A54A5">
+      <block type="custom_and">
+      </block>
+      <block type="custom_or">
+      </block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../lib/mxgraph/mxClient.min.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/graph.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/defposition.js"></script>
+</body>
+</html>

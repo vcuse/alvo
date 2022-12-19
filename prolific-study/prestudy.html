@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/bootstrap/jquery.min.js"></script>
+  <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="maincontainer">
+    <div id="leftdiv" class="workspace twocanvas taskselector">
+      <h5>Welcome! You are eligible to continue with our pre-screening survey. Your participant ID is <span id="uid">???</span>.</h5>
+      <h5>After you click on the button below, we will ask you to complete a brief programming task with detailed instructions on how to do so. Do not worry if you do have never programmed before, we are specifically looking for end-users without experience.</h5>
+      <h5>
+        <form style="display:none;" id="form-b" action="pretut/blocks.html" method="get">
+          <input id="tutorial-button" value="Start Tutorial" type="submit" class="btn btn-info">
+        </form>
+      </h5>
+      <h5></h5>
+      <h5></h5>
+      <h5></h5>
+      <h5></h5>
+    </div>
+
+    <div id="middlediv" class="workspace twocanvas taskselector">
+    </div>
+
+    <div id="rightdiv">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <block type="custom_start" id="START" x="28" y="28"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A66E5C" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260">
+      <block type="custom_location">
+        <field name="LOCATION">left</field>
+      </block>
+      <block type="custom_location">
+        <field name="LOCATION">center</field>
+      </block>
+      <block type="custom_location">
+        <field name="LOCATION">right</field>
+      </block>
+    </category>
+    <category name="Loops" colour="#5ba55b">
+      <block type="controls_repeat"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="blockly/blockly_uncompressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/javascript_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="js/simulator.js"></script>
+</body>
+</html>

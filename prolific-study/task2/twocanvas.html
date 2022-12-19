@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Task 2: Moving Stacks</h4>
+    <div>
+    <p>Task:</p>
+      <ol>
+        <li>Move all the green boxes <img src="../media/item-green.png" style="height:20px; width:20px"> from the left side of Station A to the right side.<br> <em>Note that the program you are given below already solves this part of the task.</em></li>
+        <li>Move all the orange boxes <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station B to the right side.</li>
+        <li>Move all the blue boxes <img src="../media/item-blue.png" style="height:20px; width:20px"> from the right side of Station C to the left side.</li>
+        <li>Move all the yellow boxes <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station D to the right side and turn each of them twice, so that they are upside-down <img src="../media/item-yellow.png" style="height:20px; width:20px; transform:rotate(180deg)">.</li>
+      </ol>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <span id="task-fail">Task not completed! The current program does not produce the expected result.</span>
+      <span id="task-success">Task completed! The current program has produced the expected result.<br><br>
+      <strong><a style="font-size: 20pt;" href="../task3/twocanvas.html">Click here to continue with the next task.</a></strong><br>
+    </span>
+    </div>
+    <p>Expected Result:</p>
+    <img src="expected.png" style="height:110px">
+  </div>
+  <div class="maincontainer">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+        <div id="__Move Stackdiv" class="workspace" style="position: relative;"></div>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+      </div>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <variables>
+      <variable id="Move Stack">Move Stack</variable></variables>
+      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task"><field name="TASK">Move Stack</field><field name="SITE">STATIONA</field></block></next></block></xml>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="rightWorkspaceBlocks" style="display: none">
+    <variables>
+      <variable id="top left">top left</variable>
+      <variable id="middle left">middle left</variable>
+      <variable id="bottom left">bottom left</variable>
+      <variable id="top right">top right</variable>
+      <variable id="middle right">middle right</variable>
+      <variable id="bottom right">bottom right</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Move Stack</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle right</field></block></value><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom left</field></block></value><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">top right</field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/defposition.js"></script>
+</body>
+</html>

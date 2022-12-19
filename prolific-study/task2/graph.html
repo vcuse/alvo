@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../lib/bootstrap/jquery.min.js"></script>
+  <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="taskcontainer">
+    <h4>Task 2: Working in Parallel</h4>
+      <div id="steps" style="grid-column-end: span 4">
+        <p>Task:</p>
+        <p>For this task, the robot has already been programmed to work on the stations on the left side (Stations A, B and C). The existing code cannot be changed. We recommend that you try out the given program before starting the task. Note that at the beginning of this task, Station B has just been used and needs to cool down before the robot can load it. The given code already considers this and works as intended.</p>
+        <p>Your task is to add the following functionality that is controlled by the two buttons at the bottom of the simulator:</p>
+        <ol>
+          <li> When either of the two buttons (Button 1 or Button 2) is pressed, the robot should follow the same workflow as on the left: It should move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from Station D to the item processor machine at Station E, and to Station F once the item has been processed.</li>
+          <li>Both of the two workflows (the existing one and the part programmed by you) need finish for the task to be completed successfully. Ideally, they should be interleaved (with the robot doing something for the other task while it is waiting), but the only mandatory requirement is that they don't interfere with or block each other</li>
+        </ol>
+        <p>Note: Since your task is similar to the given one, you might want to re-use the existing blocks if you want. If you right-click on one, you can select "Clone" to make a copy that you can edit.</p>
+      <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
+      <button id="test-stop-button" value="stop-test" type="button" class="btn btn-danger">Abort Test</button>
+      <span id="task-wait">Task not yet completed! If it is still running and just waiting for a trigger, we will automatically detect when it completes.</span>
+      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!<br><br>
+      <strong><a style="font-size: 20pt;" href="../tut3/twocanvas.html">Click here to continue with the next tutorial.</a></strong><br>
+    </span>
+    </div>
+  </div>
+  <div class="maincontainer twocanvas">
+    <div id="leftdiv" class="workspace"></div>
+    <div id="middlediv" class="workspace">
+      <div id="animatediv" style="margin-left: 0px">
+        <div id="stackedRest">
+          <div id="stackedDummyDrawer"></div>
+        </div>
+        <div id="__Pick up blockdiv" class="workspace" style="position: relative;"></div>
+        <div id="__Load and activate machinediv" class="workspace" style="position: relative;"></div>
+        <div id="__Get block from machinediv" class="workspace" style="position: relative;"></div>
+        <div id="__Place block in bindiv" class="workspace" style="position: relative;"></div>
+        <div id="__!Ready to load machinediv" class="graphspace" style="position: relative;   display: none;"></div>
+        <div id="__!Machine finisheddiv" class="graphspace" style="position: relative; display: none;"></div>
+      </div>
+    </div>
+    <div id="rightdiv">
+      <div id="simulatorarea">
+      <div id="simulatordiv"></div>
+      <button id="trigger-button1" value="trigger-button1" type="button" class="btn btn-info">Button 1</button>
+      <button id="trigger-button2" value="trigger-button2" type="button" class="btn btn-danger">Button 2</button>
+      </div>
+      <button id="execution-button" value="start-execution" type="button" class="btn btn-success">Run Program</button>
+      <button id="reset-button" value="reset-simulator" type="button" class="btn btn-secondary">Reset Simulator</button>
+    </div>
+    <div id="output">
+    </div>
+    <div id="simbuttons">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+       <block type="custom_start" id="START" movable="false" deletable="false" editable="false" x="28" y="20"><next><block movable="false" deletable="false" editable="false" type="custom_task"><field name="TASK">Pick up block</field><field name="SITE">STATIONA</field></block></next></block>
+       <block type="custom_trigger" x="28" y="100" movable="false" deletable="false" editable="false"><field name="TRIGGER">Ready to load machine</field><next><block type="custom_task"movable="false" deletable="false" editable="false"><field name="TASK">Load and activate machine</field><field name="SITE">STATIONB</field></block></next></block>
+       <block type="custom_trigger" x="28" y="180" movable="false" deletable="false" editable="false"><field name="TRIGGER">Machine finished</field><next><block type="custom_task" movable="false" deletable="false" editable="false"><field name="TASK">Get block from machine</field><field name="SITE">STATIONB</field><next><block type="custom_task" movable="false" deletable="false" editable="false"><field name="TASK">Place block in bin</field><field name="SITE">STATIONC</field></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="pickBlocks" style="display: none">
+    <variables>
+      <variable id="bottom center">bottom center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Pick up block</field><field name="SITE">STATIONA</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom center</field></block></value></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="placeBlocks" style="display: none">
+    <variables>
+      <variable id="bottom center">bottom center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Place block in bin</field><field name="SITE">STATIONA</field><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">bottom center</field></block></value></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="pickMachineBlocks" style="display: none">
+    <variables>
+      <variable id="middle center">middle center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Get block from machine</field><field name="SITE">STATIONB</field><next><block type="custom_pickup"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle center</field></block></value></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="placeMachineBlocks" style="display: none">
+    <variables>
+      <variable id="middle center">middle center</variable>
+    </variables>
+    <block type="custom_taskheader" deletable="false" x="28" y="28"><field name="TASK">Load and activate machine</field><field name="SITE">STATIONB</field><next><block type="custom_place"><value name="LOCATION"><shadow type="custom_dummylocation"></shadow><block type="custom_location"><field name="LOCATION">middle center</field></block></value><next><block type="custom_machine"></block></next></block></next></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A56D5B" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260" custom="LOCATIONS">
+    </category>
+    <category name="Machine" colour="#8C5BA5">
+      <block type="custom_machine"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="task.js"></script>
+  <script src="../lib/mxgraph/mxClient.min.js"></script>
+  <script src="../blockly/blockly_uncompressed.js"></script>
+  <script src="../blockly/blocks_compressed.js"></script>
+  <script src="../blockly/javascript_compressed.js"></script>
+  <script src="../js/generator.js"></script>
+  <script src="../blockly/msg/js/en.js"></script>
+  <script src="../js/blocks.js"></script>
+  <script src="../js/simulator.js"></script>
+  <script src="../js/graph.js"></script>
+  <script src="../js/index.js"></script>
+  <script src="../js/twocanvas.js"></script>
+  <script src="../js/defposition.js"></script>
+  <script type="text/javascript">mxClient.basePath = "../";</script>
+</body>
+</html>
