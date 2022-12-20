@@ -14,7 +14,7 @@
   <!-- HTML Elements -->
   <div class="taskcontainer">
     <h4>Tutorial: Basic Programming</h4>
-      <div id="steps" style="grid-column-end: span 4">
+      <div id="steps" style="grid-column-end: span 2">
         <p>Task:</p>
         <p>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side.<br><br>
         You can program this task in four steps. You can click on each step to get more detailed instructions.</p>
@@ -48,12 +48,20 @@
             </ol>
           </li>
         </ol>
+
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
       <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
       <span id="task-success">Task completed! Congratulations, you've successfully programmed your first pick-and-place task!<br><br><br>
       <strong><a style="font-size: 20pt;" href="../prestudycomplete.html">Click here to finish the pre-screening study.</a></strong><br>
     </span>
     </div>
+    <div>
+      <p>If you are encountering technical difficulties or are unable to complete the tutorial for other reasons, click the button below to return your submission and receive partial compensation.</p>
+  <form id="form-end" action="https://app.prolific.co/submissions/complete" method="get">
+    <input type="hidden" name="cc" value="C15KZ4B8">
+    <input id="end-button" value="End Study" type="submit" class="btn btn-danger">
+  </form>
+</div>
   </div>
   <div class="maincontainer twocanvas">
     <div id="leftdiv" class="workspace"></div>
