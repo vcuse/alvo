@@ -12,22 +12,23 @@
 <body>
   <!-- HTML Elements -->
   <div class="maincontainer">
-    <div id="leftdiv" class="workspace twocanvas taskselector">
-      <h5>Welcome! You are eligible to continue with our pre-screening survey. Your participant ID is <span id="uid">???</span>.</h5>
-      <h5>After you click on the button below, we will ask you to complete a brief programming task with detailed instructions on how to do so. Do not worry if you do have never programmed before, we are specifically looking for end-users without experience.</h5>
+    <div id="leftdiv" class="workspace onecanvas taskselector">
+      <h5>Welcome, and thank you for your interest in our study! Based on your responses, you are eligible to continue with our pre-screening survey.</h5>
+      <h5>After you click on the button below, we will ask you to complete a brief programming task. You will be given detailed instructions on how to solve the task, as we primarily want to check that your system is compatible with our programming environment. Do not worry if you do have never programmed before, we are specifically looking for end-users without experience.</h5>
       <h5>
-        <form style="display:none;" id="form-b" action="pretut/blocks.html" method="get">
+        <form id="form-tut" action="pretut/blocks.html" method="get">
           <input id="tutorial-button" value="Start Tutorial" type="submit" class="btn btn-info">
         </form>
       </h5>
       <h5></h5>
-      <h5></h5>
-      <h5></h5>
+      <h5>In case you encounter a technical issue or are unable to complete the tutorial for other reasons, you can use the back button of your browser to return to this page, and click the button below to receive your base compensation for completing the pre-screener (but not the bonus for completing the tutorial). In this case, you will also not qualify for the main study.</h5>
+      <h5><form id="form-end" action="https://app.prolific.co/submissions/complete" method="get">
+          <input type="hidden" name="cc" value="C1LI23TP">
+          <input id="end-button" value="End Study" type="submit" class="btn btn-danger">
+        </form></h5>
       <h5></h5>
     </div>
 
-    <div id="middlediv" class="workspace twocanvas taskselector">
-    </div>
 
     <div id="rightdiv">
     </div>
