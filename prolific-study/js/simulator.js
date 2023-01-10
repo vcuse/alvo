@@ -807,6 +807,14 @@ function initLog() {
     ugroup = Math.floor(Math.random() * 2) + 1;
     setCookie("ugroup", ugroup, 365);
   }
+  if (document.getElementById('form-tut')) {
+    if (ugroup == 1)
+      document.getElementById('form-tut').action = 'tut2/blocks.html';
+    else
+      document.getElementById('form-tut').action = 'tut2/graph.html';
+    document.getElementById('tutorial-button').value = 'Start Tutorial';
+    document.getElementById('tutorial-button').disabled = false;
+  }
 }
 
 function logEvent(event) {
