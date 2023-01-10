@@ -14,19 +14,19 @@
   <div class="taskcontainer">
     <h4>Task 1: Item Factory</h4>
       <div id="steps" style="grid-column-end: span 4">
-        <p>Task:</p>
-        <p>This task is controlled by the two buttons at the bottom of the simulator.</p>
+                <p>Task:</p>
+        <p>This is the first real task, where you have to find your own solution. This time, the robot is controlled by the two buttons at the bottom of the simulator.</p>
         <ol>
-          <li>When Button 1 is pressed, the robot should move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from Station A to the item processor machine at Station C.</li>
-          <li>When Button 2 is pressed, the robot should move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from Station B to the item processor machine at Station C.</li>
-          <li>After processing of either item is complete, the robot should move them into the chute at Station C. The order in which they get placed into the chute does not matter.</li>
+          <li>When the blue Button 1 is pressed and the machine at Station C is empty, the robot should move the blue box <img src="../media/item-blue.png" style="height:20px; width:20px"> from Station A to the machine at Station C and start processing it.</li>
+          <li>When the red Button 2 is pressed and the machine at Station C is empty, the robot should move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from Station B to the machine at Station C and start processing it.</li>
+          <li>After processing of either item has finished, the robot should move the item from Station C into the chute at Station D. The order in which they get placed into the chute does not matter.</li>
         </ol>
-        <p>Note: If you want to try out your program manually, we recommend using the Run Program button next to the simulator (where you can manually click the red and blue button). When you click on the Test Current Program button below, the manual buttons will be disabled and the simulator will trigger them for you.</p>
+        <p>Note: If you want to try out your program manually, we recommend using the Run Program button next to the simulator (where you can also manually click the red and blue button). When you click on the Test Current Program button below, the manual buttons will be disabled and the simulator will trigger them for you.</p>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
       <button id="test-stop-button" value="stop-test" type="button" class="btn btn-danger">Abort Test</button>
       <span id="task-wait">Task not yet completed! If it is still running and just waiting for a trigger, we will automatically detect when it completes.</span>
-      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!<br><br>
-      <strong><a style="font-size: 20pt;" href="../tut3/twocanvas.html">Click here to continue with the next tutorial.</a></strong><br>
+      <span id="task-success">Task completed!<br><br>
+      <strong><a style="font-size: 20pt;" href="../task2/graph.html">Click here to continue with the second task.</a></strong><br>
     </span>
     </div>
   </div>

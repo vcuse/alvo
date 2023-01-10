@@ -10,32 +10,37 @@ var initTask = function() {
 
   if (!initialized) {
     initialized = true;
-    definedPositions["DEFAULT"] = [];
-    definedPositions["DEFAULT"]["bottom left"] = '"left",0';
-    definedPositions["DEFAULT"]["bottom right"] = '"right",0';
     definedPositions["Move box to the right"] = [];
     definedPositions["Move box to the right"]["bottom left"] = '"left",0';
     definedPositions["Move box to the right"]["bottom right"] = '"right",0';
-    if (typeof toolboxRight != "undefined") {
-      var rightWorkspace = Blockly.inject('__Move box to the rightdiv',
+
+    var provisionWorkspace = function(name, blocks, trigger) {
+      var workspace = Blockly.inject('__' + name + 'div',
       { media: pathPrefix + 'blockly/media/',
-        toolbox: toolboxRight,
+        toolbox: (trigger ? document.getElementById("toolboxTrigger") : toolboxRight),
         trashcan: true,
         toolboxPosition: "start",
+        readOnly: true,
         move:{
           scrollbars: false,
           drag: false,
           wheel: false}
       });
-      var workspaceBlocks = document.getElementById("rightWorkspaceBlocks");
-      rightWorkspaces['Move box to the right'] = rightWorkspace;
-      rightWorkspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
-      Blockly.Xml.domToWorkspace(workspaceBlocks, rightWorkspace);
-      rightWorkspace.getBlocksByType("custom_taskheader")[0].getField("TASK").setValidator(taskValidator);
-      document.getElementById('__Move box to the rightdiv').style.display = 'none';
-      rightWorkspace.addChangeListener(onTaskHeaderChanged);
-      rightWorkspace.addChangeListener(logEvent);
+      rightWorkspaces[name] = workspace;
+      workspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
+      Blockly.Xml.domToWorkspace(blocks, workspace);
+      if (trigger) {
+        workspace.getBlocksByType("custom_triggerheader")[0].getField("TRIGGER").setValidator(triggerValidator);
+      }
+      else {
+        workspace.getBlocksByType("custom_taskheader")[0].getField("TASK").setValidator(taskValidator);
+      }
+      document.getElementById('__' + name + 'div').style.display = 'none';
+      workspace.addChangeListener(onTaskHeaderChanged);
+      workspace.addChangeListener(logEvent);
     }
+
+    provisionWorkspace('Move box to the right', document.getElementById("rightWorkspaceBlocks"));
   }
 }
 
@@ -51,6 +56,7 @@ var checkTask = function(instance) {
 }
 
 var pathPrefix = "../";
+var imagePathPrefix = "../../media";
 var taskId = "tut2";
 
 setTimeout(function(){ submitLog("start", "0") }, 1000);

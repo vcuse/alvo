@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mobile robot programming.</title>
+  <link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/bootstrap/jquery.min.js"></script>
+  <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="lib/anime/anime.min.js"></script>
+</head>
+<body>
+  <!-- HTML Elements -->
+  <div class="maincontainer">
+    <div id="leftdiv" class="workspace onecanvas taskselector">
+      <h5>Welcome, and thank you for your interest in our study! As a reminder, this study consists of 3 parts:
+        <ol>
+          <li>You will complete <strong>2 brief programming tutorials</strong>. These tutorials will be similar to the tutorial that you have already completed during our pre-screener. <br><em>Note that you have to complete these tutorials to continue with our study. If you have trouble completing them, we recommend stopping and returning your submission. We will manually assign partial compensation to participants who do not complete the study.</em></li>
+          <li>You will work on <strong>2 longer programming tasks</strong> with less guidance. For each task, you can test whether you have completed it as often as you like. You can continue with the study if you have either solved the task or if you run out of time. <br><em>Please try your best to solve each task, but do not worry if you cannot finish. You can still continue and finish the study!</em></li>
+          <li>Finally, we have a <strong>brief questionnaire</strong> for you that will ask you about your opinion and your understanding of the programming environment you have used.</li>
+        </ol>
+      </h5>
+      <h5>
+        <form id="form-tut" action="tut2/blocks.html" method="get">
+          <input id="tutorial-button" value="Start Tutorial" type="submit" class="btn btn-info">
+        </form>
+      </h5>
+      <h5></h5>
+      <h5></h5>
+    </div>
+
+
+    <div id="rightdiv">
+    </div>
+  </div>
+
+  <!-- Starting configuration -->
+  <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
+    <block type="custom_start" id="START" x="28" y="28"></block>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxLeft" style="display: none">
+    <category name="Triggers" colour="#A66E5C" custom="TRIGGERS">
+    </category>
+    <category name="Tasks" colour="#5C9FA6" custom="TASKS">
+    </category>
+  </xml>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolboxRight" style="display: none">
+    <category name="Arm" colour="#968e4f">
+      <block type="custom_pickup">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_place">
+        <value name="LOCATION">
+          <shadow type="custom_dummylocation">
+          </shadow>
+        </value>
+      </block>
+      <block type="custom_turn">
+      </block>
+    </category>
+    <category name="Locations" colour="#A08260">
+      <block type="custom_location">
+        <field name="LOCATION">left</field>
+      </block>
+      <block type="custom_location">
+        <field name="LOCATION">center</field>
+      </block>
+      <block type="custom_location">
+        <field name="LOCATION">right</field>
+      </block>
+    </category>
+    <category name="Loops" colour="#5ba55b">
+      <block type="controls_repeat"></block>
+    </category>
+  </xml>
+
+  <!-- Javascript Code -->
+  <script src="blockly/blockly_uncompressed.js"></script>
+  <script src="blockly/blocks_compressed.js"></script>
+  <script src="blockly/javascript_compressed.js"></script>
+  <script src="blockly/msg/js/en.js"></script>
+  <script src="js/simulator.js"></script>
+</body>
+</html>

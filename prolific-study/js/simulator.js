@@ -1,6 +1,7 @@
 var pathPrefix = pathPrefix || "";
 var imagePathPrefix = imagePathPrefix || "";
 var uid = undefined;
+var ugroup = undefined;
 var eventLog = [];
 var testTask = testTask || undefined;
 
@@ -783,11 +784,11 @@ function initLog() {
   if (typeof(leftWorkspace) != "undefined")
     leftWorkspace.addChangeListener(logEvent);
 
-  if (findGetParameter('uid')) {
-    uid = findGetParameter('uid');
+  if (findGetParameter('u')) {
+    uid = findGetParameter('u');
     setCookie("uid", uid, 365);
   }
-  if (getCookie("uid")) {
+  else if (getCookie("uid")) {
     uid = getCookie("uid");
   }
   else {
@@ -795,31 +796,16 @@ function initLog() {
     setCookie("uid", uid, 365);
   }
 
-  var ugroup = getCookie("ugroup");
-  if (!ugroup) {
+  if (findGetParameter('g')) {
+    ugroup = findGetParameter('g');
+    setCookie("ugroup", uid, 365);
+  }
+  else if (getCookie("ugroup")) {
+    ugroup = getCookie("ugroup");
+  }
+  else {
     ugroup = Math.floor(Math.random() * 2) + 1;
     setCookie("ugroup", ugroup, 365);
-    submitLog('start', ugroup);
-  }
-
-  if (document.getElementById("uid")) {
-    document.getElementById("uid").innerHTML = uid;
-  }
-  if (ugroup == 1) {
-    if (document.getElementById("head-a")) {
-      document.getElementById("head-a").style.display = 'block';
-    }
-    if (document.getElementById("form-a")) {
-      document.getElementById("form-a").style.display = 'block';
-    }
-  }
-  if (ugroup == 2) {
-    if (document.getElementById("head-b")) {
-      document.getElementById("head-b").style.display = 'block';
-    }
-    if (document.getElementById("form-b")) {
-      document.getElementById("form-b").style.display = 'block';
-    }
   }
 }
 

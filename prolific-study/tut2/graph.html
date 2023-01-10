@@ -19,8 +19,8 @@
           <li>Move the yellow box <img src="../media/item-yellow.png" style="height:20px; width:20px"> from the left side of Station A to the right side.</li>
           <li>Move the orange box <img src="../media/item-orange.png" style="height:20px; width:20px"> from the left side of Station B to the right side, on top of the green box.</li>
         </ol>
-        <p>You have already solved the first part of this task is the previous tutorial, so we will give you the sample solution for that tutorial as a starting point.</p>
-        <p>Using what you have learned before, you can program the second part of this task very similarly. You can click on each step to get more detailed instructions.</p>
+        <p>You have already solved the first part of this task when you completed our pre-screener, so we will give you the sample solution for that tutorial as a starting point. If you want, you can test the given code before you start working on the tutorial.</p>
+        <p>You can program the second part of this task very similarly. You can click on each step to get more detailed instructions.</p>
         <ol class="accordion-group">
           <li><a href="#step1" data-toggle="collapse">Create a second task</a>
             <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
@@ -52,8 +52,8 @@
         </ol>
       <button id="test-button" value="start-test" type="button" class="btn btn-success">Test Current Program</button>
       <span id="task-fail">Task not completed! Please go back and make sure you followed all the steps correctly.</span>
-      <span id="task-success">Task completed! Congratulations, you've successfully programmed your first stacking task!<br><br>
-      <strong><a style="font-size: 20pt;" href="../tut3/twocanvas.html">Click here to continue with the next tutorial.</a></strong><br>
+      <span id="task-success">Task completed!<br><br>
+      <strong><a style="font-size: 20pt;" href="../tut3/graph.html">Click here to continue with the next tutorial.</a></strong><br>
     </span>
     </div>
   </div>
@@ -64,6 +64,7 @@
         <div id="stackedRest">
           <div id="stackedDummyDrawer"></div>
         </div>
+        <div id="__Move box to the rightdiv" class="workspace" style="position: relative;"></div>
       </div>
     </div>
     <div id="rightdiv">
@@ -85,7 +86,7 @@
   <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none">
       <variables>
       <variable id="Move box to the right">Move box to the right</variable></variables>
-      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task"><field name="TASK">Move box to the right</field><field name="SITE">STATIONA</field></block></next></block>
+      <block type="custom_start" id="START" x="28" y="28"><next><block type="custom_task" movable="false" deletable="false" editable="false"><field name="TASK">Move box to the right</field><field name="SITE">STATIONA</field></block></next></block>
     </xml>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="rightWorkspaceBlocks" style="display: none">
