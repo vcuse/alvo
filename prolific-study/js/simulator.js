@@ -798,7 +798,7 @@ function initLog() {
 
   if (findGetParameter('g')) {
     ugroup = findGetParameter('g');
-    setCookie("ugroup", uid, 365);
+    setCookie("ugroup", ugroup, 365);
   }
   else if (getCookie("ugroup")) {
     ugroup = getCookie("ugroup");
