@@ -1,7 +1,43 @@
 var initialized = false;
 var definedPositions = [];
+var taskTime = undefined;
+var maxTime = 1000 * 60 * 20;
+
 
 var initTask = function() {
+  if (!findGetParameter('reset') && getCookie("task2")) {
+    taskTime = getCookie("task2");
+  }
+  else {
+    taskTime = Date.now();
+    setCookie("task2", taskTime, 365);
+  }
+  if (Date.now() - taskTime > maxTime) {
+    setTimeout(function(){ 
+      submitLog("finish", "0");
+      submitLog('events', JSON.stringify(eventLog));
+      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the survey to complete this study.");
+      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK";
+    }, 1000);
+  }
+  else {
+    var elapsed = Date.now() - taskTime;
+    var offset = 20;
+    while (offset * 60 * 1000 - elapsed > 0) {
+      var tempOffset = offset;
+      setTimeout(function(){ 
+        if (20 - tempOffset == 0) {
+          reportError(Simulator.instance, "You ran out of time for this task. You can test your solution one more time before we redirect you to the next task.", true);
+        }
+        else {
+          reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
+        }
+    }, offset * 60 * 1000 - elapsed);
+      offset -= 5;
+    }
+    reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
+  }
+
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -100, -120, 'Station A', Simulator.instance);
   Simulator[Simulator.instance].station['STATIONB'] = new MachineStation(document.getElementById("simulatordiv"), -100, 10, 'Station B', Simulator.instance, true);
   Simulator[Simulator.instance].station['STATIONC'] = new BinStation(document.getElementById("simulatordiv"), -100, 120, 'Station C', Simulator.instance);
@@ -125,15 +161,12 @@ var testTask = function(instance) {
 }
 
 var checkTask = function() {
-  if (Date.now() - startTime > maxTime) {
+  if (Date.now() - taskTime > maxTime) {
     setTimeout(function(){ 
       submitLog("finish", "0");
       submitLog('events', JSON.stringify(eventLog));
-      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the next task.");
-      if (getCookie("ugroup") == 1)
-        window.location.href = "../task3/twocanvas.html";
-      else
-        window.location.href = "../task3/onecanvas.html";
+      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the survey to complete this study.");
+      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK";
     }, 1000);
   }
   
@@ -147,8 +180,6 @@ setTimeout(function(){ submitLog("start", "0") }, 1000);
 var imagePathPrefix = "../../media";
 var pathPrefix = "../";
 var taskId = "task2";
-var startTime = Date.now();
-var maxTime = 1000 * 60 * 15;
 
 var taskMachineStations = [[
       "Station B",

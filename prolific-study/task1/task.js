@@ -1,4 +1,42 @@
+var taskTime = undefined;
+var maxTime = 1000 * 60 * 20;
+
 var initTask = function() {
+  if (!findGetParameter('reset') && getCookie("task1")) {
+    taskTime = getCookie("task1");
+  }
+  else {
+    taskTime = Date.now();
+    setCookie("task1", taskTime, 365);
+  }
+  if (Date.now() - taskTime > maxTime) {
+    setTimeout(function(){ 
+      submitLog("finish", "0");
+      submitLog('events', JSON.stringify(eventLog));
+      alert("You have exceeded the maximum time for this task. We will now redirect you to the next task.");
+      if (getCookie("ugroup") == 1)
+        window.location.href = "../task2/blocks.html";
+      else
+        window.location.href = "../task2/graph.html";
+    }, 1000);
+  }
+  else {
+    var elapsed = Date.now() - taskTime;
+    var offset = 20;
+    while (offset * 60 * 1000 - elapsed > 0) {
+      var tempOffset = offset;
+      setTimeout(function(){ 
+        if (20 - tempOffset == 0) {
+          reportError(Simulator.instance, "You ran out of time for this task. You can test your solution one more time before we redirect you to the next task.", true);
+        }
+        else {
+          reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
+        }
+    }, offset * 60 * 1000 - elapsed);
+      offset -= 5;
+    }
+    reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
+  }
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -100, -120, 'Station A');
   Simulator[Simulator.instance].station['STATIONB'] = new Station(document.getElementById("simulatordiv"), 100, -120, 'Station B');
   Simulator[Simulator.instance].station['STATIONC'] = new MachineStation(document.getElementById("simulatordiv"), -100, 120, 'Station C');
@@ -40,15 +78,15 @@ var testTask = function(instance) {
 }
 
 var checkTask = function(instance) {
-  if (Date.now() - startTime > maxTime) {
+  if (Date.now() - taskTime > maxTime) {
     setTimeout(function(){ 
       submitLog("finish", "0");
       submitLog('events', JSON.stringify(eventLog));
       alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the next task.");
       if (getCookie("ugroup") == 1)
-        window.location.href = "../task2/twocanvas.html";
+        window.location.href = "../task2/blocks.html";
       else
-        window.location.href = "../task2/onecanvas.html";
+        window.location.href = "../task2/graph.html";
     }, 1000);
   }
   var bin1 = Simulator[Simulator.instance].station['STATIOND'].centerItems[0];
@@ -61,8 +99,6 @@ setTimeout(function(){ submitLog("start", "0") }, 1000);
 var pathPrefix = "../";
 var imagePathPrefix = "../../media";
 var taskId = "task1";
-var startTime = Date.now();
-var maxTime = 1000 * 60 * 10;
 
 var taskStations = [[
       "Station A",
