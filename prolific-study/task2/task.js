@@ -16,7 +16,7 @@ var initTask = function() {
     setTimeout(function(){ 
       submitLog("finish", "0");
       submitLog('events', JSON.stringify(eventLog));
-      alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the survey to complete this study.");
+      alert("You have exceeded the maximum time for this task. We will now redirect you to the survey to complete this study.");
       window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK";
     }, 1000);
   }
@@ -26,8 +26,8 @@ var initTask = function() {
     while (offset * 60 * 1000 - elapsed > 0) {
       var tempOffset = offset;
       setTimeout(function(){ 
-        if (20 - tempOffset == 0) {
-          reportError(Simulator.instance, "You ran out of time for this task. You can test your solution one more time before we redirect you to the next task.", true);
+        if (20 - tempOffset < 1) {
+          reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the survey to complete this study", true);
         }
         else {
           reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
