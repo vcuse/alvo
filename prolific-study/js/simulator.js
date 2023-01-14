@@ -654,6 +654,13 @@ if (document.getElementById('test-button')) {
             codeLog += '\n\n' + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(rightWorkspaces[v]));
         }
       }
+      if (!blockMode) {
+        for (var g in graphs) {
+          var encoder = new mxCodec();
+          var result = encoder.encode(graphs[g].getModel());
+          codeLog += '\n\n' + mxUtils.getXml(result);
+        }
+      }
 
       if (checkTask(instance)) {
         submitLog('success', codeLog);
@@ -666,6 +673,7 @@ if (document.getElementById('test-button')) {
           document.getElementById('task-fail').style.display = 'inline';
         }
         else if (document.getElementById('task-wait')) {
+          submitLog('test', codeLog);
           document.getElementById('task-wait').style.display = 'inline';
           while (testing && Simulator.instance == instance) {
             await new Promise(r => setTimeout(r, 100));
@@ -815,6 +823,18 @@ function initLog() {
     document.getElementById('tutorial-button').value = 'Start Tutorial';
     document.getElementById('tutorial-button').disabled = false;
   }
+}
+
+function logGraphEvent(sender, event) {
+  if (event.name == "fireMouseEvent" || event.name == "size" || event.name == "click") 
+    return;
+  var wid = undefined;
+  for (var g in graphs) {
+    if (graphs[g] == sender) {
+      wid = g;
+    }
+  }
+  eventLog.push([wid, event.name, false, null]);
 }
 
 function logEvent(event) {

@@ -339,6 +339,7 @@ function setupGraph(container, triggerName, readOnly)
       }
       return code + ')';
     });
+  graph.addListener(null, logGraphEvent);
 };
 
 function generateCodeForGraph(name) {
