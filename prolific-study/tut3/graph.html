@@ -43,13 +43,14 @@
               <li>Triggers are not programmed in the same way as tasks. Instead of attaching blocks to each other directly, you place them on the canvas and draw arrows to connect them.
               <li>You can find signals to react to in the <img src="signalsmenu.png" style="height:22px; border: solid 1px #333"> menu and blocks to connect them in the <img src="combinatorsmenu.png" style="height:22px; border: solid 1px #333"> menu.</li>
               <li>For the trigger to react to the machine being finished, you have to use a <img src="graphmachinerunning.png" style="height:34px; margin-top:1px; margin-bottom: 1px;"> block and a <img src="graphmachineempty.png" style="height:34px; margin-top:1px; margin-bottom: 1px;"> block.</li>
-              <li>After dragging the blocks onto the canvas, you can hover over them and drag an arrow from their connector <img src="point.png" style="height:16px"> to the top of the trigger block.</li>
-              <li>Make sure that both blocks have arrows pointing to the trigger. Then select <img src="graphstationB.png" style="height:16px; border: solid 1px #333"> for both blocks and <img src="graphidle.png" style="height:16px; border: solid 1px #333"> and <img src="graphnonempty.png" style="height:16px; border: solid 1px #333">.</li>
+              <li>After dragging the blocks onto the canvas, you can hover over them and drag an arrow from their connector <img src="point.png" style="height:16px"> to the top of the trigger block, similar to this example:<br>
+                <img src="trigger-connected.png" style="height:100px; border: 1px solid #333"></li>
+              <li>Make sure that <strong>both</strong> blocks have arrows pointing to the trigger. Then select <img src="graphstationB.png" style="height:16px; border: solid 1px #333"> for both blocks and <img src="graphidle.png" style="height:16px; border: solid 1px #333"> and <img src="graphnonempty.png" style="height:16px; border: solid 1px #333">.</li>
             </ol>
           </li>
           <li><a href="#step4" data-toggle="collapse">Finish and test the program</a>
             <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Now that you have programmed the trigger, you can add a task for picking up the processed box from Station B. This block needs to be attached to the new trigger block on the left.</li>
+              <li>Now that you have programmed the trigger, you can go back to finishing the program for the robot. Add a task for picking up the processed box from Station B. This block needs to be attached to the <img src="machinetrigger.png" style="height:30px"> block instead of the other task blocks.</li>
               <li>Finally, you need one more task that places the processed block at Station C. This task block attaches to the block you just created. You can always place an item in the <strong>bottom center</strong> position of the chute.</li>
               <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
             </ol>
