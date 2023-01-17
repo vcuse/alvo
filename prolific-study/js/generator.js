@@ -211,7 +211,7 @@ Blockly.JavaScript['custom_machineempty'] = function(block) {
     }
   }
   else {
-    thisCode = 'true'; 
+    thisCode = 'false'; 
   }
   
   currentExpression += currentOp + thisCode;
@@ -239,7 +239,7 @@ Blockly.JavaScript['custom_machineidle'] = function(block) {
     }
   }
   else {
-    thisCode = 'true'; 
+    thisCode = 'false'; 
   }
   
   currentExpression += currentOp + thisCode;

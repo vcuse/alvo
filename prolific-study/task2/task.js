@@ -12,31 +12,6 @@ var initTask = function() {
     taskTime = Date.now();
     setCookie("task2", taskTime, 365);
   }
-  if (Date.now() - taskTime > maxTime) {
-    setTimeout(function(){ 
-      submitLog("finish", "0");
-      submitLog('events', JSON.stringify(eventLog));
-      alert("You have exceeded the maximum time for this task. We will now redirect you to the survey to complete this study.");
-      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=" + getCookie('ugroup') + '&UID=' + getCookie('uid');
-    }, 1000);
-  }
-  else {
-    var elapsed = Date.now() - taskTime;
-    var offset = 20;
-    while (offset * 60 * 1000 - elapsed > 0) {
-      const tempOffset = offset;
-      setTimeout(function(){ 
-        if (20 - tempOffset < 1) {
-          reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the survey to complete this study", true);
-        }
-        else {
-          reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
-        }
-    }, offset * 60 * 1000 - elapsed);
-      offset -= 5;
-    }
-    reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
-  }
 
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -100, -120, 'Station A', Simulator.instance);
   Simulator[Simulator.instance].station['STATIONB'] = new MachineStation(document.getElementById("simulatordiv"), -100, 10, 'Station B', Simulator.instance, true);
@@ -48,6 +23,31 @@ var initTask = function() {
   Simulator[Simulator.instance].station['STATIOND'].addItem("blue", "center");
 
   if (!initialized) {
+    if (Date.now() - taskTime > maxTime) {
+      setTimeout(function(){ 
+        submitLog("finish", "0");
+        submitLog('events', JSON.stringify(eventLog));
+        alert("You have exceeded the maximum time for this task. We will now redirect you to the survey to complete this study.");
+        window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=" + getCookie('ugroup') + '&UID=' + getCookie('uid');
+      }, 1000);
+    }
+    else {
+      var elapsed = Date.now() - taskTime;
+      var offset = 20;
+      while (offset * 60 * 1000 - elapsed > 0) {
+        const tempOffset = offset;
+        setTimeout(function(){ 
+          if (20 - tempOffset < 1) {
+            reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the survey to complete this study", true);
+          }
+          else {
+            reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
+          }
+      }, offset * 60 * 1000 - elapsed);
+        offset -= 5;
+      }
+      reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
+    }
     document.getElementById("complete-link").href = 'https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=' + getCookie('ugroup') + '&UID=' + getCookie('uid');
     initialized = true;
     definedPositions["Pick up block"] = [];

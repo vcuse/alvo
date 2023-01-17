@@ -117,7 +117,7 @@ class Robot extends SimElem {
   }
 
   activateMachine(station, callback) {
-    if (!station || !this.isAtStation(station)) {
+    if (!station || !this.isAtStation(station) || !station.activateMachine) {
       reportError(this.simInstance, "Robot is not correctly positioned to activate a machine at this station!");
       return;
     }
@@ -429,7 +429,7 @@ class MachineStation extends Station {
   }
 
   isSidePlaceable(side, opt_index) {
-    return side == "center" && opt_index == 1 && this.centerItems.length == 0 && !this.machineActive;
+    return side == "center" && opt_index == 1 && !this.centerItems[0] && !this.centerItems[1] && !this.machineActive;
   }
 
   computeNextIndex(side) {
@@ -464,14 +464,6 @@ class BinStation extends Station {
     return side == "center" && opt_index == 0;
   }
 
-  computeNextIndex(side) {
-    if (side == "center") {
-      return 0;
-    }
-    else {
-      return undefined;
-    }
-  }
 }
 
 class Item extends SimElem {
