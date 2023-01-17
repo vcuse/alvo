@@ -24,10 +24,10 @@
         <ol class="accordion-group">
           <li><a href="#step1" data-toggle="collapse">Move the item to Station B and turn on the machine</a>
             <ol id="step1" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>Create a new task to pick up the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station A, following the same steps as in the previous tutorials. Note that this time, the box is in the <strong>bottom center</strong> of the station.</li>
-              <li>Create a second task to place the box into the machine at Station B. Note that the machine limits where you can place the box. It always has to go into the <strong>middle center</strong> position.</li>
-              <li>After placing the box into the machine, you can turn it on by adding a <img src="machineblock.png" style="height:30px"> block at the end of the task.</li>
-              <li>We recommend that you try out the program up to this point. As you will see, the machine takes some time to process the box. It is only finished once it has returned to its regular colour.</li>
+              <li>Create a new task and add the blocks to pick up the green box <img src="../media/item-green.png" style="height:20px; width:20px"> from Station A. Note that this time, the box is in the <strong>bottom center</strong> of the station.</li>
+              <li>To drop off the box at Station B, you have to create a second task. The robot will automatically carry the box from one station to another, so you can add a single block to the new task that tells the robot where to place the box. Note that the machine requires boxes to always go into the <strong>middle center</strong> position.</li>
+              <li>After placing the box into the machine, you can turn it on by adding a <img src="machineblock.png" style="height:30px"> block at the end of the task you just created.</li>
+              <li>We recommend that you try out the program up to this point. As you will see, the machine takes some time to process the box. It is only finished once it has returned to its regular colour, and the robot has to wait until then before it can pick up the box.</li>
             </ol>
           </li>
           <li><a href="#step2" data-toggle="collapse">Add a trigger that reacts to when the machine is finished</a>
@@ -39,7 +39,7 @@
           </li>
           <li><a href="#step3" data-toggle="collapse">Program the trigger</a>
             <ol id="step3" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
-              <li>The trigger has to be programmed to work as intended, similar to the robot itself. Click on the trigger you just placed to open the trigger editor on the right.</li>
+              <li>The trigger has to be programmed, similar to the robot itself. Click on the trigger you just placed to open the trigger editor on the right.</li>
               <li>Triggers are not programmed in the same way as tasks. Instead of attaching blocks to each other directly, you place them on the canvas and draw arrows to connect them.
               <li>You can find signals to react to in the <img src="signalsmenu.png" style="height:22px; border: solid 1px #333"> menu and blocks to connect them in the <img src="combinatorsmenu.png" style="height:22px; border: solid 1px #333"> menu.</li>
               <li>For the trigger to react to the machine being finished, you have to use a <img src="graphmachinerunning.png" style="height:34px; margin-top:1px; margin-bottom: 1px;"> block and a <img src="graphmachineempty.png" style="height:34px; margin-top:1px; margin-bottom: 1px;"> block.</li>
@@ -51,7 +51,7 @@
           <li><a href="#step4" data-toggle="collapse">Finish and test the program</a>
             <ol id="step4" class="collapse" data-parent="#steps" style="list-style-type: lower-alpha">
               <li>Now that you have programmed the trigger, you can go back to finishing the program for the robot. Add a task for picking up the processed box from Station B. This block needs to be attached to the <img src="machinetrigger.png" style="height:30px"> block instead of the other task blocks.</li>
-              <li>Finally, you need one more task that places the processed block at Station C. This task block attaches to the block you just created. You can always place an item in the <strong>bottom center</strong> position of the chute.</li>
+              <li>Finally, you need one more task that places the processed block at Station C. This task block attaches to the block you just created. Since this station has a chute, tou have to place an item in the <strong>bottom center</strong> position. The item will disappear once it has been placed.</li>
               <li>You have successfully programmed the entire task. Test your solution by clicking the button below. Watch how the robot executes each step of the program.</li>
             </ol>
           </li>
