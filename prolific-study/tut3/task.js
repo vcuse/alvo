@@ -8,6 +8,39 @@ var initTask = function() {
 
   if (!initialized) {
     initialized = true;
+    definedPositions["Pick up box"] = [];
+    definedPositions["Pick up box"]["bottom center"] = '"center",0';
+    definedPositions["Place box in machine"] = [];
+    definedPositions["Place box in machine"]["middle center"] = '"center",1';
+
+    var provisionWorkspace = function(name, blocks, trigger) {
+      var workspace = Blockly.inject('__' + name + 'div',
+      { media: pathPrefix + 'blockly/media/',
+        toolbox: toolboxRight,
+        trashcan: true,
+        toolboxPosition: "start",
+        readOnly: false,
+        move:{
+          scrollbars: false,
+          drag: false,
+          wheel: false}
+      });
+      rightWorkspaces[name] = workspace;
+      workspace.registerToolboxCategoryCallback('LOCATIONS', flyoutLocationCategory);
+      Blockly.Xml.domToWorkspace(blocks, workspace);
+      if (trigger) {
+        workspace.getBlocksByType("custom_triggerheader")[0].getField("TRIGGER").setValidator(triggerValidator);
+      }
+      else {
+        workspace.getBlocksByType("custom_taskheader")[0].getField("TASK").setValidator(taskValidator);
+      }
+      document.getElementById('__' + name + 'div').style.display = 'none';
+      workspace.addChangeListener(onTaskHeaderChanged);
+      workspace.addChangeListener(logEvent);
+    }
+
+    provisionWorkspace('Pick up box', document.getElementById("pickWorkspaceBlocks"));
+    provisionWorkspace('Place box in machine', document.getElementById("placeWorkspaceBlocks"));
   }
 }
 
@@ -38,7 +71,7 @@ setTimeout(function(){ submitLog("start", "0") }, 1000);
 
 var pathPrefix = "../";
 var imagePathPrefix = "../../media";
-var taskId = "tut4";
+var taskId = "tut3";
 var startTime = Date.now();
 var maxTime = 1000 * 60 * 15;
 

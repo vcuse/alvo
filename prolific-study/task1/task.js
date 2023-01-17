@@ -1,6 +1,6 @@
 var initialized = false;
 var taskTime = undefined;
-var maxTime = 1000 * 60 * 20;
+var maxTime = 1000 * 60 * 30;
 
 var initTask = function() {
   if (!findGetParameter('reset') && getCookie("task1")) {
@@ -25,20 +25,20 @@ var initTask = function() {
     }
     else {
       var elapsed = Date.now() - taskTime;
-      var offset = 20;
+      var offset = 30;
       while (offset * 60 * 1000 - elapsed > 0) {
         const tempOffset = offset;
         setTimeout(function(){ 
-          if (20 - tempOffset < 1) {
+          if (30 - tempOffset < 1) {
             reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the next task.", true);
           }
           else {
-            reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
+            reportError(Simulator.instance, "You have " + (30 - tempOffset) + " minutes left for this task.", true);
           }
       }, offset * 60 * 1000 - elapsed);
         offset -= 5;
       }
-      reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
+      reportError(Simulator.instance, "You have " + (30 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
     }
   }
   Simulator[Simulator.instance].station['STATIONA'] = new Station(document.getElementById("simulatordiv"), -100, -120, 'Station A', Simulator.instance);

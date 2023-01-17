@@ -1,7 +1,7 @@
 var initialized = false;
 var definedPositions = [];
 var taskTime = undefined;
-var maxTime = 1000 * 60 * 20;
+var maxTime = 1000 * 60 * 30;
 
 
 var initTask = function() {
@@ -33,20 +33,20 @@ var initTask = function() {
     }
     else {
       var elapsed = Date.now() - taskTime;
-      var offset = 20;
+      var offset = 30;
       while (offset * 60 * 1000 - elapsed > 0) {
         const tempOffset = offset;
         setTimeout(function(){ 
-          if (20 - tempOffset < 1) {
+          if (30 - tempOffset < 1) {
             reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the survey to complete this study", true);
           }
           else {
-            reportError(Simulator.instance, "You have " + (20 - tempOffset) + " minutes left for this task.", true);
+            reportError(Simulator.instance, "You have " + (30 - tempOffset) + " minutes left for this task.", true);
           }
       }, offset * 60 * 1000 - elapsed);
         offset -= 5;
       }
-      reportError(Simulator.instance, "You have " + (20 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
+      reportError(Simulator.instance, "You have " + (30 - Math.floor(elapsed / 60 / 1000)) + " minutes left for this task.", true);
     }
     document.getElementById("complete-link").href = 'https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=' + getCookie('ugroup') + '&UID=' + getCookie('uid');
     initialized = true;
