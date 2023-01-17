@@ -17,7 +17,7 @@ var initTask = function() {
       submitLog("finish", "0");
       submitLog('events', JSON.stringify(eventLog));
       alert("You have exceeded the maximum time for this task. We will now redirect you to the survey to complete this study.");
-      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK";
+      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=" + getCookie('ugroup') + '&UID=' + getCookie('uid');
     }, 1000);
   }
   else {
@@ -167,7 +167,7 @@ var checkTask = function() {
       submitLog("finish", "0");
       submitLog('events', JSON.stringify(eventLog));
       alert("You have exceeded the maximum time for this task. We have saved your last attempt and will now redirect you to the survey to complete this study.");
-      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK";
+      window.location.href = "https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=" + getCookie('ugroup') + '&UID=' + getCookie('uid');
     }, 1000);
   }
   
