@@ -54,6 +54,8 @@ var triggerValidator = function (newName) {
     node = triggerNodes[oldName];
     delete triggerNodes[oldName];
     triggerNodes[newName] = node;
+    signalCodeGen[newName] = signalCodeGen[oldName];
+    triggerCodeGen[newName] = triggerCodeGen[oldName];
     graph.model.beginUpdate();
     graph.model.setValue(node, newName);
     node.getGeometry().width = graph.getPreferredSizeForCell(node).width + 10;
