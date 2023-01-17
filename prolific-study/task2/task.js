@@ -24,7 +24,7 @@ var initTask = function() {
     var elapsed = Date.now() - taskTime;
     var offset = 20;
     while (offset * 60 * 1000 - elapsed > 0) {
-      var tempOffset = offset;
+      const tempOffset = offset;
       setTimeout(function(){ 
         if (20 - tempOffset < 1) {
           reportError(Simulator.instance, "You ran out of time for this task. You can submit your solution by clicking the \"Test Current\" Program button. We will then redirect you to the survey to complete this study", true);

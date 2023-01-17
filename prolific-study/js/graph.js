@@ -196,20 +196,20 @@ function setupGraph(container, triggerName, readOnly)
       trigger.getGeometry().width = graph.getPreferredSizeForCell(trigger).width + 10;
       graphTriggers.push(trigger);
       triggerNodes[triggerName] = trigger;
-      signalCodeGen[triggerName] = function(node, deflt) { 
+      signalCodeGen[triggerName] = function(graph, node, deflt) { 
         var code = 'true';
         for (var e in node.edges) {
           if (node.edges[e].target == node) {
-            code += ' && ' + generateSignals(node.edges[e].source, deflt);
+            code += ' && ' + generateSignals(graph, node.edges[e].source, deflt);
           }
         }
         return code;
       };
-      triggerCodeGen[triggerName] = function(node, deflt) { 
+      triggerCodeGen[triggerName] = function(graph, node, deflt) { 
         var code = 'true';
         for (var e in node.edges) {
           if (node.edges[e].target == node) {
-            code += ' && ' + generateTriggers(node.edges[e].source, deflt);
+            code += ' && ' + generateTriggers(graph, node.edges[e].source, deflt);
           }
         }
         return code;
@@ -223,6 +223,7 @@ function setupGraph(container, triggerName, readOnly)
   var insert = function(type, content, color, width) { 
     return function(graph, evt, target, x, y)
       {
+        graph.getModel().beginUpdate();
         var cell = graph.insertVertex(graph.getDefaultParent(), null, content, x, y, width, 40, 'node');
         graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, color, [cell]);
         type.push(cell);
@@ -230,6 +231,7 @@ function setupGraph(container, triggerName, readOnly)
           graph.scrollCellToVisible(cell);
           graph.setSelectionCells([cell]);
         }
+        graph.getModel().endUpdate();
       };
   }
   
@@ -266,13 +268,13 @@ function setupGraph(container, triggerName, readOnly)
   }
 
   registerNode('button1sig', graphSignals, 'Button 1 is pressed', '#3EA567', 140, 
-    function(node) { return false; }, 
-    function(node) { return 'Simulator[' + Simulator.instance + '].signal["button1"]'; });
+    function(graph, node) { return false; }, 
+    function(graph, node) { return 'Simulator[' + Simulator.instance + '].signal["button1"]'; });
   registerNode('button2sig', graphSignals, 'Button 2 is pressed', '#3EA567', 140, 
-    function(node) { return false; }, 
-    function(node) { return 'Simulator[' + Simulator.instance + '].signal["button2"]'; });
+    function(graph, node) { return false; }, 
+    function(graph, node) { return 'Simulator[' + Simulator.instance + '].signal["button2"]'; });
   registerNode('emptygrippersig', graphSignals, 'Robot gripper is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#3EA567', 210, 
-    function(node) { 
+    function(graph, node) { 
       if (getDropdownValue(graph, node, "EMPTYSTATUS") == "EMPTY") {
          return '!Simulator[' + Simulator.instance + '].robot.carry';
       }
@@ -280,9 +282,9 @@ function setupGraph(container, triggerName, readOnly)
          return 'Simulator[' + Simulator.instance + '].robot.carry';
       }
     },
-    function(node) { return false; });
+    function(graph, node) { return false; });
   registerNode('emptymachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#8C5BA5', 285, 
-    function(node) { 
+    function(graph, node) { 
       if (getDropdownValue(graph, node, "EMPTYSTATUS") == "EMPTY") {
          return '!Simulator[' + Simulator.instance + '].station["' + getDropdownValue(graph, node, "SITE") + '"].hasBlock()';
       }
@@ -290,9 +292,9 @@ function setupGraph(container, triggerName, readOnly)
          return 'Simulator[' + Simulator.instance + '].station["' + getDropdownValue(graph, node, "SITE") + '"].hasBlock()';
       }
     },
-    function(node) { return false; });
+    function(graph, node) { return false; });
   registerNode('idlemachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="IDLESTATUS"><option value="BUSY">running</option><option value="IDLE">not running</option></select>', '#8C5BA5', 290, 
-    function(node) { 
+    function(graph, node) { 
       if (getDropdownValue(graph, node, "IDLESTATUS") == "IDLE") {
          return '!Simulator[' + Simulator.instance + '].station["' + getDropdownValue(graph, node, "SITE") + '"].machineActive';
       }
@@ -300,41 +302,41 @@ function setupGraph(container, triggerName, readOnly)
          return 'Simulator[' + Simulator.instance + '].station["' + getDropdownValue(graph, node, "SITE") + '"].machineActive';
       }
     },
-    function(node) { return false; });
+    function(graph, node) { return false; });
   registerNode('andcomb', graphTwoCombinators, 'and', '#3A54A5', 50, 
-    function(node) { 
+    function(graph, node) { 
       var code = '(true';
       for (var e in node.edges) {
         if (node.edges[e].target == node) {
-          code += ' && ' + generateSignals(node.edges[e].source, 'true');
+          code += ' && ' + generateSignals(graph, node.edges[e].source, 'true');
         }
       }
       return code + ')';
     }, 
-    function(node) { 
+    function(graph, node) { 
       var code = '(true';
       for (var e in node.edges) {
         if (node.edges[e].target == node) {
-          code += ' && ' + generateTriggers(node.edges[e].source, 'true');
+          code += ' && ' + generateTriggers(graph, node.edges[e].source, 'true');
         }
       }
       return code + ')';
     });
   registerNode('orcomb', graphTwoCombinators, 'or', '#3A54A5', 50, 
-    function(node) { 
+    function(graph, node) { 
       var code = '(false';
       for (var e in node.edges) {
         if (node.edges[e].target == node) {
-          code += ' || ' + generateSignals(node.edges[e].source, 'true');
+          code += ' || ' + generateSignals(graph, node.edges[e].source, 'true');
         }
       }
       return code + ')';
     }, 
-    function(node) { 
+    function(graph, node) { 
       var code = '(true';
       for (var e in node.edges) {
         if (node.edges[e].target == node) {
-          code += ' || ' + generateTriggers(node.edges[e].source, 'true');
+          code += ' || ' + generateTriggers(graph, node.edges[e].source, 'true');
         }
       }
       return code + ')';
@@ -349,8 +351,8 @@ function generateCodeForGraph(name) {
   var triggerCode = '';
   for (var v in graph.model.cells) {
     if (graphTriggers.includes(graph.model.cells[v])) {
-      signalCode += generateSignals(graph.model.cells[v], 'true');
-      triggerCode += generateTriggers(graph.model.cells[v], 'true');
+      signalCode += generateSignals(graph, graph.model.cells[v], 'true');
+      triggerCode += generateTriggers(graph, graph.model.cells[v], 'true');
     }
   }
   if (signalCode === 'true' && triggerCode === 'true') {
@@ -361,12 +363,12 @@ function generateCodeForGraph(name) {
         'Simulator[' + Simulator.instance + '].triggerCheck["' + name + '"] = function() {\n  return ' + triggerCode + ";\n}\n";;
 }
 
-function generateSignals(node, deflt) {
-  var code = signalCodeGen[node.value](node, deflt);
+function generateSignals(graph, node, deflt) {
+  var code = signalCodeGen[node.value](graph, node, deflt);
   return code || deflt;
 }
 
-function generateTriggers(node, deflt) {
-  var code = triggerCodeGen[node.value](node, deflt);
+function generateTriggers(graph, node, deflt) {
+  var code = triggerCodeGen[node.value](graph, node, deflt);
   return code || deflt;
 }
