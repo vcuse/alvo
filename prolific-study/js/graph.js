@@ -330,10 +330,12 @@ function setupGraph(container, triggerName, readOnly)
           code += ' || ' + generateSignals(graph, node.edges[e].source, 'true');
         }
       }
+      if (code == '(false')
+        code = '(true';
       return code + ')';
     }, 
     function(graph, node) { 
-      var code = '(true';
+      var code = '(false';
       for (var e in node.edges) {
         if (node.edges[e].target == node) {
           code += ' || ' + generateTriggers(graph, node.edges[e].source, 'true');
