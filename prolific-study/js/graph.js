@@ -273,7 +273,7 @@ function setupGraph(container, triggerName, readOnly)
   registerNode('button2sig', graphSignals, 'Button 2 is pressed', '#3EA567', 140, 
     function(graph, node) { return false; }, 
     function(graph, node) { return 'Simulator[' + Simulator.instance + '].signal["button2"]'; });
-  registerNode('emptygrippersig', graphSignals, 'Robot gripper is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#3EA567', 210, 
+  registerNode('emptygrippersig', graphSignals, 'Robot gripper is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#3EA567', 215, 
     function(graph, node) { 
       if (getDropdownValue(graph, node, "EMPTYSTATUS") == "EMPTY") {
          return '!Simulator[' + Simulator.instance + '].robot.carry';
@@ -283,7 +283,7 @@ function setupGraph(container, triggerName, readOnly)
       }
     },
     function(graph, node) { return false; });
-  registerNode('emptymachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#8C5BA5', 285, 
+  registerNode('emptymachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option value="NONEMPTY">not empty</option></select>', '#8C5BA5', 290, 
     function(graph, node) { 
       if (getDropdownValue(graph, node, "SITE") != "NONE") {
         if (getDropdownValue(graph, node, "EMPTYSTATUS") == "EMPTY") {
@@ -298,7 +298,7 @@ function setupGraph(container, triggerName, readOnly)
       }
     },
     function(graph, node) { return false; });
-  registerNode('idlemachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="IDLESTATUS"><option value="BUSY">running</option><option value="IDLE">not running</option></select>', '#8C5BA5', 290, 
+  registerNode('idlemachinesig', graphSignals, 'Machine at ' + makeStationsDropdown(taskMachineStations) + ' is <select name="IDLESTATUS"><option value="BUSY">running</option><option value="IDLE">not running</option></select>', '#8C5BA5', 298, 
     function(graph, node) { 
       if (getDropdownValue(graph, node, "SITE") != "NONE") {
         if (getDropdownValue(graph, node, "IDLESTATUS") == "IDLE") {
