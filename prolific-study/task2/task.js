@@ -48,6 +48,7 @@ var initTask = function() {
   Simulator[Simulator.instance].station['STATIOND'].addItem("blue", "center");
 
   if (!initialized) {
+    document.getElementById("complete-link").href = 'https://ubc.ca1.qualtrics.com/jfe/form/SV_6X8y4bbNZX64MIK?Group=' + getCookie('ugroup') + '&UID=' + getCookie('uid');
     initialized = true;
     definedPositions["Pick up block"] = [];
     definedPositions["Pick up block"]["bottom center"] = '"center",0';
