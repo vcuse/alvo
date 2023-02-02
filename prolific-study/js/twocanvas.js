@@ -95,6 +95,16 @@ function redrawStack() {
       }
     }
   }
+  if (currentSelectedBlock != null && currentSelectedBlock.type == 'custom_trigger') {
+    var triggerName = currentSelectedBlock.getFieldValue("TRIGGER");
+    leftWorkspace.getAllBlocks().filter(block => (block.type == 'custom_trigger' && block.getFieldValue('TRIGGER') == triggerName)).forEach(block => copyCount++);  
+    if (copyCount == 0) {
+      currentSelectedBlock = null;
+      if (currentRightDiv) {
+        $('#animatediv').animate({opacity: '0'}, "normal");
+      }
+    }
+  }
 }
 
 function onChangeLeft(event) {

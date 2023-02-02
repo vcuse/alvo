@@ -608,8 +608,10 @@ if (document.getElementById('test-button')) {
       var code = '';
       if (rightWorkspaces) {
         for (var v in rightWorkspaces) {
-          if (v && rightWorkspaces[v])
+          var n = rightWorkspaces[v].getAllBlocks().find(block => block.type == 'custom_triggerheader').getFieldValue('TRIGGER');
+          if (leftWorkspace.getAllBlocks().find(block => block.type == 'custom_trigger' && block.getFieldValue('TRIGGER') == n)) {
             code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+          }
         }
       }
       if (!blockMode) {
@@ -642,8 +644,9 @@ if (document.getElementById('test-button')) {
       var codeLog = code + "\n\n\n\n" + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(leftWorkspace));
       if (rightWorkspaces) {
         for (var v in rightWorkspaces) {
-          if (v && rightWorkspaces[v])
+          if (v && rightWorkspaces[v]) {
             codeLog += '\n\n' + Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(rightWorkspaces[v]));
+          }
         }
       }
       if (!blockMode) {
@@ -696,7 +699,10 @@ if (document.getElementById('execution-button')) {
       var code = '';
       if (rightWorkspaces) {
           for (var v in rightWorkspaces) {
-            code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+            var n = rightWorkspaces[v].getAllBlocks().find(block => block.type == 'custom_triggerheader').getFieldValue('TRIGGER');
+            if (leftWorkspace.getAllBlocks().find(block => block.type == 'custom_trigger' && block.getFieldValue('TRIGGER') == n)) {
+              code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+            }
           }
         }
       if (!blockMode) {
