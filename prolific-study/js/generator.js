@@ -275,6 +275,7 @@ Blockly.JavaScript['custom_taskheader'] = function(block) {
 Blockly.JavaScript['custom_triggerheader'] = function(block) {
   if (generated[block.id]) 
     return '';
+  currentOp = '&&';
   currentHead = block;
   currentTrigger = block.getFieldValue('TRIGGER');
   generated[block.id] = true;
