@@ -701,9 +701,11 @@ if (document.getElementById('execution-button')) {
       var code = '';
       if (rightWorkspaces) {
           for (var v in rightWorkspaces) {
-            var n = rightWorkspaces[v].getAllBlocks().find(block => block.type == 'custom_triggerheader').getFieldValue('TRIGGER');
-            if (leftWorkspace.getAllBlocks().find(block => block.type == 'custom_trigger' && block.getFieldValue('TRIGGER') == n)) {
-              code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+            if (v && rightWorkspaces[v]) {
+              var n = rightWorkspaces[v].getAllBlocks().find(block => block.type == 'custom_triggerheader');
+              if (leftWorkspace.getAllBlocks().find(block => block.type == 'custom_trigger' && block.getFieldValue('TRIGGER') == n.getFieldValue('TRIGGER'))) {
+                code += Blockly.JavaScript.workspaceToCode(rightWorkspaces[v]) + '\n\n';
+              }
             }
           }
         }

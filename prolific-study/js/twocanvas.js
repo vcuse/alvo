@@ -124,7 +124,8 @@ function onChangeLeft(event) {
 
 
   if (event.type == Blockly.Events.CHANGE && event.blockId == currentSelectedBlock.id && currentSelectedBlock.type == 'custom_task') {
-    currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
+    if (currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader'))
+      currentRightWorkspace.getAllBlocks().find(block => block.type == 'custom_taskheader').getField("SITE").setValue(currentSelectedBlock.getField("SITE").getValue());
   }
   if (event.type == Blockly.Events.BLOCK_DELETE) {
     redrawStack();
