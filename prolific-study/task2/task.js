@@ -65,7 +65,7 @@ var initTask = function() {
         toolbox: (trigger ? document.getElementById("toolboxTrigger") : toolboxRight),
         trashcan: true,
         toolboxPosition: "start",
-        readOnly: true,
+        readOnly: !true,
         move:{
           scrollbars: false,
           drag: false,
@@ -109,18 +109,18 @@ var initTask = function() {
       provisionWorkspace('!Machine finished', document.getElementById("triggerPickBlocks"), true);
     }
     else {
-      setupGraph(document.getElementById("__!Ready to load machinediv"), "Ready to load machine", true);
-      var gripNode = addNodeToGraph(graphs["Ready to load machine"], 'Robot gripper is <select name="EMPTYSTATUS"><option selected="selected" value="NONEMPTY">not empty</option></select>', graphSignals, '#3EA567', 200, 100, 210, () => 'Simulator[' + Simulator.instance + '].robot.carry', () => 'true');
-      var emptyNode = addNodeToGraph(graphs["Ready to load machine"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option></select> is <select name="EMPTYSTATUS"><option selected="selected" value="EMPTY">empty</option></select>', graphSignals, '#8C5BA5', 20, 50, 285, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].hasBlock()', () => 'true');
-      var idleNode = addNodeToGraph(graphs["Ready to load machine"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option></select> is <select name="IDLESTATUS"><option selected="selected" value="IDLE">not running</option></select>', graphSignals, '#8C5BA5', 320, 50, 290, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].machineActive', () => 'true');
+      setupGraph(document.getElementById("__!Ready to load machinediv"), "Ready to load machine", false);
+      var gripNode = addNodeToGraph(graphs["Ready to load machine"], 'Robot gripper is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option selected="selected" value="NONEMPTY">not empty</option></select>', graphSignals, '#3EA567', 200, 100, 210, () => 'Simulator[' + Simulator.instance + '].robot.carry', () => 'true');
+      var emptyNode = addNodeToGraph(graphs["Ready to load machine"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option><option value="STATIONE">Station E</option></select> is <select name="EMPTYSTATUS"><option selected="selected" value="EMPTY">empty</option></select>', graphSignals, '#8C5BA5', 20, 50, 285, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].hasBlock()', () => 'true');
+      var idleNode = addNodeToGraph(graphs["Ready to load machine"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option><option value="STATIONE">Station E</option></select> is <select name="IDLESTATUS"><option selected="selected" value="IDLE">not running</option></select>', graphSignals, '#8C5BA5', 320, 50, 290, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].machineActive', () => 'true');
       var trigger = triggerNodes["Ready to load machine"];
       addEdgeToGraph(graphs["Ready to load machine"], gripNode, trigger);
       addEdgeToGraph(graphs["Ready to load machine"], emptyNode, trigger);
       addEdgeToGraph(graphs["Ready to load machine"], idleNode, trigger);
 
-      setupGraph(document.getElementById("__!Machine finisheddiv"), "Machine finished", true);
-      var notEmptyNode = addNodeToGraph(graphs["Machine finished"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option></select> is <select name="EMPTYSTATUS"><option selected="selected" value="NOTEMPTY">not empty</option></select>', graphSignals, '#8C5BA5', 20, 50, 285, () => 'Simulator[' + Simulator.instance + '].station["STATIONB"].hasBlock()', () => 'true');
-      var idleNode2 = addNodeToGraph(graphs["Machine finished"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option></select> is <select name="IDLESTATUS"><option selected="selected" value="IDLE">not running</option></select>', graphSignals, '#8C5BA5', 320, 50, 290, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].machineActive', () => 'true');
+      setupGraph(document.getElementById("__!Machine finisheddiv"), "Machine finished", false);
+      var notEmptyNode = addNodeToGraph(graphs["Machine finished"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option><option value="STATIONE">Station E</option></select> is <select name="EMPTYSTATUS"><option value="EMPTY">empty</option><option selected="selected" value="NOTEMPTY">not empty</option></select>', graphSignals, '#8C5BA5', 20, 50, 285, () => 'Simulator[' + Simulator.instance + '].station["STATIONB"].hasBlock()', () => 'true');
+      var idleNode2 = addNodeToGraph(graphs["Machine finished"], 'Machine at <select name="SITE"><option selected="selected" value="STATIONB">Station B</option><option value="STATIONE">Station E</option></select> is <select name="IDLESTATUS"><option value="BUSY">running</option><option selected="selected" value="IDLE">not running</option></select>', graphSignals, '#8C5BA5', 320, 50, 290, () => '!Simulator[' + Simulator.instance + '].station["STATIONB"].machineActive', () => 'true');
       var trigger2 = triggerNodes["Machine finished"];
       addEdgeToGraph(graphs["Machine finished"], notEmptyNode, trigger2);
       addEdgeToGraph(graphs["Machine finished"], idleNode2, trigger2);

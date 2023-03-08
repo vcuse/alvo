@@ -117,7 +117,7 @@ Blockly.Blocks['custom_task'].customContextMenu = function(options) {
   }
 }
 
-Blockly.Blocks['custom_trigger'].customContextMenu = function(options) {
+/*Blockly.Blocks['custom_trigger'].customContextMenu = function(options) {
   if (this.isInFlyout) {
     //var deleteOption = {enabled: true};
     //var name = this.getFieldValue('TASK');
@@ -217,7 +217,7 @@ Blockly.Blocks['custom_trigger'].customContextMenu = function(options) {
     }
     options.push(copyOption);
   }
-}
+}*/
 
 var toolbox = document.getElementById("toolbox");
 var leftWorkspace = Blockly.inject('leftdiv',
